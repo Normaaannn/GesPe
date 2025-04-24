@@ -1,0 +1,56 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Añadir cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form #clienteForm="ngForm" (ngSubmit)="addCliente()" class="addCliente">
+
+    <ion-item [class.invalid]="!nombre && formSubmitted">
+      <ion-input type="text" [(ngModel)]="nombre"  placeholder="Nombre" name="nombre" label = "Nombre" labelPlacement="stacked" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!apellidos && formSubmitted">
+      <ion-input type="text" [(ngModel)]="apellidos"  placeholder="Apellidos" name="apellidos" label = "Apellidos" labelPlacement="stacked" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!nif && formSubmitted">
+      <ion-input type="text" [(ngModel)]="nif"  placeholder="NIF" name="nif" label = "NIF" labelPlacement="stacked" required></ion-input>
+    </ion-item>
+    
+    <ion-item [class.invalid]="(!email || !isEmailValid()) && formSubmitted">
+      <ion-input type="email" [(ngModel)]="email" (ionInput)="validateEmail()" placeholder="Correo electrónico" name="email" label = "Email" labelPlacement="stacked" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!telefono && formSubmitted">
+      <ion-input type="text" [(ngModel)]="telefono"  placeholder="Teléfono" name="telefono" label = "Teléfono" labelPlacement="stacked" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!direccion && formSubmitted">
+      <ion-input type="text" [(ngModel)]="direccion"  placeholder="Dirección" name="direccion" label = "Dirección" labelPlacement="stacked" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!ciudad && formSubmitted">
+      <ion-input type="text" [(ngModel)]="ciudad"  placeholder="Ciudad" name="ciudad" label = "Ciudad" labelPlacement="stacked" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!codigoPostal && formSubmitted">
+      <ion-input type="text" [(ngModel)]="codigoPostal"  placeholder="Código postal" name="codigoPostal" label = "Código postal" labelPlacement="stacked" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!pais && formSubmitted">
+      <ion-input type="text" [(ngModel)]="pais"  placeholder="País" name="pais" label = "País" labelPlacement="stacked" required></ion-input>
+    </ion-item>
+    
+
+  
+    <ion-button expand="block" type="submit" class="boton-añadir" [class.disabled]="formInvalid">
+      Añadir cliente
+    </ion-button>
+  
+    <ion-button expand="block" class="boton-cancelar" (click)="cancelar()">
+      Cancelar
+    </ion-button>
+  </form>
+</ion-content>

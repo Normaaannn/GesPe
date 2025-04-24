@@ -1,0 +1,30 @@
+.addCliente {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+  }
+
+.boton-añadir {
+    padding: 20px;
+  }
+
+.boton-cancelar {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .invalid {
+    border: 2px solid red;
+    --ion-color: red;
+  }
+
+  .error-text {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 5px;
+  }
+  
+  .disabled {
+    pointer-events: auto; /* Permite clics incluso si parece "deshabilitado" */
+  }

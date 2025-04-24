@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
+    </ion-buttons>
+    <ion-title>Pedido #{{ pedidoId}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{cliente.nombre}}  {{cliente.apellidos}}</ion-card-title>
+      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Here's a small text description for the card content. Nothing more, nothing less.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-accordion-group>
+    <ion-accordion *ngFor="let detalle of detalles">
+      <ion-item slot="header">
+        <ion-label>
+          {{ detalle.nombreProducto }} - {{ detalle.subtotal }} €
+        </ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <p><strong>Descripción:</strong> {{ detalle.descripcion }}</p>
+        <p><strong>IVA:</strong> {{ detalle.iva }}%</p>
+        <p><strong>Cantidad:</strong> {{ detalle.cantidad }}</p>
+        <p><strong>Precio unitario:</strong> {{ detalle.precio }} €</p>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+</ion-content>

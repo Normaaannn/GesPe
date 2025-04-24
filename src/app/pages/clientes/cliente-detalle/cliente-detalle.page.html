@@ -1,0 +1,86 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons *ngIf="!modoEdicion" slot="start">
+      <ion-back-button defaultHref="/clientes"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
+    </ion-buttons>
+    <ion-title>Cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form #clienteForm="ngForm" (ngSubmit)="addCliente()" class="addCliente">
+
+    <ion-item [class.invalid]="!nombre && formSubmitted">
+      <ion-input type="text" [(ngModel)]="nombreForm" [readonly]="!modoEdicion" placeholder="Nombre" name="nombre" label = "Nombre" labelPlacement="floating" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!apellidos && formSubmitted">
+      <ion-input type="text" [(ngModel)]="apellidosForm" [readonly]="!modoEdicion" placeholder="Apellidos" name="apellidos" label = "Apellidos" labelPlacement="floating" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!nif && formSubmitted">
+      <ion-input type="text" [(ngModel)]="nifForm" [readonly]="!modoEdicion" placeholder="NIF" name="nif" label = "NIF" labelPlacement="floating" required></ion-input>
+    </ion-item>
+    
+    <ion-item [class.invalid]="(!email || !isEmailValid()) && formSubmitted">
+      <ion-input type="email" [(ngModel)]="emailForm" [readonly]="!modoEdicion" (ionInput)="validateEmail()" placeholder="Correo electrónico" name="email" label = "Email" labelPlacement="floating" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!telefono && formSubmitted">
+      <ion-input type="text" [(ngModel)]="telefonoForm" [readonly]="!modoEdicion" placeholder="Teléfono" name="telefono" label = "Teléfono" labelPlacement="floating" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!direccion && formSubmitted">
+      <ion-input type="text" [(ngModel)]="direccionForm" [readonly]="!modoEdicion" placeholder="Dirección" name="direccion" label = "Dirección" labelPlacement="floating" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!ciudad && formSubmitted">
+      <ion-input type="text" [(ngModel)]="ciudadForm" [readonly]="!modoEdicion" placeholder="Ciudad" name="ciudad" label = "Ciudad" labelPlacement="floating" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!codigoPostal && formSubmitted">
+      <ion-input type="text" [(ngModel)]="codigoPostalForm" [readonly]="!modoEdicion" placeholder="Código postal" name="codigoPostal" label = "Código postal" labelPlacement="floating" required></ion-input>
+    </ion-item>
+
+    <ion-item [class.invalid]="!pais && formSubmitted">
+      <ion-input type="text" [(ngModel)]="paisForm" [readonly]="!modoEdicion" placeholder="País" name="pais" label = "País" labelPlacement="floating" required></ion-input>
+    </ion-item>
+    
+
+  
+    <ng-container *ngIf="!modoEdicion">
+      <ion-button expand="block" class="boton-editar-guardar" (click)="activarEdicion()">
+        Editar cliente
+      </ion-button>
+
+      <ion-button expand="block" class="boton-atras" (click)="atras()">
+        Atrás
+      </ion-button>
+    </ng-container>
+    
+    <ng-container *ngIf="modoEdicion">
+      <ion-button id="guardar" expand="block" class="boton-editar-guardar" [class.disabled]="formInvalid">
+        Guardar
+      </ion-button>
+      <ion-alert trigger="guardar" type="submit" class="custom-alert" header="Vas a guardar los cambios. ¿Estás seguro?" [buttons]="alertButtonsGuardar"></ion-alert>
+    
+      <ion-button id="cancelarEdicion" expand="block" class="boton-cancelar">
+        Cancelar
+      </ion-button>
+      <ion-alert trigger="cancelarEdicion" class="custom-alert" header="Vas a cancelar la edición. ¿Estás seguro?" [buttons]="alertButtonsCancelar"></ion-alert>
+
+      <ion-button *ngIf="activo" id="eliminar" expand="block" color="danger" class="boton-eliminar">
+        Eliminar
+      </ion-button>
+      <ion-alert *ngIf="activo" trigger="eliminar" class="custom-alert" header="Vas a eliminar el cliente. ¿Estás seguro?" [buttons]="alertButtonsEliminar"></ion-alert>
+
+      
+      <ion-button *ngIf="!activo" id="habilitar" expand="block" color="success" class="boton-habilitar">
+        Habilitar
+      </ion-button>
+      <ion-alert *ngIf="!activo" trigger="habilitar" class="custom-alert" header="Vas a habilitar el cliente. ¿Estás seguro?" [buttons]="alertButtonsHabilitar"></ion-alert>
+      
+    </ng-container>
+  
+  </form>
+</ion-content>

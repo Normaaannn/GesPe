@@ -1,0 +1,48 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title style="font-weight: bold;">GesPe</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" style="margin-right: 7px; margin-bottom: 7px;">
+    <ion-fab-button (click)="goToAddPedido()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <!-- Lista de Pedidos -->
+  <ion-list>
+    <ion-item *ngFor="let pedido of pedidos" [button]="true" (click)="goToPedidoDetalle(pedido)">
+      <ion-label>
+        <h2>Pedido #{{ pedido.id }}</h2>
+        <p>Cliente: {{ pedido.cliente.nombre }}</p>
+        <p>Total: {{ pedido.total }} €</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Contenedor de botones de paginación (izquierda a derecha) -->
+  <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px; margin-bottom: 20px;">
+    <!-- Botón de flecha izquierda -->
+    <ion-button (click)="changePage('prev')" [disabled]="currentPage === 1">←</ion-button>
+
+    <!-- Selector de página -->
+    <ion-select [(ngModel)]="currentPage" (ionChange)="loadPedidos()" interface="popover">
+      <ion-select-option *ngFor="let page of pageOptions" [value]="page">{{ page }}</ion-select-option>
+    </ion-select>
+
+    <!-- Botón de flecha derecha -->
+    <ion-button (click)="changePage('next')" [disabled]="currentPage === totalPages">→</ion-button>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <app-tabs></app-tabs>
+</ion-footer>

@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>GesPe</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Registro</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Registro</ion-card-title>
+      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Here's a small text description for the card content. Nothing more, nothing less.
+    </ion-card-content>
+  </ion-card>
+
+  <form #registerForm="ngForm" (ngSubmit)="register()" class="register">
+    <ion-item [class.invalid]="!username && formSubmitted">
+      <ion-input type="text" [(ngModel)]="username" placeholder="Nombre de usuario" name="username" required></ion-input>
+    </ion-item>
+    
+    <ion-item [class.invalid]="(!email || !isEmailValid()) && formSubmitted">
+      <ion-input type="email" [(ngModel)]="email" (ionInput)="validateEmail()" placeholder="Correo electrónico" name="email" required></ion-input>
+    </ion-item>
+    
+    <ion-item [class.invalid]="!password && formSubmitted">
+      <ion-input type="password" [(ngModel)]="password" placeholder="Contraseña" name="password" required></ion-input>
+    </ion-item>
+    
+    <ion-item [class.invalid]="!confirmPassword && formSubmitted">
+      <ion-input type="password" [(ngModel)]="confirmPassword" placeholder="Confirmar contraseña" name="confirmPassword" required></ion-input>
+    </ion-item>
+  
+    <ion-button expand="block" type="submit" class="boton-login" [class.disabled]="formInvalid">
+      Registrarse
+    </ion-button>
+  
+    <ion-button expand="block" class="boton-registro" (click)="goToLogin()">
+      Cancelar
+    </ion-button>
+  </form>
+  
+</ion-content>

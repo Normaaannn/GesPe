@@ -1,0 +1,9 @@
+ion-tab-button.selected {
+    --color-selected: #b85e00; /* Naranja más oscuro */
+    background-color: rgba(184, 94, 0, 0.75); /* Más opaco */
+    border-radius: 30px; /* Óvalo */
+    padding-left: 15px;
+    padding-right: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+

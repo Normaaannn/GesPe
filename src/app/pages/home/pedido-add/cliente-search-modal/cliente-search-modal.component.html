@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Buscar Producto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancelar()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Searchbar -->
+  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="onSearchInput()" [debounce]="1000"></ion-searchbar>
+
+  <!-- Lista de Clientes -->
+  <ion-list>
+    <ion-item *ngFor="let cliente of clientes" [button]="true" (click)="seleccionarCliente(cliente)">
+      <ion-label>
+        <h2>{{ cliente.nombre }}</h2>
+        <p>{{ cliente.nif }}</p>
+        <p>Correo : {{ cliente.email }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Contenedor de botones de paginación (izquierda a derecha) -->
+  <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px; margin-bottom: 20px;">
+    <!-- Botón de flecha izquierda -->
+    <ion-button (click)="changePage('prev')" [disabled]="currentPage === 1">←</ion-button>
+
+    <!-- Selector de página -->
+    <ion-select [(ngModel)]="currentPage" (ionChange)="loadClientes()" interface="popover">
+      <ion-select-option *ngFor="let page of pageOptions" [value]="page">{{ page }}</ion-select-option>
+    </ion-select>
+
+    <!-- Botón de flecha derecha -->
+    <ion-button (click)="changePage('next')" [disabled]="currentPage === totalPages">→</ion-button>
+  </div>
+</ion-content>

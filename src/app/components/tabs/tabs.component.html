@@ -1,0 +1,20 @@
+
+<ion-tab-bar slot="bottom">
+  <!-- Pestaña 1: Pedidos -->
+  <ion-tab-button (click)="navigateTo('/home')" [class.selected]="isActive('/home')">
+    <ion-icon [name]="isActive('/home') ? 'file-tray-full' : 'file-tray-full-outline'"></ion-icon>
+    <ion-label>Pedidos</ion-label>
+  </ion-tab-button>
+
+  <!-- Pestaña 2: Clientes -->
+  <ion-tab-button (click)="navigateTo('/clientes');" [class.selected]="isActive('/clientes')">
+    <ion-icon [name]="isActive('/clientes') ? 'people' : 'people-outline'"></ion-icon>
+    <ion-label>Clientes</ion-label>
+  </ion-tab-button>
+
+  <!-- Pestaña 3: Productos -->
+  <ion-tab-button (click)="navigateTo('/productos')" [class.selected]="isActive('/productos')">
+    <ion-icon [name]="isActive('/productos') ? 'cube' : 'cube-outline'"></ion-icon>
+    <ion-label>Productos</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>

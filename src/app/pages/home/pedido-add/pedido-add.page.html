@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
+    </ion-buttons>
+    <ion-title>Crear pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <!-- Lista de productos seleccionados para el pedido -->
+    <ion-item *ngIf="cliente">
+      <ion-label>
+        {{ cliente.nombre }}<br>
+        NIF:  {{ cliente.nif }}<br>
+        Correo : {{ cliente.email }}
+      </ion-label>
+      <!-- Botón para eliminar el producto -->
+      <ion-button (click)="eliminarCliente()" color="danger">Eliminar</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="full" (click)="abrirBusquedaCliente()">Añadir Cliente</ion-button>
+
+
+  <ion-list>
+    <!-- Lista de productos seleccionados para el pedido -->
+    <ion-item *ngFor="let producto of productosSeleccionados; let i = index">
+      <ion-label>
+        {{ producto.nombre }}<br>
+        Precio Neto: {{ producto.precioNeto }} €<br>
+        IVA: {{ producto.iva }}%<br>
+        Subtotal: {{ producto.subtotal }} €
+      </ion-label>
+      <!-- Campo para cambiar cantidad -->
+      <ion-input [(ngModel)]="producto.cantidad" (ngModelChange)="actualizarSubtotal(i)" type="number" min="1"></ion-input>
+      <!-- Botón para eliminar el producto -->
+      <ion-button (click)="eliminarProducto(i)" color="danger">Eliminar</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="full" (click)="abrirBusquedaProducto()">Añadir Producto</ion-button>
+
+  <!-- Total del pedido -->
+  <ion-item>
+    <ion-label>Total:</ion-label>
+    <ion-text>{{ calcularTotal() }} €</ion-text>
+  </ion-item>
+</ion-content>
