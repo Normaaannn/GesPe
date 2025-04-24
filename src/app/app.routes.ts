@@ -42,18 +42,22 @@ export const routes: Routes = [
   },
   {
     path: 'producto-detalle',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/productos/producto-detalle/producto-detalle.page').then( m => m.ProductoDetallePage)
   },
   {
     path: 'pedido-add',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/home/pedido-add/pedido-add.page').then( m => m.PedidoAddPage)
   },
   {
     path: 'cliente-add',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/clientes/cliente-add/cliente-add.page').then( m => m.ClienteAddPage)
   },
   {
     path: 'producto-add',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/productos/producto-add/producto-add.page').then( m => m.ProductoAddPage)
   },
 ];

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonItem, IonLabel, IonInput, IonSearchbar, ModalController, IonList, IonText, IonButtons, IonBackButton} from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonItem, IonLabel, IonInput, IonSearchbar, ModalController, IonList, IonText, IonButtons, IonBackButton, IonFooter} from '@ionic/angular/standalone';
 import { ProductoSearchModalComponent } from './producto-search-modal/producto-search-modal.component';
 import { ClienteSearchModalComponent } from './cliente-search-modal/cliente-search-modal.component';
 
@@ -10,7 +10,7 @@ import { ClienteSearchModalComponent } from './cliente-search-modal/cliente-sear
   templateUrl: './pedido-add.page.html',
   styleUrls: ['./pedido-add.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonLabel, IonInput, IonSearchbar, IonList, IonText, IonButtons, IonBackButton]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonItem, IonLabel, IonInput, IonSearchbar, IonList, IonText, IonButtons, IonBackButton, IonFooter]
 })
 export class PedidoAddPage implements OnInit {
 
@@ -102,5 +102,9 @@ export class PedidoAddPage implements OnInit {
 
   eliminarCliente() {
     this.cliente = null;
+  }
+
+  crearPedido() {
+    
   }
 }

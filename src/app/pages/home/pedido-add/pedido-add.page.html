@@ -9,7 +9,6 @@
 
 <ion-content>
 
-  <ion-list>
     <!-- Lista de productos seleccionados para el pedido -->
     <ion-item *ngIf="cliente">
       <ion-label>
@@ -20,9 +19,9 @@
       <!-- Botón para eliminar el producto -->
       <ion-button (click)="eliminarCliente()" color="danger">Eliminar</ion-button>
     </ion-item>
-  </ion-list>
+  
 
-  <ion-button expand="full" (click)="abrirBusquedaCliente()">Añadir Cliente</ion-button>
+  <ion-button expand="full" (click)="abrirBusquedaCliente()">{{ cliente ? 'Cambiar Cliente' : 'Añadir Cliente' }}</ion-button>
 
 
   <ion-list>
@@ -31,11 +30,12 @@
       <ion-label>
         {{ producto.nombre }}<br>
         Precio Neto: {{ producto.precioNeto }} €<br>
-        IVA: {{ producto.iva }}%<br>
+        IVA: {{ producto.iva }}%<br>      
+        <ion-input label="Cantidad" [(ngModel)]="producto.cantidad" (ngModelChange)="actualizarSubtotal(i)" type="number" min="1" style="max-width: 200px;"></ion-input><br>
         Subtotal: {{ producto.subtotal }} €
       </ion-label>
       <!-- Campo para cambiar cantidad -->
-      <ion-input [(ngModel)]="producto.cantidad" (ngModelChange)="actualizarSubtotal(i)" type="number" min="1"></ion-input>
+      
       <!-- Botón para eliminar el producto -->
       <ion-button (click)="eliminarProducto(i)" color="danger">Eliminar</ion-button>
     </ion-item>
@@ -48,4 +48,9 @@
     <ion-label>Total:</ion-label>
     <ion-text>{{ calcularTotal() }} €</ion-text>
   </ion-item>
+
+  
 </ion-content>
+<ion-footer>
+<ion-button class="boton-crear" *ngIf="cliente && productosSeleccionados.length > 0" expand="full" (click)="crearPedido()" color="success">Crear Pedido</ion-button>
+</ion-footer>
