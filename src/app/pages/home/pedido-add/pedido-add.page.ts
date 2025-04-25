@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonItem, IonLabel, IonInput, IonSearchbar, ModalController, IonList, IonText, IonButtons, IonBackButton, IonFooter} from '@ionic/angular/standalone';
 import { ProductoSearchModalComponent } from './producto-search-modal/producto-search-modal.component';
 import { ClienteSearchModalComponent } from './cliente-search-modal/cliente-search-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pedido-add',
@@ -18,7 +19,7 @@ export class PedidoAddPage implements OnInit {
   cliente: any;
   productosSeleccionados: any[] = [];  // Productos seleccionados para el pedido
 
-  constructor(private modalController: ModalController) {}
+  constructor(private modalController: ModalController, private router: Router) {}
 
   ngOnInit() {
   }
@@ -105,6 +106,76 @@ export class PedidoAddPage implements OnInit {
   }
 
   crearPedido() {
-    
+
+    if (!this.cliente || this.productosSeleccionados.length === 0) {
+      alert('Debes seleccionar un cliente y al menos un producto para crear el pedido.');
+      return; // No envía si hay campos vacíos
+    }
+
+    const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
+    if (!token) {
+      console.log('No se encontró el token de acceso');
+      return;
+    }
+
+    fetch('http://localhost:8080/pedido', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        cliente: this.cliente,
+        total: this.calcularTotal(),    
+      })
+    })
+    .then(response => response.text())
+    .then(data => {
+      const id = Number(data.trim());
+      if (!isNaN(id)) {
+        alert('Cliente añadido con ID: ' + id);
+        for (const producto of this.productosSeleccionados) {
+          this.crearDetalle(token, id, producto);  // Crear detalle para cada producto
+        }
+        this.router.navigate(['/home']);
+      } else {
+        alert('Error en el registro: ' + data);
+      }
+    })
+    .catch(error => {
+      console.error('Error en la solicitud:', error);
+      alert('Error en la solicitud');
+    });
+  }
+
+  crearDetalle(token2: any, id: any, producto: any) {
+
+    const url = `http://localhost:8080/pedidos/${id}/detalles`;
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token2}`,
+      },
+      body: JSON.stringify({
+        pedido: {id: id},
+        producto: {id: producto.id, iva: producto.iva},
+        precioNeto: producto.precioNeto,
+        cantidad: producto.cantidad,    
+      })
+    })
+    .then(response => response.text())
+    .then(data => {
+      if (data.trim() === 'Detalle creado') {
+        console.log('Detalle creado');
+      } else {
+        alert('Error en el registro: ' + data);
+      }
+    })
+    .catch(error => {
+      console.error('Error en la solicitud:', error);
+      alert('Error en la solicitud');
+    });
   }
 }
