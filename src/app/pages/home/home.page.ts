@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonButton, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonItem, IonLabel,
-   IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, IonFooter, IonFab, IonFabButton } from '@ionic/angular/standalone';
+   IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, IonFooter, IonFab, IonFabButton, IonFabList } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { TabsComponent } from 'src/app/components/tabs/tabs.component';
 import { ViewWillEnter } from '@ionic/angular';
 
 import { addIcons } from 'ionicons';
-import { add } from 'ionicons/icons';
+import { add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe, settingsSharp, ellipsisVertical } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +17,7 @@ import { add } from 'ionicons/icons';
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton,
     IonSelect, IonSelectOption, IonItem, IonLabel, IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, 
-  TabsComponent, IonFooter, IonIcon, IonFab, IonFabButton]
+  TabsComponent, IonFooter, IonIcon, IonFab, IonFabButton, IonFabList]
 })
 export class HomePage implements ViewWillEnter {
   pedidos: any[] = [];
@@ -35,7 +35,7 @@ export class HomePage implements ViewWillEnter {
   }
 
   constructor(private router: Router) { 
-    addIcons({ add });
+    addIcons({ add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe, settingsSharp, ellipsisVertical });
   }
 
   ionViewWillEnter() {
@@ -122,5 +122,9 @@ export class HomePage implements ViewWillEnter {
 
   goToAddPedido() {
     this.router.navigate(['/pedido-add']);
+  }
+
+  goToAjustes() {
+    this.router.navigate(['/ajustes']);
   }
 }

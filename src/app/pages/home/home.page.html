@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title><b>GesPe</b></ion-title>
+    <ion-title><b>GesPe</b></ion-title>   
   </ion-toolbar>
 </ion-header>
 
@@ -15,6 +15,23 @@
     <ion-fab-button (click)="goToAddPedido()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="true" style="top: -25px">
+    <ion-fab-button class="boton-opciones">
+      <ion-icon name="ellipsis-vertical" class="icon-opciones"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="bottom">
+      <ion-fab-button>
+        <ion-icon name="settings-sharp" (click)="goToAjustes()"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="color-palette"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="globe"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
   </ion-fab>
   <!-- Lista de Pedidos -->
   <ion-list>
