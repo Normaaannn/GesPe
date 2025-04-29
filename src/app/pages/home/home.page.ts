@@ -8,7 +8,7 @@ import { TabsComponent } from 'src/app/components/tabs/tabs.component';
 import { ViewWillEnter } from '@ionic/angular';
 
 import { addIcons } from 'ionicons';
-import { add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe, settingsSharp, ellipsisVertical } from 'ionicons/icons';
+import { add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe, settingsSharp, ellipsisVertical, logOutOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -19,12 +19,13 @@ import { add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPal
     IonSelect, IonSelectOption, IonItem, IonLabel, IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, 
   TabsComponent, IonFooter, IonIcon, IonFab, IonFabButton, IonFabList]
 })
-export class HomePage implements ViewWillEnter {
+export class HomePage implements OnInit {
   pedidos: any[] = [];
   currentPage: number = 1;
   totalPages: number = 1;
   pageSize: number = 20;  // Definir el tamaño de la página
   pageOptions: number[] = [];
+  dataLoaded: boolean = false;
 
   handleRefresh(event: CustomEvent) {
     setTimeout(() => {
@@ -35,12 +36,15 @@ export class HomePage implements ViewWillEnter {
   }
 
   constructor(private router: Router) { 
-    addIcons({ add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe, settingsSharp, ellipsisVertical });
+    addIcons({ add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe, settingsSharp, ellipsisVertical, logOutOutline });
   }
 
-  ionViewWillEnter() {
-    console.log('ionViewWillEnter ejecutado');
+  ngOnInit() {
+    if (!this.dataLoaded) {
+    console.log('Datos cargados');
     this.loadPedidos();
+    this.dataLoaded = true;  // Marcar como cargado para evitar recargas innecesarias
+    }
   }
 
   loadPedidos() {
@@ -126,5 +130,12 @@ export class HomePage implements ViewWillEnter {
 
   goToAjustes() {
     this.router.navigate(['/ajustes']);
+  }
+
+  logOut() { 
+    localStorage.removeItem('accessToken');  // Eliminar el token del localStorage
+    localStorage.removeItem('refreshToken');  // Eliminar el refresh token del localStorage
+    localStorage.removeItem('role');  // Eliminar el rol del localStorage
+    this.router.navigate(['/login']);  // Redirigir a la página de login
   }
 }

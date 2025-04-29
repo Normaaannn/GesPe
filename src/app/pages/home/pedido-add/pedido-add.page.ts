@@ -134,9 +134,7 @@ export class PedidoAddPage implements OnInit {
       const id = Number(data.trim());
       if (!isNaN(id)) {
         alert('Cliente añadido con ID: ' + id);
-        for (const producto of this.productosSeleccionados) {
-          this.crearDetalle(token, id, producto);  // Crear detalle para cada producto
-        }
+          this.crearDetalles(token, id, this.productosSeleccionados);
         this.router.navigate(['/home']);
       } else {
         alert('Error en el registro: ' + data);
@@ -148,34 +146,36 @@ export class PedidoAddPage implements OnInit {
     });
   }
 
-  crearDetalle(token2: any, id: any, producto: any) {
+  crearDetalles(token2: any, id: any, productos: any[]) {
+  const url = `http://localhost:8080/pedidos/${id}/detalles`;
 
-    const url = `http://localhost:8080/pedidos/${id}/detalles`;
+  // Crear un array de detalles a partir de los productos
+  const detalles = productos.map(producto => ({
+    pedido: { id: id },
+    producto: { id: producto.id, iva: producto.iva },
+    precioNeto: producto.precioNeto,
+    cantidad: producto.cantidad
+  }));
 
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token2}`,
-      },
-      body: JSON.stringify({
-        pedido: {id: id},
-        producto: {id: producto.id, iva: producto.iva},
-        precioNeto: producto.precioNeto,
-        cantidad: producto.cantidad,    
-      })
-    })
-    .then(response => response.text())
-    .then(data => {
-      if (data.trim() === 'Detalle creado') {
-        console.log('Detalle creado');
-      } else {
-        alert('Error en el registro: ' + data);
-      }
-    })
-    .catch(error => {
-      console.error('Error en la solicitud:', error);
-      alert('Error en la solicitud');
-    });
-  }
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token2}`,
+    },
+    body: JSON.stringify(detalles) // ahora mandas un array de objetos
+  })
+  .then(response => response.text())
+  .then(data => {
+    if (data.trim() === 'Detalles creados') {
+      console.log('Detalles creados');
+    } else {
+      alert('Error en el registro: ' + data);
+    }
+  })
+  .catch(error => {
+    console.error('Error en la solicitud:', error);
+    alert('Error en la solicitud');
+  });
+}
 }

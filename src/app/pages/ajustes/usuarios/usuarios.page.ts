@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonButton, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonItem, IonLabel,
-  IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, IonFooter, IonFab, IonFabButton, IonSearchbar } from '@ionic/angular/standalone';
+  IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, IonFooter, IonFab, IonFabButton, IonSearchbar,
+IonSegment, IonSegmentButton, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { TabsComponent } from 'src/app/components/tabs/tabs.component';
 import { ViewWillEnter } from '@ionic/angular';
@@ -11,28 +12,28 @@ import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
 
 @Component({
-  selector: 'app-productos',
-  templateUrl: './productos.page.html',
-  styleUrls: ['./productos.page.scss'],
+  selector: 'app-usuarios',
+  templateUrl: './usuarios.page.html',
+  styleUrls: ['./usuarios.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton,
     IonSelect, IonSelectOption, IonItem, IonLabel, IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, 
-  TabsComponent, IonFooter, IonFab, IonFabButton, IonSearchbar]
+  TabsComponent, IonFooter, IonFab, IonFabButton, IonSearchbar, IonSegment, IonSegmentButton, IonButtons, IonBackButton]
 })
-export class ProductosPage implements OnInit {
+export class UsuariosPage implements OnInit {
 
-  productos: any[] = [];
+  usuarios: any[] = [];
   searchTerm: string = '';  // Variable para almacenar el término de búsqueda
   currentPage: number = 1;
   totalPages: number = 1;
   pageSize: number = 20;  // Definir el tamaño de la página
   pageOptions: number[] = [];
-  dataLoaded: boolean = false; // Variable para controlar si los datos han sido cargados
+  segmentButton: number = 1; // Variable para almacenar el botón actual del segmento
 
   handleRefresh(event: CustomEvent) {
     setTimeout(() => {
       // Any calls to load data go here
-      this.loadProductos();
+      this.loadUsuarios(this.segmentButton);
       (event.target as HTMLIonRefresherElement).complete();
     }, 2000);
   }
@@ -42,28 +43,47 @@ export class ProductosPage implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.dataLoaded) {
-    console.log('Datos cargados');
-    this.loadProductos();
-    this.dataLoaded = true;  // Marcar como cargado para evitar recargas innecesarias
-    }
+    console.log('ionViewWillEnter ejecutado');
+    this.loadUsuarios();
   }
 
-  loadProductos(searchType: number = 1) {
+  loadUsuarios(botonSegment: number = this.segmentButton) {
+    this.segmentButton = botonSegment;  // Actualizar el botón del segmento
     const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
     if (!token) {
       console.log('No se encontró el token de acceso');
       return;
     }
 
-
     let url = '';
-  if (searchType === 1) {
+  if (this.searchTerm.trim() === '') {
     // Si searchType es 1, usamos la URL para cargar todos los pedidos
-    url = `http://localhost:8080/producto/page/${this.currentPage}`;
-  } else if (searchType === 2) {
+    switch (botonSegment) {
+      case 1:
+        url = `http://localhost:8080/usuario/user/page/${this.currentPage}`; // URL para cargar todos los pedidos activos
+        console.log("11");
+        break;
+      case 2:
+        url = `http://localhost:8080/usuario/guest/page/${this.currentPage}`; // URL para cargar todos los pedidos inactivos
+        break;
+      case 3:
+        url = `http://localhost:8080/usuario/page/${this.currentPage}`; // URL para cargar todos los pedidos bloqueados
+        break;
+    }
+  } else {
     // Si searchType es 2, usamos la URL para cargar pedidos según el searchbar
-    url = `http://localhost:8080/producto/buscar/${this.searchTerm}/${this.currentPage}`; // Asegúrate de que esta URL sea la correcta
+    switch (botonSegment) {
+      case 1:
+        url = `http://localhost:8080/usuario/buscar/user/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos activos
+        console.log("21");
+        break;
+      case 2:
+        url = `http://localhost:8080/usuario/buscar/guest/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos inactivos
+        break;
+      case 3:
+        url = `http://localhost:8080/usuario/buscar/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos bloqueados
+        break;
+    }
   }
     
     fetch(url, {
@@ -88,9 +108,9 @@ export class ProductosPage implements OnInit {
         }
     
         if (Array.isArray(data)) {  
-            this.productos = data;  // Si es un array, úsalo directamente
+            this.usuarios = data;  // Si es un array, úsalo directamente
         } else if (data && data.content) {  
-            this.productos = data.content;  // Si tiene `content`, úsalo
+            this.usuarios = data.content;  // Si tiene `content`, úsalo
             this.totalPages = data.totalPages || 1;
             this.pageOptions = Array.from({ length: this.totalPages }, (_, i) => i + 1);
         } else {
@@ -99,15 +119,6 @@ export class ProductosPage implements OnInit {
     })
   }
 
-  onSearchInput() {
-    if (this.searchTerm.trim() === '') {
-      // Si el searchbar está vacío, llamar con searchType 1
-      this.loadProductos(1);
-    } else {
-      // Si hay texto en el searchbar, llamar con searchType 2
-      this.loadProductos(2);
-    }
-  }
 
   changePage(direction: string) {
     if (direction === 'prev' && this.currentPage > 1) {
@@ -115,7 +126,7 @@ export class ProductosPage implements OnInit {
     } else if (direction === 'next' && this.currentPage < this.totalPages) {
       this.currentPage++;
     }
-    this.loadProductos();  // Cargar los pedidos para la página actual
+    this.loadUsuarios();  // Cargar los pedidos para la página actual
   }
 
 
@@ -123,7 +134,7 @@ export class ProductosPage implements OnInit {
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.loadProductos();
+      this.loadUsuarios();
     }
   }
 
@@ -131,20 +142,16 @@ export class ProductosPage implements OnInit {
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.loadProductos();
+      this.loadUsuarios();
     }
   }
 
-  goToProductoDetalle(producto: any) {
-    this.router.navigate(['/producto-detalle'], {
+  goToClienteDetalle(cliente: any) {
+    this.router.navigate(['/cliente-detalle'], {
       state: { 
-        producto: producto,
+        cliente: cliente,
       }
     });
-  }
-
-  goToAddProducto() {
-    this.router.navigate(['/producto-add']);
   }
 
 }

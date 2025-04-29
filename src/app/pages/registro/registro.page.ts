@@ -56,7 +56,9 @@ export class RegistroPage implements OnInit {
       return;
     }
 
-    fetch('http://localhost:8080/register', {
+    console.log(this.password);
+
+    fetch('http://localhost:8080/usuario/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

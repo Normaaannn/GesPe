@@ -41,10 +41,11 @@ export class LoginPage implements OnInit {
     })
     .then(response => response.json())
     .then(data => {
-      if (data.accessToken && data.refreshToken) {
+      if (data.accessToken && data.refreshToken && data.role) {
         // Guardar los tokens en el localStorage o sessionStorage
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
+        localStorage.setItem('role', data.role); // Guardar el rol del usuario
         console.log('Login exitoso');
         // Redirigir o hacer algo más después del login exitoso
         this.router.navigate(['/home']);

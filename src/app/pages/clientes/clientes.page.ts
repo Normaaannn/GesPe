@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonButton, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonItem, IonLabel,
-  IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, IonFooter, IonFab, IonFabButton, IonSearchbar } from '@ionic/angular/standalone';
+  IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, IonFooter, IonFab, IonFabButton, IonSearchbar,
+IonSegment, IonSegmentButton } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { TabsComponent } from 'src/app/components/tabs/tabs.component';
 import { ViewWillEnter } from '@ionic/angular';
@@ -17,20 +18,22 @@ import { add } from 'ionicons/icons';
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton,
     IonSelect, IonSelectOption, IonItem, IonLabel, IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, 
-  TabsComponent, IonFooter, IonFab, IonFabButton, IonSearchbar]
+  TabsComponent, IonFooter, IonFab, IonFabButton, IonSearchbar, IonSegment, IonSegmentButton]
 })
-export class ClientesPage implements ViewWillEnter {
+export class ClientesPage implements OnInit {
   clientes: any[] = [];
   searchTerm: string = '';  // Variable para almacenar el término de búsqueda
   currentPage: number = 1;
   totalPages: number = 1;
   pageSize: number = 20;  // Definir el tamaño de la página
   pageOptions: number[] = [];
+  segmentButton: number = 1; // Variable para almacenar el botón actual del segmento
+  dataLoaded: boolean = false; // Variable para controlar si los datos han sido cargados
 
   handleRefresh(event: CustomEvent) {
     setTimeout(() => {
       // Any calls to load data go here
-      this.loadClientes();
+      this.loadClientes(this.segmentButton);
       (event.target as HTMLIonRefresherElement).complete();
     }, 2000);
   }
@@ -39,12 +42,16 @@ export class ClientesPage implements ViewWillEnter {
     addIcons({ add });
   }
 
-  ionViewWillEnter() {
-    console.log('ionViewWillEnter ejecutado');
+  ngOnInit() {
+    if (!this.dataLoaded) {
+    console.log('Datos cargados');
     this.loadClientes();
+    this.dataLoaded = true;  // Marcar como cargado para evitar recargas innecesarias
+    }
   }
 
-  loadClientes(searchType: number = 1) {
+  loadClientes(botonSegment: number = this.segmentButton) {
+    this.segmentButton = botonSegment;  // Actualizar el botón del segmento
     const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
     if (!token) {
       console.log('No se encontró el token de acceso');
@@ -52,12 +59,32 @@ export class ClientesPage implements ViewWillEnter {
     }
 
     let url = '';
-  if (searchType === 1) {
+  if (this.searchTerm.trim() === '') {
     // Si searchType es 1, usamos la URL para cargar todos los pedidos
-    url = `http://localhost:8080/cliente/page/${this.currentPage}`;
-  } else if (searchType === 2) {
+    switch (botonSegment) {
+      case 1:
+        url = `http://localhost:8080/cliente/activos/page/${this.currentPage}`; // URL para cargar todos los pedidos activos
+        break;
+      case 2:
+        url = `http://localhost:8080/cliente/inactivos/page/${this.currentPage}`; // URL para cargar todos los pedidos inactivos
+        break;
+      case 3:
+        url = `http://localhost:8080/cliente/page/${this.currentPage}`; // URL para cargar todos los pedidos bloqueados
+        break;
+    }
+  } else {
     // Si searchType es 2, usamos la URL para cargar pedidos según el searchbar
-    url = `http://localhost:8080/cliente/buscar/${this.searchTerm}/${this.currentPage}`; // Asegúrate de que esta URL sea la correcta
+    switch (botonSegment) {
+      case 1:
+        url = `http://localhost:8080/cliente/buscar/activos/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos activos
+        break;
+      case 2:
+        url = `http://localhost:8080/cliente/buscar/inactivos/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos inactivos
+        break;
+      case 3:
+        url = `http://localhost:8080/cliente/buscar/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos bloqueados
+        break;
+    }
   }
     
     fetch(url, {
@@ -93,15 +120,6 @@ export class ClientesPage implements ViewWillEnter {
     })
   }
 
-  onSearchInput() {
-    if (this.searchTerm.trim() === '') {
-      // Si el searchbar está vacío, llamar con searchType 1
-      this.loadClientes(1);
-    } else {
-      // Si hay texto en el searchbar, llamar con searchType 2
-      this.loadClientes(2);
-    }
-  }
 
   changePage(direction: string) {
     if (direction === 'prev' && this.currentPage > 1) {
@@ -139,5 +157,14 @@ export class ClientesPage implements ViewWillEnter {
 
   goToAddCliente() {
     this.router.navigate(['/cliente-add']);
+  }
+
+  comprobarRol() {
+    const rol = localStorage.getItem('role');  // Obtener el rol desde el localStorage
+    if (rol === 'ROLE_ADMIN') {
+      return true;  // El usuario tiene el rol de admin
+    } else {
+      return false;  // El usuario no tiene el rol de admin
+    }
   }
 }

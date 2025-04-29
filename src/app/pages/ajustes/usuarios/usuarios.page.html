@@ -1,0 +1,56 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/ajustes"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
+    </ion-buttons>
+    <ion-title>Usuarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
+  <!-- Searchbar -->
+  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="loadUsuarios()" [debounce]="1000"
+    placeholder="Buscar por usuario..."></ion-searchbar>
+
+  <!-- Segmento para cambiar entre vista por defecto y vista de segmento -->
+  <ion-segment value="usuarios">
+    <ion-segment-button value="usuarios" (click)="loadUsuarios(1)">
+      <ion-label>Usuarios</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="invitados" (click)="loadUsuarios(2)">
+      <ion-label>Invitados</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="todos" (click)="loadUsuarios(3)">
+      <ion-label>Todos</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Lista de Clientes -->
+  <ion-list>
+    <ion-item *ngFor="let usuario of usuarios" [button]="true">
+      <ion-label>
+        <h2>{{ usuario.id }} {{ usuario.username }}</h2>
+        <p>Email: {{ usuario.email }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Contenedor de botones de paginación (izquierda a derecha) -->
+  <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px; margin-bottom: 20px;">
+    <!-- Botón de flecha izquierda -->
+    <ion-button (click)="changePage('prev')" [disabled]="currentPage === 1">←</ion-button>
+
+    <!-- Selector de página -->
+    <ion-select [(ngModel)]="currentPage" (ionChange)="loadUsuarios()" interface="popover">
+      <ion-select-option *ngFor="let page of pageOptions" [value]="page">{{ page }}</ion-select-option>
+    </ion-select>
+
+    <!-- Botón de flecha derecha -->
+    <ion-button (click)="changePage('next')" [disabled]="currentPage === totalPages">→</ion-button>
+  </div>
+</ion-content>
