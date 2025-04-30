@@ -16,7 +16,7 @@
   <ion-item [button]="true" (click)="goToCambiarInfoEmpresa()">
     <ion-label>Cambiar información de la empresa</ion-label>
   </ion-item>
-  <ion-item [button]="true" (click)="goToVerUsuarios()">
+  <ion-item *ngIf="comprobarRol()" [button]="true" (click)="goToVerUsuarios()">
     <ion-label>Ver usuarios</ion-label>
   </ion-item>
 </ion-content>

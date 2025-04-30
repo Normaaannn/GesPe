@@ -32,9 +32,9 @@
 
   <!-- Lista de Clientes -->
   <ion-list>
-    <ion-item *ngFor="let usuario of usuarios" [button]="true">
+    <ion-item *ngFor="let usuario of usuarios" [button]="true" (click)="goToUsuarioDetalle(usuario)">
       <ion-label>
-        <h2>{{ usuario.id }} {{ usuario.username }}</h2>
+        <h2>Id: {{ usuario.id }}  Username: {{ usuario.username }}</h2>
         <p>Email: {{ usuario.email }}</p>
       </ion-label>
     </ion-item>

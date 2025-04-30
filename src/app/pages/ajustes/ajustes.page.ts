@@ -30,4 +30,13 @@ export class AjustesPage implements OnInit {
     this.router.navigate(['/usuarios']);   
   }
 
+  comprobarRol() {
+    const rol = localStorage.getItem('role');  // Obtener el rol desde el localStorage
+    if (rol === 'ROLE_ADMIN') {
+      return true;  // El usuario tiene el rol de admin
+    } else {
+      return false;  // El usuario no tiene el rol de admin
+    }
+  }
+
 }

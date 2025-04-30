@@ -61,7 +61,6 @@ export class UsuariosPage implements OnInit {
     switch (botonSegment) {
       case 1:
         url = `http://localhost:8080/usuario/user/page/${this.currentPage}`; // URL para cargar todos los pedidos activos
-        console.log("11");
         break;
       case 2:
         url = `http://localhost:8080/usuario/guest/page/${this.currentPage}`; // URL para cargar todos los pedidos inactivos
@@ -75,7 +74,6 @@ export class UsuariosPage implements OnInit {
     switch (botonSegment) {
       case 1:
         url = `http://localhost:8080/usuario/buscar/user/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos activos
-        console.log("21");
         break;
       case 2:
         url = `http://localhost:8080/usuario/buscar/guest/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos inactivos
@@ -146,10 +144,10 @@ export class UsuariosPage implements OnInit {
     }
   }
 
-  goToClienteDetalle(cliente: any) {
-    this.router.navigate(['/cliente-detalle'], {
+  goToUsuarioDetalle(usuario: any) {
+    this.router.navigate(['/usuario-detalle'], {
       state: { 
-        cliente: cliente,
+        usuario: usuario,
       }
     });
   }
