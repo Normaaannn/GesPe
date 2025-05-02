@@ -42,12 +42,12 @@ export class LoginPage implements OnInit {
     .then(response => response.json())
     .then(data => {
       if (data.accessToken && data.refreshToken && data.role) {
-        // Guardar los tokens en el localStorage o sessionStorage
+        //Guardar los tokens en el localStorage o sessionStorage
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
-        localStorage.setItem('role', data.role); // Guardar el rol del usuario
+        localStorage.setItem('role', data.role); //Guardar el rol del usuario
         console.log('Login exitoso');
-        // Redirigir o hacer algo más después del login exitoso
+        //Redirige al home
         this.router.navigate(['/home']);
       } else {
         console.log('Login fallido');

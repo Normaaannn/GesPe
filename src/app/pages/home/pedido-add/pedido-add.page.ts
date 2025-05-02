@@ -163,7 +163,7 @@ export class PedidoAddPage implements OnInit {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token2}`,
     },
-    body: JSON.stringify(detalles) // ahora mandas un array de objetos
+    body: JSON.stringify(detalles) //Mando un array de objetos
   })
   .then(response => response.text())
   .then(data => {

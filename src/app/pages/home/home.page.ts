@@ -48,13 +48,13 @@ export class HomePage implements OnInit {
   }
 
   loadPedidos() {
-    const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
+    const token = localStorage.getItem('accessToken');  //Obtener el token desde el localStorage
     if (!token) {
       console.log('No se encontró el token de acceso');
       return;
     }
 
-    const url = `http://localhost:8080/pedido/usuarioCreador/${this.currentPage}`;  // URL de la API con paginación
+    const url = `http://localhost:8080/pedido/usuarioCreador/${this.currentPage}`;  //URL de la API con paginacion
     
     fetch(url, {
       method: 'GET',
@@ -67,20 +67,20 @@ export class HomePage implements OnInit {
         if (!response.ok) {
           throw new Error('Error en la solicitud');
         }
-        return response.json();  // Convierte la respuesta en formato JSON
+        return response.json();  //Convierte la respuesta en formato JSON
       })
       .then(data => {
         console.log("Respuesta completa:", data);
     
         if (typeof data === "string") {
-            data = JSON.parse(data);  // Si la API devuelve texto, conviértelo a JSON
+            data = JSON.parse(data);  //Si la API devuelve texto, lo convierte en JSON
             console.log("Convertido a JSON:", data);
         }
     
         if (Array.isArray(data)) {  
-            this.pedidos = data;  // Si es un array, úsalo directamente
+            this.pedidos = data;  //Si es un array, lo usa
         } else if (data && data.content) {  
-            this.pedidos = data.content;  // Si tiene `content`, úsalo
+            this.pedidos = data.content;  // Si tiene content, lo usa
             this.totalPages = data.totalPages || 1;
             this.pageOptions = Array.from({ length: this.totalPages }, (_, i) => i + 1);
         } else {
