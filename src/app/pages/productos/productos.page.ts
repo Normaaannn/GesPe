@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonButton, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonItem, IonLabel,
-  IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, IonFooter, IonFab, IonFabButton, IonSearchbar } from '@ionic/angular/standalone';
+  IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, IonFooter, IonFab, IonFabButton, IonSearchbar,
+  IonSegment, IonSegmentButton } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { TabsComponent } from 'src/app/components/tabs/tabs.component';
 import { ViewWillEnter } from '@ionic/angular';
@@ -17,7 +18,7 @@ import { add } from 'ionicons/icons';
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton,
     IonSelect, IonSelectOption, IonItem, IonLabel, IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, 
-  TabsComponent, IonFooter, IonFab, IonFabButton, IonSearchbar]
+  TabsComponent, IonFooter, IonFab, IonFabButton, IonSearchbar, IonSegment, IonSegmentButton]
 })
 export class ProductosPage implements OnInit {
 
@@ -27,6 +28,7 @@ export class ProductosPage implements OnInit {
   totalPages: number = 1;
   pageSize: number = 20;  // Definir el tamaño de la página
   pageOptions: number[] = [];
+  segmentButton: number = 1; // Variable para almacenar el botón actual del segmento
   dataLoaded: boolean = false; // Variable para controlar si los datos han sido cargados
 
   handleRefresh(event: CustomEvent) {
@@ -49,21 +51,41 @@ export class ProductosPage implements OnInit {
     }
   }
 
-  loadProductos(searchType: number = 1) {
+  loadProductos(botonSegment: number = this.segmentButton) {
+    this.segmentButton = botonSegment;  // Actualizar el botón del segmento
     const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
     if (!token) {
       console.log('No se encontró el token de acceso');
       return;
     }
 
-
     let url = '';
-  if (searchType === 1) {
+  if (this.searchTerm.trim() === '') {
     // Si searchType es 1, usamos la URL para cargar todos los pedidos
-    url = `http://localhost:8080/producto/page/${this.currentPage}`;
-  } else if (searchType === 2) {
+    switch (botonSegment) {
+      case 1:
+        url = `http://localhost:8080/producto/activos/page/${this.currentPage}`; // URL para cargar todos los pedidos activos
+        break;
+      case 2:
+        url = `http://localhost:8080/producto/inactivos/page/${this.currentPage}`; // URL para cargar todos los pedidos inactivos
+        break;
+      case 3:
+        url = `http://localhost:8080/producto/page/${this.currentPage}`; // URL para cargar todos los pedidos bloqueados
+        break;
+    }
+  } else {
     // Si searchType es 2, usamos la URL para cargar pedidos según el searchbar
-    url = `http://localhost:8080/producto/buscar/${this.searchTerm}/${this.currentPage}`; // Asegúrate de que esta URL sea la correcta
+    switch (botonSegment) {
+      case 1:
+        url = `http://localhost:8080/producto/buscar/activos/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos activos
+        break;
+      case 2:
+        url = `http://localhost:8080/producto/buscar/inactivos/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos inactivos
+        break;
+      case 3:
+        url = `http://localhost:8080/producto/buscar/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos bloqueados
+        break;
+    }
   }
     
     fetch(url, {
@@ -145,6 +167,15 @@ export class ProductosPage implements OnInit {
 
   goToAddProducto() {
     this.router.navigate(['/producto-add']);
+  }
+
+  comprobarRol() {
+    const rol = localStorage.getItem('role');  //Obtener el rol desde el localStorage
+    if (rol === 'ROLE_ADMIN') {
+      return true;  //El usuario tiene el rol de admin
+    } else {
+      return false;  //El usuario no tiene el rol de admin
+    }
   }
 
 }

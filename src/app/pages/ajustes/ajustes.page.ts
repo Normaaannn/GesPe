@@ -24,6 +24,8 @@ export class AjustesPage implements OnInit {
   }
 
   goToCambiarInfoEmpresa() { 
+    this.router.navigate(['/info-empresa']);  
+
   }
 
   goToVerUsuarios() {   

@@ -55,9 +55,65 @@ export class UsuarioDetallePage implements OnInit {
   }
 
   darRolUsuario() {
+    const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
+    if (!token) {
+      console.log('No se encontró el token de acceso');
+      return;
+    }
+
+    const url = `http://localhost:8080/usuario/${this.usuario.id}/darRolUsuario`; // URL de la API para actualizar el cliente
+
+    fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+    .then(response => response.text())
+    .then(data => {
+      if (data.trim() === 'Usuario activado correctamente') {
+        alert('Usuario activado');
+        this.router.navigate(['/usuarios']);
+      } else {
+        alert('Error en el registro: ' + data);
+      }
+    })
+    .catch(error => {
+      console.error('Error en la solicitud:', error);
+      alert('Error en la solicitud');
+    });
   }
 
   eliminarUsuario() {
+    const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
+    if (!token) {
+      console.log('No se encontró el token de acceso');
+      return;
+    }
+
+    const url = `http://localhost:8080/usuario/${this.usuario.id}/banear`; // URL de la API para actualizar el cliente
+
+    fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+    .then(response => response.text())
+    .then(data => {
+      if (data.trim() === 'Usuario baneado correctamente') {
+        alert('Usuario baneado');
+        this.router.navigate(['/usuarios']);
+      } else {
+        alert('Error en el registro: ' + data);
+      }
+    })
+    .catch(error => {
+      console.error('Error en la solicitud:', error);
+      alert('Error en la solicitud');
+    });
   }
 
   esUsuario() {

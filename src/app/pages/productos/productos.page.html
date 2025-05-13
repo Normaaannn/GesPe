@@ -17,7 +17,20 @@
   </ion-fab>
 
   <!-- Searchbar -->
-  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="onSearchInput()" [debounce]="1000"></ion-searchbar>
+  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="onSearchInput()" [debounce]="1000" placeholder="Buscar por nombre..."></ion-searchbar>
+
+  <!-- Segmento para cambiar entre vista por defecto y vista de segmento -->
+  <ion-segment *ngIf="comprobarRol()" value="activos">
+    <ion-segment-button value="activos" (click)="loadProductos(1)">
+      <ion-label>Activos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="inactivos" (click)="loadProductos(2)">
+      <ion-label>Inactivos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="todos" (click)="loadProductos(3)">
+      <ion-label>Todos</ion-label>
+    </ion-segment-button>
+  </ion-segment>
   
   <!-- Lista de Clientes -->
   <ion-list>
