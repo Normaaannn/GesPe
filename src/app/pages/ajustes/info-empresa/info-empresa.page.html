@@ -3,7 +3,7 @@
     <ion-buttons *ngIf="!modoEdicion" slot="start">
       <ion-back-button defaultHref="/ajustes"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
     </ion-buttons>
-    <ion-title>Cliente</ion-title>
+    <ion-title>Información</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -50,7 +50,7 @@
   
     <ng-container *ngIf="!modoEdicion">
       <ion-button expand="block" class="boton-editar-guardar" (click)="activarEdicion()">
-        Editar cliente
+        Editar
       </ion-button>
 
       <ion-button expand="block" class="boton-atras" (click)="atras()">

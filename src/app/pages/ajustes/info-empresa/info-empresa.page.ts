@@ -198,7 +198,6 @@ export class InfoEmpresaPage implements OnInit {
 
   cargarForm(){
     if (this.info.id !== undefined) {
-      alert('Información cargada correctamente');
       this.clienteID = this.info.id;
       this.nombre = this.info.nombre || '';
       this.apellidos = this.info.apellidos || '';
