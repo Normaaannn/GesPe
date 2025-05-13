@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title><b>GesPe</b></ion-title>   
+    <ion-title><b>GesPe</b></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,12 +11,43 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <!-- Boton crear pedido -->
   <ion-fab horizontal="end" vertical="bottom" slot="fixed" style="margin-right: 7px; margin-bottom: 7px;">
     <ion-fab-button (click)="goToAddPedido()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
+  <!-- Botones de fecha -->
+  <ion-row>
+    <ion-col size="6">
+      <p>Desde</p>
+      <ion-datetime-button datetime="fechaInicio"></ion-datetime-button>
+    </ion-col>
+  
+    <ion-col size="6">
+      <p>Hasta</p>
+      <ion-datetime-button datetime="fechaFin"></ion-datetime-button>
+    </ion-col>
+  </ion-row>
+
+  <!-- Modales fecha -->
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime id="fechaInicio" [(ngModel)]="fechaInicio" (ionChange)="loadPedidos()" presentation="month-year" [showDefaultButtons]="true"
+        doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime id="fechaFin" [(ngModel)]="fechaFin" [min]="getFechaInicioMasUnMes()" (ionChange)="loadPedidos()" presentation="month-year"
+        [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
+    </ng-template>
+  </ion-modal>
+
+
+  <!-- Boton desplegable ajustes -->
   <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="true" style="top: -25px">
     <ion-fab-button class="boton-opciones">
       <ion-icon name="ellipsis-vertical" class="icon-opciones"></ion-icon>
@@ -30,6 +61,7 @@
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>
+
   <!-- Lista de Pedidos -->
   <ion-list>
     <ion-item *ngFor="let pedido of pedidos" [button]="true" (click)="goToPedidoDetalle(pedido)">
@@ -57,6 +89,7 @@
 
 </ion-content>
 
+<!-- Tabs component -->
 <ion-footer>
   <app-tabs></app-tabs>
 </ion-footer>

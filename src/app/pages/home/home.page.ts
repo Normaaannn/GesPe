@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonButton, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonItem, IonLabel,
-   IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, IonFooter, IonFab, IonFabButton, IonFabList } from '@ionic/angular/standalone';
+import {
+  IonContent, IonHeader, IonButton, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonItem, IonLabel,
+  IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, IonFooter, IonFab, IonFabButton, IonFabList, IonDatetime,
+  IonDatetimeButton, IonModal, IonRow, IonCol
+} from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { TabsComponent } from 'src/app/components/tabs/tabs.component';
 import { ViewWillEnter } from '@ionic/angular';
@@ -16,8 +19,9 @@ import { add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPal
   styleUrls: ['./home.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton,
-    IonSelect, IonSelectOption, IonItem, IonLabel, IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, 
-  TabsComponent, IonFooter, IonIcon, IonFab, IonFabButton, IonFabList]
+    IonSelect, IonSelectOption, IonItem, IonLabel, IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent,
+    TabsComponent, IonFooter, IonIcon, IonFab, IonFabButton, IonFabList, IonDatetime, IonDatetimeButton, IonModal,
+    IonRow, IonCol]
 })
 export class HomePage implements OnInit {
   pedidos: any[] = [];
@@ -26,6 +30,8 @@ export class HomePage implements OnInit {
   pageSize: number = 20;  // Definir el tamaño de la página
   pageOptions: number[] = [];
   dataLoaded: boolean = false;
+  fechaInicio: string = new Date().toISOString();
+  fechaFin: string = new Date().toISOString();
 
   handleRefresh(event: CustomEvent) {
     setTimeout(() => {
@@ -35,16 +41,17 @@ export class HomePage implements OnInit {
     }, 2000);
   }
 
-  constructor(private router: Router) { 
+  constructor(private router: Router) {
     addIcons({ add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe, settingsSharp, ellipsisVertical, logOutOutline });
   }
 
   ngOnInit() {
     if (!this.dataLoaded) {
-    console.log('Datos cargados');
-    this.loadPedidos();
-    this.dataLoaded = true;  // Marcar como cargado para evitar recargas innecesarias
+      console.log('Datos cargados');
+      this.loadPedidos();
+      this.dataLoaded = true;  // Marcar como cargado para evitar recargas innecesarias
     }
+    this.fechaFin = this.getFechaInicioMasUnMes();
   }
 
   loadPedidos() {
@@ -54,8 +61,13 @@ export class HomePage implements OnInit {
       return;
     }
 
-    const url = `http://localhost:8080/pedido/usuarioCreador/${this.currentPage}`;  //URL de la API con paginacion
-    
+    let month1 = new Date(this.fechaInicio).getMonth() + 1;  // Obtener el mes de la fecha de inicio (1-12)
+    let year1 = new Date(this.fechaInicio).getFullYear();  // Obtener el año de la fecha de inicio (YYYY)   
+    let month2 = new Date(this.fechaFin).getMonth() + 1;  // Obtener el mes de la fecha de fin (1-12)
+    let year2 = new Date(this.fechaFin).getFullYear();  // Obtener el año de la fecha de fin (YYYY)
+
+    const url = `http://localhost:8080/pedido/buscar?&year1=${year1}&month1=${month1}&year2=${year2}&month2=${month2}&page=${this.currentPage}`;
+
     fetch(url, {
       method: 'GET',
       headers: {
@@ -71,22 +83,22 @@ export class HomePage implements OnInit {
       })
       .then(data => {
         console.log("Respuesta completa:", data);
-    
+
         if (typeof data === "string") {
-            data = JSON.parse(data);  //Si la API devuelve texto, lo convierte en JSON
-            console.log("Convertido a JSON:", data);
+          data = JSON.parse(data);  //Si la API devuelve texto, lo convierte en JSON
+          console.log("Convertido a JSON:", data);
         }
-    
-        if (Array.isArray(data)) {  
-            this.pedidos = data;  //Si es un array, lo usa
-        } else if (data && data.content) {  
-            this.pedidos = data.content;  // Si tiene content, lo usa
-            this.totalPages = data.totalPages || 1;
-            this.pageOptions = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+
+        if (Array.isArray(data)) {
+          this.pedidos = data;  //Si es un array, lo usa
+        } else if (data && data.content) {
+          this.pedidos = data.content;  // Si tiene content, lo usa
+          this.totalPages = data.totalPages || 1;
+          this.pageOptions = Array.from({ length: this.totalPages }, (_, i) => i + 1);
         } else {
-            console.warn("Formato de datos inesperado:", data);
+          console.warn("Formato de datos inesperado:", data);
         }
-    })
+      })
   }
 
   changePage(direction: string) {
@@ -117,7 +129,7 @@ export class HomePage implements OnInit {
 
   goToPedidoDetalle(pedido: any) {
     this.router.navigate(['/pedido-detalle'], {
-      state: { 
+      state: {
         pedidoId: pedido.id,  // El id del pedido
         cliente: pedido.cliente  // El objeto completo cliente
       }
@@ -132,10 +144,16 @@ export class HomePage implements OnInit {
     this.router.navigate(['/ajustes']);
   }
 
-  logOut() { 
+  logOut() {
     localStorage.removeItem('accessToken');  // Eliminar el token del localStorage
     localStorage.removeItem('refreshToken');  // Eliminar el refresh token del localStorage
     localStorage.removeItem('role');  // Eliminar el rol del localStorage
     this.router.navigate(['/login']);  // Redirigir a la página de login
+  }
+
+  getFechaInicioMasUnMes(){
+    const fechaInicio = new Date(this.fechaInicio);  // Crear un objeto Date a partir de la cadena de fecha
+    fechaInicio.setMonth(fechaInicio.getMonth() + 1);  // Sumar un mes a la fecha
+    return fechaInicio.toISOString();  // Devolver la fecha en formato YYYY-MM-DD
   }
 }

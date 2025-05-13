@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton,
-   IonButtons, IonBackButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
+   IonButtons, IonBackButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonFooter } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
      IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton, IonButtons, IonBackButton,
-     IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle]
+     IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonFooter]
 })
 export class PedidoDetallePage implements OnInit {
 
@@ -70,5 +70,41 @@ export class PedidoDetallePage implements OnInit {
             console.warn("Formato de datos inesperado:", data);
         }
     })
+  }
+
+  generarPDF() {
+    const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
+    if (!token) {
+      console.log('No se encontró el token de acceso');
+      return;
+    }
+
+    const url = `http://localhost:8080/pedido/factura/${this.pedidoId}/pdf`;  // URL de la API para generar PDF
+    
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error en la solicitud');
+        }
+        return response.blob();  // Convierte la respuesta en un blob
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);  // Crea un objeto URL para el blob
+        const a = document.createElement('a');  // Crea un elemento <a> para descargar el archivo
+        a.href = url;
+        a.download = `pedido_${this.pedidoId}.pdf`;  // Nombre del archivo PDF
+        document.body.appendChild(a);  // Añade el elemento al DOM
+        a.click();  // Simula un clic para descargar el archivo
+        a.remove();  // Elimina el elemento del DOM
+      })
+      .catch(error => {
+        console.error('Error al generar el PDF:', error);
+      });
   }
 }
