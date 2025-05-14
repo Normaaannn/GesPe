@@ -80,4 +80,12 @@ export const routes: Routes = [
     path: 'info-empresa',
     loadComponent: () => import('./pages/ajustes/info-empresa/info-empresa.page').then( m => m.InfoEmpresaPage)
   },
+  {
+    path: 'recover-password',
+    loadComponent: () => import('./pages/recover-password/recover-password.page').then( m => m.RecoverPasswordPage)
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () => import('./pages/recover-password/reset-password/reset-password.page').then( m => m.ResetPasswordPage)
+  },
 ];
