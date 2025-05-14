@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { TabsComponent } from 'src/app/components/tabs/tabs.component';
 import { ViewWillEnter } from '@ionic/angular';
+import { environment } from 'src/environments/environment.prod';
 
 import { addIcons } from 'ionicons';
 import { add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe, settingsSharp, ellipsisVertical, logOutOutline } from 'ionicons/icons';
@@ -51,7 +52,7 @@ export class HomePage implements OnInit {
       this.loadPedidos();
       this.dataLoaded = true;  // Marcar como cargado para evitar recargas innecesarias
     }
-    this.fechaFin = this.getFechaInicioMasUnMes();
+    this.fechaFin = this.getFechaMinMax(false);
   }
 
   loadPedidos() {
@@ -66,7 +67,7 @@ export class HomePage implements OnInit {
     let month2 = new Date(this.fechaFin).getMonth() + 1;  // Obtener el mes de la fecha de fin (1-12)
     let year2 = new Date(this.fechaFin).getFullYear();  // Obtener el año de la fecha de fin (YYYY)
 
-    const url = `http://localhost:8080/pedido/buscar?&year1=${year1}&month1=${month1}&year2=${year2}&month2=${month2}&page=${this.currentPage}`;
+    const url = environment.apiUrl + `/pedido/buscar?&year1=${year1}&month1=${month1}&year2=${year2}&month2=${month2}&page=${this.currentPage}`;
 
     fetch(url, {
       method: 'GET',
@@ -151,9 +152,16 @@ export class HomePage implements OnInit {
     this.router.navigate(['/login']);  // Redirigir a la página de login
   }
 
-  getFechaInicioMasUnMes(){
-    const fechaInicio = new Date(this.fechaInicio);  // Crear un objeto Date a partir de la cadena de fecha
-    fechaInicio.setMonth(fechaInicio.getMonth() + 1);  // Sumar un mes a la fecha
-    return fechaInicio.toISOString();  // Devolver la fecha en formato YYYY-MM-DD
+  //Metodo para sacar las fechas minimas y maximas para los selectores de fecha
+  getFechaMinMax(booleano: boolean = false): string {
+    if (booleano) {
+      const fechaFin = new Date(this.fechaFin);  // Crear un objeto Date a partir de la cadena de fecha
+      fechaFin.setMonth(fechaFin.getMonth() - 1);  // Sumar un mes a la fecha
+      return fechaFin.toISOString();  // Devolver la fecha en formato YYYY-MM-DD
+    } else {
+      const fechaInicio = new Date(this.fechaInicio);  // Crear un objeto Date a partir de la cadena de fecha
+      fechaInicio.setMonth(fechaInicio.getMonth() + 1);  // Sumar un mes a la fecha
+      return fechaInicio.toISOString();  // Devolver la fecha en formato YYYY-MM-DD
+    }
   }
 }

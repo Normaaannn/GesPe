@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
 import { IonInput, IonItem, IonList } from '@ionic/angular/standalone';
 import { IonButton } from '@ionic/angular/standalone';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-cliente-add',
@@ -63,7 +64,7 @@ export class ClienteAddPage implements OnInit {
       return;
     }
 
-    fetch('http://localhost:8080/cliente', {
+    fetch(environment.apiUrl + '/cliente', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

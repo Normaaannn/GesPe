@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton,
    IonButtons, IonBackButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonFooter } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-pedido-detalle',
@@ -39,7 +40,7 @@ export class PedidoDetallePage implements OnInit {
       return;
     }
 
-    const url = `http://localhost:8080/pedidos/${this.pedidoId}/detalles`;  // URL de la API con paginación
+    const url = environment.apiUrl + `/pedidos/${this.pedidoId}/detalles`;  // URL de la API con paginación
     
     fetch(url, {
       method: 'GET',
@@ -79,7 +80,7 @@ export class PedidoDetallePage implements OnInit {
       return;
     }
 
-    const url = `http://localhost:8080/pedido/factura/${this.pedidoId}/pdf`;  // URL de la API para generar PDF
+    const url = environment.apiUrl + `/pedido/factura/${this.pedidoId}/pdf`;  // URL de la API para generar PDF
     
     fetch(url, {
       method: 'GET',

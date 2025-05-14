@@ -34,14 +34,14 @@
   <!-- Modales fecha -->
   <ion-modal [keepContentsMounted]="true">
     <ng-template>
-      <ion-datetime id="fechaInicio" [(ngModel)]="fechaInicio" (ionChange)="loadPedidos()" presentation="month-year" [showDefaultButtons]="true"
+      <ion-datetime id="fechaInicio" [(ngModel)]="fechaInicio" [max]="getFechaMinMax(true)" (ionChange)="loadPedidos()" presentation="month-year" [showDefaultButtons]="true"
         doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
     </ng-template>
   </ion-modal>
 
   <ion-modal [keepContentsMounted]="true">
     <ng-template>
-      <ion-datetime id="fechaFin" [(ngModel)]="fechaFin" [min]="getFechaInicioMasUnMes()" (ionChange)="loadPedidos()" presentation="month-year"
+      <ion-datetime id="fechaFin" [(ngModel)]="fechaFin" [min]="getFechaMinMax(false)" (ionChange)="loadPedidos()" presentation="month-year"
         [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
     </ng-template>
   </ion-modal>

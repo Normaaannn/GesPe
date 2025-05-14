@@ -5,6 +5,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonItem, IonLab
 import { ProductoSearchModalComponent } from './producto-search-modal/producto-search-modal.component';
 import { ClienteSearchModalComponent } from './cliente-search-modal/cliente-search-modal.component';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-pedido-add',
@@ -118,7 +119,7 @@ export class PedidoAddPage implements OnInit {
       return;
     }
 
-    fetch('http://localhost:8080/pedido', {
+    fetch(environment.apiUrl + '/pedido', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -147,7 +148,7 @@ export class PedidoAddPage implements OnInit {
   }
 
   crearDetalles(token2: any, id: any, productos: any[]) {
-  const url = `http://localhost:8080/pedidos/${id}/detalles`;
+  const url = environment.apiUrl + `/pedidos/${id}/detalles`;
 
   // Crear un array de detalles a partir de los productos
   const detalles = productos.map(producto => ({

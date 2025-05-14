@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonSearchbar, IonList, IonItem, IonLabel, IonButton, IonHeader, IonToolbar, IonButtons, IonTitle, IonContent, ModalController, IonSelectOption } from '@ionic/angular/standalone';
 import { TabsComponent } from 'src/app/components/tabs/tabs.component';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-cliente-search-modal',
@@ -37,10 +38,10 @@ export class ClienteSearchModalComponent  implements OnInit {
     let url = '';
   if (searchType === 1) {
     // Si searchType es 1, usamos la URL para cargar todos los pedidos
-    url = `http://localhost:8080/cliente/page/${this.currentPage}`;
+    url = environment.apiUrl + `/cliente/activos/page/${this.currentPage}`;
   } else if (searchType === 2) {
     // Si searchType es 2, usamos la URL para cargar pedidos según el searchbar
-    url = `http://localhost:8080/cliente/buscar/${this.searchTerm}/${this.currentPage}`; // Asegúrate de que esta URL sea la correcta
+    url = environment.apiUrl + `/cliente/buscar/activos/${this.searchTerm}/page/${this.currentPage}`; // Asegúrate de que esta URL sea la correcta
   }
     
     fetch(url, {

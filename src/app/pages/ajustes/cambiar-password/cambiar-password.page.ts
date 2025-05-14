@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonLabel, IonButton, IonInput, IonBackButton, IonButtons } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-cambiar-password',
@@ -45,7 +46,7 @@ export class CambiarPasswordPage implements OnInit {
       return;
     }
 
-    const url = `http://localhost:8080/usuario/actualizarPassword`; // URL de la API para actualizar el cliente
+    const url = environment.apiUrl + `/usuario/actualizarPassword`; // URL de la API para actualizar el cliente
 
     fetch(url, {
       method: 'PATCH',

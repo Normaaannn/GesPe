@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonLabel, IonButton, IonAlert } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-usuario-detalle',
@@ -61,7 +62,7 @@ export class UsuarioDetallePage implements OnInit {
       return;
     }
 
-    const url = `http://localhost:8080/usuario/${this.usuario.id}/darRolUsuario`; // URL de la API para actualizar el cliente
+    const url = environment.apiUrl + `/usuario/${this.usuario.id}/darRolUsuario`; // URL de la API para actualizar el cliente
 
     fetch(url, {
       method: 'PATCH',
@@ -92,7 +93,7 @@ export class UsuarioDetallePage implements OnInit {
       return;
     }
 
-    const url = `http://localhost:8080/usuario/${this.usuario.id}/banear`; // URL de la API para actualizar el cliente
+    const url = environment.apiUrl + `/usuario/${this.usuario.id}/banear`; // URL de la API para actualizar el cliente
 
     fetch(url, {
       method: 'PATCH',

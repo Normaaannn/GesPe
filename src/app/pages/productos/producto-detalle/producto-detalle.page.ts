@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
 import { IonInput, IonItem, IonList } from '@ionic/angular/standalone';
 import { IonButton } from '@ionic/angular/standalone';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-producto-detalle',
@@ -140,7 +141,7 @@ export class ProductoDetallePage implements OnInit {
       return;
     }
 
-    const url = `http://localhost:8080/producto/${this.productoID}`; // URL de la API para actualizar el cliente
+    const url = environment.apiUrl + `/producto/${this.productoID}`; // URL de la API para actualizar el cliente
 
     fetch(url, {
       method: 'PATCH',
@@ -198,7 +199,7 @@ export class ProductoDetallePage implements OnInit {
       return;
     }
 
-    const url = `http://localhost:8080/producto/${this.productoID}/desactivar`; // URL de la API para actualizar el cliente
+    const url = environment.apiUrl + `/producto/${this.productoID}/desactivar`; // URL de la API para actualizar el cliente
 
     fetch(url, {
       method: 'PATCH',
@@ -229,7 +230,7 @@ export class ProductoDetallePage implements OnInit {
       return;
     }
 
-    const url = `http://localhost:8080/producto/${this.productoID}/activar`; // URL de la API para actualizar el cliente
+    const url = environment.apiUrl + `/producto/${this.productoID}/activar`; // URL de la API para actualizar el cliente
 
     fetch(url, {
       method: 'PATCH',

@@ -7,9 +7,11 @@ IonSegment, IonSegmentButton, IonButtons, IonBackButton } from '@ionic/angular/s
 import { Router } from '@angular/router';
 import { TabsComponent } from 'src/app/components/tabs/tabs.component';
 import { ViewWillEnter } from '@ionic/angular';
+import { environment } from 'src/environments/environment.prod';
 
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
+import { i } from '@angular/core/weak_ref.d-Bp6cSy-X';
 
 @Component({
   selector: 'app-usuarios',
@@ -60,26 +62,26 @@ export class UsuariosPage implements OnInit {
     // Si searchType es 1, usamos la URL para cargar todos los pedidos
     switch (botonSegment) {
       case 1:
-        url = `http://localhost:8080/usuario/user/page/${this.currentPage}`; // URL para cargar todos los pedidos activos
+        url = environment.apiUrl + `/usuario/user/page/${this.currentPage}`; // URL para cargar todos los pedidos activos
         break;
       case 2:
-        url = `http://localhost:8080/usuario/guest/page/${this.currentPage}`; // URL para cargar todos los pedidos inactivos
+        url = environment.apiUrl + `/usuario/guest/page/${this.currentPage}`; // URL para cargar todos los pedidos inactivos
         break;
       case 3:
-        url = `http://localhost:8080/usuario/page/${this.currentPage}`; // URL para cargar todos los pedidos bloqueados
+        url = environment.apiUrl + `/usuario/page/${this.currentPage}`; // URL para cargar todos los pedidos bloqueados
         break;
     }
   } else {
     // Si searchType es 2, usamos la URL para cargar pedidos según el searchbar
     switch (botonSegment) {
       case 1:
-        url = `http://localhost:8080/usuario/buscar/user/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos activos
+        url = environment.apiUrl + `/usuario/buscar/user/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos activos
         break;
       case 2:
-        url = `http://localhost:8080/usuario/buscar/guest/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos inactivos
+        url = environment.apiUrl + `/usuario/buscar/guest/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos inactivos
         break;
       case 3:
-        url = `http://localhost:8080/usuario/buscar/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos bloqueados
+        url = environment.apiUrl + `/usuario/buscar/${this.searchTerm}/page/${this.currentPage}`; // URL para cargar todos los pedidos bloqueados
         break;
     }
   }

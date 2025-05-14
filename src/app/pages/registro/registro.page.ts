@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
 import { IonInput, IonItem, IonList } from '@ionic/angular/standalone';
 import { IonButton } from '@ionic/angular/standalone';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-registro',
@@ -58,7 +59,7 @@ export class RegistroPage implements OnInit {
 
     console.log(this.password);
 
-    fetch('http://localhost:8080/usuario/register', {
+    fetch(environment.apiUrl + '/usuario/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

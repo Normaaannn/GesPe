@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonInput, IonButton } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-reset-password',
@@ -46,7 +47,7 @@ export class ResetPasswordPage implements OnInit {
     }
 
 
-    const url = `http://localhost:8080/usuario/reset-password`; // URL de la API para actualizar el cliente
+    const url = environment.apiUrl + `/usuario/reset-password`; // URL de la API para actualizar el cliente
 
     fetch(url, {
       method: 'POST',

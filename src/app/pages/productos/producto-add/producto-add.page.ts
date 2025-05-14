@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
 import { IonInput, IonItem, IonList } from '@ionic/angular/standalone';
 import { IonButton } from '@ionic/angular/standalone';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-producto-add',
@@ -47,7 +48,7 @@ export class ProductoAddPage implements OnInit {
       return;
     }
 
-    const url = `http://localhost:8080/producto`; // URL de la API para actualizar el cliente
+    const url = environment.apiUrl + `/producto`; // URL de la API para actualizar el cliente
 
     fetch(url, {
       method: 'POST',

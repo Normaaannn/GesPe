@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonItem, IonInput } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-recover-password',
@@ -42,7 +43,7 @@ export class RecoverPasswordPage implements OnInit {
       return; // No envía si hay campos vacíos
     }
 
-    fetch('http://localhost:8080/usuario/forgot-password', {
+    fetch(environment.apiUrl + '/usuario/forgot-password', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

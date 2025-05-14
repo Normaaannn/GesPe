@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
 import { IonInput, IonItem, IonList } from '@ionic/angular/standalone';
 import { IonButton } from '@ionic/angular/standalone';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-cliente-detalle',
@@ -162,7 +163,7 @@ export class ClienteDetallePage implements OnInit {
       return;
     }
 
-    const url = `http://localhost:8080/cliente/${this.clienteID}`; // URL de la API para actualizar el cliente
+    const url = environment.apiUrl + `/cliente/${this.clienteID}`; // URL de la API para actualizar el cliente
 
     fetch(url, {
       method: 'PATCH',
@@ -236,7 +237,7 @@ export class ClienteDetallePage implements OnInit {
       return;
     }
 
-    const url = `http://localhost:8080/cliente/${this.clienteID}/desactivar`; // URL de la API para actualizar el cliente
+    const url = environment.apiUrl + `/cliente/${this.clienteID}/desactivar`; // URL de la API para actualizar el cliente
 
     fetch(url, {
       method: 'PATCH',
@@ -267,7 +268,7 @@ export class ClienteDetallePage implements OnInit {
       return;
     }
 
-    const url = `http://localhost:8080/cliente/${this.clienteID}/activar`; // URL de la API para actualizar el cliente
+    const url = environment.apiUrl + `/cliente/${this.clienteID}/activar`; // URL de la API para actualizar el cliente
 
     fetch(url, {
       method: 'PATCH',
