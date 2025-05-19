@@ -28,7 +28,7 @@ export class ProductoAddPage implements OnInit {
   descripcion = '';
   precioNeto = '';
   iva = '';
-  precioBruto = '';
+  precioBruto = 0;
   formSubmitted = false;
 
   get formInvalid() {
@@ -81,4 +81,10 @@ export class ProductoAddPage implements OnInit {
   cancelar() {
     this.router.navigate(['/productos']);
   }
+
+  actualizarPrecioBruto() {
+  const neto = parseFloat(this.precioNeto as any) || 0;
+  const ivaPorcentaje = parseFloat(this.iva as any) || 0;
+  this.precioBruto = parseFloat((neto * (1 + ivaPorcentaje / 100)).toFixed(2));
+}
 }

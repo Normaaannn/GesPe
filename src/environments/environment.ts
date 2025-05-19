@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  //apiUrl: 'https://api-spring-gespe.onrender.com'
   apiUrl: 'http://192.168.242.46:8080'
 };
 

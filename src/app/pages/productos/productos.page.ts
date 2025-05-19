@@ -21,7 +21,7 @@ import { add } from 'ionicons/icons';
     IonSelect, IonSelectOption, IonItem, IonLabel, IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, 
   TabsComponent, IonFooter, IonFab, IonFabButton, IonSearchbar, IonSegment, IonSegmentButton]
 })
-export class ProductosPage implements OnInit {
+export class ProductosPage implements ViewWillEnter {
 
   productos: any[] = [];
   searchTerm: string = '';  // Variable para almacenar el término de búsqueda
@@ -44,12 +44,8 @@ export class ProductosPage implements OnInit {
     addIcons({ add });
   }
 
-  ngOnInit() {
-    if (!this.dataLoaded) {
-    console.log('Datos cargados');
+  ionViewWillEnter() {
     this.loadProductos();
-    this.dataLoaded = true;  // Marcar como cargado para evitar recargas innecesarias
-    }
   }
 
   loadProductos(botonSegment: number = this.segmentButton) {

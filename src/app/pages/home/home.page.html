@@ -18,6 +18,19 @@
     </ion-fab-button>
   </ion-fab>
 
+  <ion-fab vertical="top" horizontal="end" slot="fixed" style="top: -55px;">
+  <ion-fab-button (click)="isMenuOpen = !isMenuOpen" class="boton-opciones" style="padding: 0; overflow: visible;">
+    <ion-avatar style="height: 40px; width: 40px;">
+      <img alt="Avatar" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </ion-avatar>
+  </ion-fab-button>
+
+  <div *ngIf="isMenuOpen" class="menu-opciones">
+    <ion-button fill="clear" expand="block" (click)="goToAjustes()" style="border-bottom: 1px solid grey; margin-inline: 20px">Ajustes</ion-button>
+    <ion-button fill="clear" expand="block" (click)="logOut()" color="danger" style="margin-top: 5px">Cerrar sesión</ion-button>
+  </div>
+</ion-fab>
+
   <!-- Botones de fecha -->
   <ion-row>
     <ion-col size="6">
@@ -47,10 +60,13 @@
   </ion-modal>
 
 
-  <!-- Boton desplegable ajustes -->
-  <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="true" style="top: -25px">
+  <!-- 
+  <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="true" style="top: -27px">
     <ion-fab-button class="boton-opciones">
-      <ion-icon name="ellipsis-vertical" class="icon-opciones"></ion-icon>
+      // <ion-icon name="ellipsis-vertical" class="icon-opciones"></ion-icon>
+       <ion-avatar style="height: 40px; width: 40px">
+        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
+      </ion-avatar>
     </ion-fab-button>
     <ion-fab-list side="bottom">
       <ion-fab-button>
@@ -60,15 +76,15 @@
         <ion-icon name="log-out-outline" (click)="logOut()"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
-  </ion-fab>
+  </ion-fab> -->
 
   <!-- Lista de Pedidos -->
   <ion-list>
     <ion-item *ngFor="let pedido of pedidos" [button]="true" (click)="goToPedidoDetalle(pedido)">
       <ion-label>
         <h2>Pedido #{{ pedido.id }}</h2>
-        <p>Cliente: {{ pedido.cliente.nombre }}</p>
-        <p>Total: {{ pedido.total }} €</p>
+        <p>Cliente: {{ pedido.cliente.nombre }} {{ pedido.cliente.apellidos }}</p>
+        <p>Total: {{ pedido.total | number: '1.2-2' }} €</p>
       </ion-label>
     </ion-item>
   </ion-list>

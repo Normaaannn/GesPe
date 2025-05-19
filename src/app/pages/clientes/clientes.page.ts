@@ -21,7 +21,7 @@ import { add } from 'ionicons/icons';
     IonSelect, IonSelectOption, IonItem, IonLabel, IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, 
   TabsComponent, IonFooter, IonFab, IonFabButton, IonSearchbar, IonSegment, IonSegmentButton]
 })
-export class ClientesPage implements OnInit {
+export class ClientesPage implements ViewWillEnter {
   clientes: any[] = [];
   searchTerm: string = '';  // Variable para almacenar el término de búsqueda
   currentPage: number = 1;
@@ -29,7 +29,6 @@ export class ClientesPage implements OnInit {
   pageSize: number = 20;  // Definir el tamaño de la página
   pageOptions: number[] = [];
   segmentButton: number = 1; // Variable para almacenar el botón actual del segmento
-  dataLoaded: boolean = false; // Variable para controlar si los datos han sido cargados
 
   handleRefresh(event: CustomEvent) {
     setTimeout(() => {
@@ -43,13 +42,9 @@ export class ClientesPage implements OnInit {
     addIcons({ add });
   }
 
-  ngOnInit() {
-    if (!this.dataLoaded) {
-    console.log('Datos cargados');
+  ionViewWillEnter() {
     this.loadClientes();
-    this.dataLoaded = true;  // Marcar como cargado para evitar recargas innecesarias
     }
-  }
 
   loadClientes(botonSegment: number = this.segmentButton) {
     this.segmentButton = botonSegment;  // Actualizar el botón del segmento

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonItem, IonLabel } from '@ionic/angular/standalone';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,16 +20,20 @@ export class AjustesPage implements OnInit {
   }
 
   goToCambiarPass() {
-    this.router.navigate(['/cambiar-password']);  
+    this.router.navigate(['/cambiar-password']);
   }
 
-  goToCambiarInfoEmpresa() { 
-    this.router.navigate(['/info-empresa']);  
+  goToCambiarAvatar() {
+    this.router.navigate(['/cambiar-avatar']);
+  }
+
+  goToCambiarInfoEmpresa() {
+    this.router.navigate(['/info-empresa']);
 
   }
 
-  goToVerUsuarios() {   
-    this.router.navigate(['/usuarios']);   
+  goToVerUsuarios() {
+    this.router.navigate(['/usuarios']);
   }
 
   comprobarRol() {

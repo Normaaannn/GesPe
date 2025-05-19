@@ -8,31 +8,36 @@
   <form #clienteForm="ngForm" (ngSubmit)="addProducto()" class="addProducto">
 
     <ion-item [class.invalid]="!nombre && formSubmitted">
-      <ion-input type="text" [(ngModel)]="nombre" placeholder="Nombre" name="nombre" label = "Nombre" labelPlacement="floating" required></ion-input>
+      <ion-input type="text" [(ngModel)]="nombre" placeholder="Nombre" name="nombre" label="Nombre"
+        labelPlacement="floating" required></ion-input>
     </ion-item>
 
     <ion-item [class.invalid]="!descripcion && formSubmitted">
-      <ion-input type="text" [(ngModel)]="descripcion" placeholder="Descripción" name="descripcion" label = "Descripción" labelPlacement="floating" required></ion-input>
+      <ion-input type="text" [(ngModel)]="descripcion" placeholder="Descripción" name="descripcion" label="Descripción"
+        labelPlacement="floating" required></ion-input>
     </ion-item>
 
     <ion-item [class.invalid]="!precioNeto && formSubmitted">
-      <ion-input type="number" [(ngModel)]="precioNeto" placeholder="Precio neto" name="precioNeto" label = "Precio neto" labelPlacement="floating" required></ion-input>
-    </ion-item>   
+      <ion-input type="number" [(ngModel)]="precioNeto" (ngModelChange)="actualizarPrecioBruto()"
+        placeholder="Precio neto" name="precioNeto" label="Precio neto" labelPlacement="floating" required></ion-input>
+    </ion-item>
 
     <ion-item [class.invalid]="!iva && formSubmitted">
-      <ion-input type="number" [(ngModel)]="iva" placeholder="I.V.A." name="iva" label = "I.V.A." labelPlacement="floating" required></ion-input>
+      <ion-input type="number" [(ngModel)]="iva" (ngModelChange)="actualizarPrecioBruto()" placeholder="I.V.A."
+        name="iva" label="I.V.A." labelPlacement="floating" required></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input type="text" [(ngModel)]="precioBruto" readonly placeholder="Precio bruto" name="precioBruto" label = "Precio Bruto" labelPlacement="floating"></ion-input>€
+      <ion-label position="stacked">Precio Bruto</ion-label>
+      <div class="precio-bruto">{{ precioBruto }} €</div>
     </ion-item>
-    
 
-  
+
+
     <ion-button expand="block" type="submit" class="boton-añadir" [class.disabled]="formInvalid">
       Añadir producto
     </ion-button>
-  
+
     <ion-button expand="block" class="boton-cancelar" (click)="cancelar()">
       Cancelar
     </ion-button>

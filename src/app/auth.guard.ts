@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
@@ -47,7 +48,7 @@ export class AuthGuard implements CanActivate {
     }
   
     try {
-      const response = await fetch('http://localhost:8080/auth/refresh', {
+      const response = await fetch(environment.apiUrl + '/auth/refresh', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,0 +1,18 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/ajustes"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
+    </ion-buttons>
+    <ion-title>Cambiar-avatar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-avatar *ngIf="avatarUrl" style="width: 100px; height: 100px; margin-bottom: 20px;">
+    <img [src]="avatarUrl" />
+  </ion-avatar>
+
+  <ion-button expand="block" (click)="selectImage()">Seleccionar Avatar</ion-button>
+
+  <input type="file" #fileInput accept="image/*" style="display:none" (change)="uploadImage($event)" />
+</ion-content>

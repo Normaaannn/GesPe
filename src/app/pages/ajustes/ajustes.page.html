@@ -13,6 +13,10 @@
     <ion-label>
       Cambiar contraseña</ion-label>
   </ion-item>
+  <ion-item [button]="true" (click)="goToCambiarAvatar()">
+    <ion-label>
+      Cambiar avatar</ion-label>
+  </ion-item>
   <ion-item *ngIf="comprobarRol()" [button]="true" (click)="goToCambiarInfoEmpresa()">
     <ion-label>Cambiar información de la empresa</ion-label>
   </ion-item>

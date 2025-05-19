@@ -21,7 +21,7 @@
     </ion-item>
   
 
-  <ion-button expand="full" (click)="abrirBusquedaCliente()">{{ cliente ? 'Cambiar Cliente' : 'Añadir Cliente' }}</ion-button>
+  <ion-button class="boton-añadir-cliente" expand="full" (click)="abrirBusquedaCliente()">{{ cliente ? 'Cambiar Cliente' : 'Añadir Cliente' }}</ion-button>
 
 
   <ion-list>
@@ -29,9 +29,9 @@
     <ion-item *ngFor="let producto of productosSeleccionados; let i = index">
       <ion-label>
         {{ producto.nombre }}<br>
-        Precio Neto: {{ producto.precioNeto }} €<br>
-        IVA: {{ producto.iva }}%<br>      
-        <ion-input label="Cantidad" [(ngModel)]="producto.cantidad" (ngModelChange)="actualizarSubtotal(i)" type="number" min="1" style="max-width: 200px;"></ion-input><br>
+        <ion-input label="Precio Neto:" [(ngModel)]="producto.precioNeto"  (ionBlur)="actualizarSubtotal(i)" (ionFocus)="guardarValorAnterior(i)" type="number" min="1" pattern="^[0-9]*[.,]?[0-9]*$" style="max-width: 200px;"></ion-input>
+        <ion-input label="Cantidad:" [(ngModel)]="producto.cantidad"  (ionBlur)="actualizarSubtotal(i)" (ionFocus)="guardarValorAnterior(i)" type="number" min="1" pattern="^[0-9]*[.,]?[0-9]*$" style="max-width: 200px;"></ion-input>
+        IVA: {{ producto.iva }}%<br>  
         Subtotal: {{ producto.subtotal }} €
       </ion-label>
       <!-- Campo para cambiar cantidad -->
@@ -41,7 +41,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-button expand="full" (click)="abrirBusquedaProducto()">Añadir Producto</ion-button>
+  <ion-button class="boton-añadir-producto" expand="full" (click)="abrirBusquedaProducto()">Añadir Producto</ion-button>
 
   <!-- Total del pedido -->
   <ion-item>

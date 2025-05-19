@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment.prod';
 
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
-import { i } from '@angular/core/weak_ref.d-Bp6cSy-X';
+
 
 @Component({
   selector: 'app-usuarios',
@@ -22,7 +22,7 @@ import { i } from '@angular/core/weak_ref.d-Bp6cSy-X';
     IonSelect, IonSelectOption, IonItem, IonLabel, IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, 
   TabsComponent, IonFooter, IonFab, IonFabButton, IonSearchbar, IonSegment, IonSegmentButton, IonButtons, IonBackButton]
 })
-export class UsuariosPage implements OnInit {
+export class UsuariosPage implements ViewWillEnter {
 
   usuarios: any[] = [];
   searchTerm: string = '';  // Variable para almacenar el término de búsqueda
@@ -44,8 +44,7 @@ export class UsuariosPage implements OnInit {
     addIcons({ add });
   }
 
-  ngOnInit() {
-    console.log('ionViewWillEnter ejecutado');
+  ionViewWillEnter() {
     this.loadUsuarios();
   }
 

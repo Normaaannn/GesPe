@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent, IonHeader, IonButton, IonTitle, IonToolbar, IonSelect, IonSelectOption, IonItem, IonLabel,
   IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent, IonFooter, IonFab, IonFabButton, IonFabList, IonDatetime,
-  IonDatetimeButton, IonModal, IonRow, IonCol
+  IonDatetimeButton, IonModal, IonRow, IonCol, IonAvatar
 } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { TabsComponent } from 'src/app/components/tabs/tabs.component';
@@ -22,17 +22,17 @@ import { add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPal
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton,
     IonSelect, IonSelectOption, IonItem, IonLabel, IonList, IonIcon, IonInput, IonRefresher, IonRefresherContent,
     TabsComponent, IonFooter, IonIcon, IonFab, IonFabButton, IonFabList, IonDatetime, IonDatetimeButton, IonModal,
-    IonRow, IonCol]
+    IonRow, IonCol, IonAvatar]
 })
-export class HomePage implements OnInit {
+export class HomePage implements ViewWillEnter {
   pedidos: any[] = [];
   currentPage: number = 1;
   totalPages: number = 1;
   pageSize: number = 20;  // Definir el tamaño de la página
   pageOptions: number[] = [];
-  dataLoaded: boolean = false;
   fechaInicio: string = new Date().toISOString();
   fechaFin: string = new Date().toISOString();
+  isMenuOpen = false;
 
   handleRefresh(event: CustomEvent) {
     setTimeout(() => {
@@ -46,13 +46,9 @@ export class HomePage implements OnInit {
     addIcons({ add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe, settingsSharp, ellipsisVertical, logOutOutline });
   }
 
-  ngOnInit() {
-    if (!this.dataLoaded) {
-      console.log('Datos cargados');
+  ionViewWillEnter() {
       this.loadPedidos();
-      this.dataLoaded = true;  // Marcar como cargado para evitar recargas innecesarias
-    }
-    this.fechaFin = this.getFechaMinMax(false);
+      this.fechaFin = this.getFechaMinMax(false);
   }
 
   loadPedidos() {
@@ -132,6 +128,7 @@ export class HomePage implements OnInit {
     this.router.navigate(['/pedido-detalle'], {
       state: {
         pedidoId: pedido.id,  // El id del pedido
+        pedidoFecha: pedido.fechaEmision,  // La fecha del pedido
         cliente: pedido.cliente  // El objeto completo cliente
       }
     });

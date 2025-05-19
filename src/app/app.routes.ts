@@ -88,4 +88,8 @@ export const routes: Routes = [
     path: 'reset-password',
     loadComponent: () => import('./pages/recover-password/reset-password/reset-password.page').then( m => m.ResetPasswordPage)
   },
+  {
+    path: 'cambiar-avatar',
+    loadComponent: () => import('./pages/ajustes/cambiar-avatar/cambiar-avatar.page').then( m => m.CambiarAvatarPage)
+  },
 ];

@@ -1,7 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/ajustes"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
+      <ion-back-button defaultHref="/ajustes"></ion-back-button>
+      <!-- Esto redirige a la página home si no hay historial -->
     </ion-buttons>
     <ion-title>Usuarios</ion-title>
   </ion-toolbar>
@@ -11,11 +12,6 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
-
-  <!-- Searchbar -->
-  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="loadUsuarios()" [debounce]="1000"
-    placeholder="Buscar por usuario..."></ion-searchbar>
 
   <!-- Segmento para cambiar entre vista por defecto y vista de segmento -->
   <ion-segment value="usuarios">
@@ -30,11 +26,15 @@
     </ion-segment-button>
   </ion-segment>
 
+  <!-- Searchbar -->
+  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="loadUsuarios()" [debounce]="1000"
+    placeholder="Buscar por usuario..."></ion-searchbar>
+
   <!-- Lista de Clientes -->
   <ion-list>
     <ion-item *ngFor="let usuario of usuarios" [button]="true" (click)="goToUsuarioDetalle(usuario)">
       <ion-label>
-        <h2>Id: {{ usuario.id }}  Username: {{ usuario.username }}</h2>
+        <h2>Id: {{ usuario.id }} Username: {{ usuario.username }}</h2>
         <p>Email: {{ usuario.email }}</p>
       </ion-label>
     </ion-item>

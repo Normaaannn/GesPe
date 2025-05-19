@@ -18,6 +18,7 @@ import { environment } from 'src/environments/environment.prod';
 export class PedidoDetallePage implements OnInit {
 
   pedidoId: number | undefined;
+  pedidoFecha: string | undefined;
   cliente: any;
   detalles: any;
 
@@ -28,6 +29,7 @@ export class PedidoDetallePage implements OnInit {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.pedidoId = navigation.extras.state['pedidoId'];
+      this.pedidoFecha = navigation.extras.state['pedidoFecha'];
       this.cliente = navigation.extras.state['cliente'];
       this.loadDetalles();  // Llama a la función para cargar los detalles del pedido
     }    

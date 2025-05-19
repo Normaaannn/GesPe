@@ -1,6 +1,10 @@
-
+<div [ngClass]="{ 'tabs-arriba': esEscritorio }">
 <ion-tab-bar slot="bottom">
   <!-- Pestaña 1: Pedidos -->
+   <ion-tab-button *ngIf="esEscritorio">
+    <ion-title><b>GesPe</b></ion-title>
+  </ion-tab-button>
+
   <ion-tab-button (click)="navigateTo('/home')" [class.selected]="isActive('/home')">
     <ion-icon [name]="isActive('/home') ? 'file-tray-full' : 'file-tray-full-outline'"></ion-icon>
     <ion-label>Pedidos</ion-label>
@@ -18,3 +22,4 @@
     <ion-label>Productos</ion-label>
   </ion-tab-button>
 </ion-tab-bar>
+</div>
