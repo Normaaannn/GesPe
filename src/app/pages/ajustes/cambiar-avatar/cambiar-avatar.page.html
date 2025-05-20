@@ -13,6 +13,8 @@
   </ion-avatar>
 
   <ion-button expand="block" (click)="selectImage()">Seleccionar Avatar</ion-button>
+  <ion-button expand="block" (click)="guardarAvatar()">Guardar Avatar</ion-button>
+  <ion-button expand="block" (click)="cancelar()">Cancelar</ion-button>
 
   <input type="file" #fileInput accept="image/*" style="display:none" (change)="uploadImage($event)" />
 </ion-content>

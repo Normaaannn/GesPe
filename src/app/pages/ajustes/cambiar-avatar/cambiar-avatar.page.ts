@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonAvatar, IonInput, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.prod';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cambiar-avatar',
@@ -18,7 +19,7 @@ export class CambiarAvatarPage implements OnInit {
 
   avatarUrl: string | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
   }
@@ -78,7 +79,7 @@ export class CambiarAvatarPage implements OnInit {
   reader.readAsDataURL(file);
 }
 
-cambiarAvatar() {
+guardarAvatar() {
     
     const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
     if (!token) {
@@ -102,6 +103,8 @@ cambiarAvatar() {
       .then(data => {
         if (data.trim() === 'Avatar actualizado') {
           alert('Avatar actualizado');
+          localStorage.setItem('avatarUrl', this.avatarUrl || '');
+          this.router.navigate(['/ajustes']);
         } else {
           alert('Error en el registro: ' + data);
         }
@@ -110,6 +113,10 @@ cambiarAvatar() {
         console.error('Error en la solicitud:', error);
         alert('Error en la solicitud');
       });
+  }
+
+  cancelar() {
+    this.router.navigate(['/ajustes']);
   }
 
 }

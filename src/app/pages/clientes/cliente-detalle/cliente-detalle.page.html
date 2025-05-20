@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="centrar">
   <form #clienteForm="ngForm" (ngSubmit)="addCliente()" class="addCliente">
 
     <ion-item [class.invalid]="!nombre && formSubmitted">
@@ -83,4 +84,5 @@
     </ng-container>
   
   </form>
+  </div>
 </ion-content>

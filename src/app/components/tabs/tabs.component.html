@@ -1,25 +1,46 @@
+<ion-fab vertical="top" horizontal="end" slot="fixed" class="avatar">
+  <ion-fab-button (click)="menuAbierto = !menuAbierto" class="boton-opciones" style="padding: 0; overflow: visible;">
+    <ion-avatar style="height: 40px; width: 40px;">
+      <img alt="Avatar" [src]="avatarUrl" />
+    </ion-avatar>
+  </ion-fab-button>
+
+  <div *ngIf="menuAbierto" class="menu-opciones">
+    <ion-button fill="clear" expand="block" (click)="goToAjustes()"
+      style="border-bottom: 1px solid grey; margin-inline: 20px">Ajustes</ion-button>
+    <ion-button fill="clear" expand="block" (click)="logOut()" color="danger" style="margin-top: 5px">Cerrar
+      sesión</ion-button>
+  </div>
+</ion-fab>
+
+
 <div [ngClass]="{ 'tabs-arriba': esEscritorio }">
-<ion-tab-bar slot="bottom">
-  <!-- Pestaña 1: Pedidos -->
-   <ion-tab-button *ngIf="esEscritorio">
-    <ion-title><b>GesPe</b></ion-title>
-  </ion-tab-button>
+  <ion-tab-bar slot="bottom">
+    <!-- Pestaña 1: Pedidos -->
+    <ion-tab-button *ngIf="esEscritorio">
+      <ion-title><b>GesPe</b></ion-title>
+    </ion-tab-button>
 
-  <ion-tab-button (click)="navigateTo('/home')" [class.selected]="isActive('/home')">
-    <ion-icon [name]="isActive('/home') ? 'file-tray-full' : 'file-tray-full-outline'"></ion-icon>
-    <ion-label>Pedidos</ion-label>
-  </ion-tab-button>
+    <ion-tab-button (click)="navigateTo('/home')" [class.selected]="isActive('/home')">
+      <ion-icon [name]="isActive('/home') ? 'home' : 'home-outline'"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
 
-  <!-- Pestaña 2: Clientes -->
-  <ion-tab-button (click)="navigateTo('/clientes');" [class.selected]="isActive('/clientes')">
-    <ion-icon [name]="isActive('/clientes') ? 'people' : 'people-outline'"></ion-icon>
-    <ion-label>Clientes</ion-label>
-  </ion-tab-button>
+    <ion-tab-button (click)="navigateTo('/pedidos')" [class.selected]="isActive('/pedidos')">
+      <ion-icon [name]="isActive('/pedidos') ? 'file-tray-full' : 'file-tray-full-outline'"></ion-icon>
+      <ion-label>Pedidos</ion-label>
+    </ion-tab-button>
 
-  <!-- Pestaña 3: Productos -->
-  <ion-tab-button (click)="navigateTo('/productos')" [class.selected]="isActive('/productos')">
-    <ion-icon [name]="isActive('/productos') ? 'cube' : 'cube-outline'"></ion-icon>
-    <ion-label>Productos</ion-label>
-  </ion-tab-button>
-</ion-tab-bar>
+    <!-- Pestaña 2: Clientes -->
+    <ion-tab-button (click)="navigateTo('/clientes');" [class.selected]="isActive('/clientes')">
+      <ion-icon [name]="isActive('/clientes') ? 'people' : 'people-outline'"></ion-icon>
+      <ion-label>Clientes</ion-label>
+    </ion-tab-button>
+
+    <!-- Pestaña 3: Productos -->
+    <ion-tab-button (click)="navigateTo('/productos')" [class.selected]="isActive('/productos')">
+      <ion-icon [name]="isActive('/productos') ? 'cube' : 'cube-outline'"></ion-icon>
+      <ion-label>Productos</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
 </div>

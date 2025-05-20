@@ -157,7 +157,7 @@ export class PedidoAddPage implements OnInit {
         if (!isNaN(id)) {
           alert('Pedido creado');
           this.crearDetalles(token, id, this.productosSeleccionados);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/pedidos']);
         } else {
           alert('Error en el registro: ' + data);
         }

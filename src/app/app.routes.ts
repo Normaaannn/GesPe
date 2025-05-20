@@ -13,8 +13,12 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/home/home.page').then( m => m.HomePage)
+  },
+  {
+    path: 'pedidos',
+    canActivate: [AuthGuard],
+    loadComponent: () => import('./pages/pedidos/pedidos.page').then( m => m.HomePage)
   },
   {
     path: 'registro',
@@ -23,7 +27,7 @@ export const routes: Routes = [
   {
     path: 'pedido-detalle',
     canActivate: [AuthGuard],
-    loadComponent: () => import('./pages/home/pedido-detalle/pedido-detalle.page').then( m => m.PedidoDetallePage)
+    loadComponent: () => import('./pages/pedidos/pedido-detalle/pedido-detalle.page').then( m => m.PedidoDetallePage)
   },
   {
     path: 'clientes',
@@ -48,7 +52,7 @@ export const routes: Routes = [
   {
     path: 'pedido-add',
     canActivate: [AuthGuard],
-    loadComponent: () => import('./pages/home/pedido-add/pedido-add.page').then( m => m.PedidoAddPage)
+    loadComponent: () => import('./pages/pedidos/pedido-add/pedido-add.page').then( m => m.PedidoAddPage)
   },
   {
     path: 'cliente-add',

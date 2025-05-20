@@ -1,14 +1,14 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
+      <ion-back-button defaultHref="/pedidos"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
     </ion-buttons>
     <ion-title>Crear pedido</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+<div class="centrar">
     <!-- Lista de productos seleccionados para el pedido -->
     <ion-item *ngIf="cliente">
       <ion-label>
@@ -49,7 +49,7 @@
     <ion-text>{{ calcularTotal() }} €</ion-text>
   </ion-item>
 
-  
+</div>
 </ion-content>
 <ion-footer>
 <ion-button class="boton-crear" *ngIf="cliente && productosSeleccionados.length > 0" expand="full" (click)="crearPedido()" color="success">Crear Pedido</ion-button>

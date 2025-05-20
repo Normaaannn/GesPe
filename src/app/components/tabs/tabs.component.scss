@@ -1,13 +1,15 @@
 ion-tab-button.selected {
-    --color-selected: #666565;
-    background-color: rgba(129, 129, 129, 0.75); /* Más opaco */
-    border-radius: 30px; /* Óvalo */
-    padding-left: 15px;
-    padding-right: 15px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
+  --color-selected: #666565;
+  background-color: rgba(129, 129, 129, 0.75);
+  /* Más opaco */
+  border-radius: 30px;
+  /* Óvalo */
+  padding-left: 15px;
+  padding-right: 15px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-  .tabs-arriba ion-tab-bar {
+.tabs-arriba ion-tab-bar {
   position: fixed;
   top: 0;
   bottom: auto;
@@ -21,42 +23,69 @@ ion-tab-button.selected {
 }
 
 .tabs-arriba ion-tab-button.selected {
-    border-radius: 0px;
-  }
+  border-radius: 0px;
+}
 
 //Modo claro
-  @media (prefers-color-scheme: light) {
-    ion-tab-button {
-      color: black;
-    }
-
-    .tabs-arriba ion-icon{
-      display: none;
-    }
-
-    .tabs-arriba ion-label{
-      font-size: 20px;
-      font-weight: 500;
-      margin-top: 5px;
-    }
+@media (prefers-color-scheme: light) {
+  ion-tab-button {
+    color: black;
   }
 
-  //Modo oscuro
-  @media (prefers-color-scheme: dark) {
-    ion-tab-button {
-      color: white;
-    }
-
-    .tabs-arriba ion-icon{
-      display: none;
-    }
-
-    .tabs-arriba ion-label{
-      font-size: 20px;
-      font-weight: 500;
-      margin-top: 5px;
-    }
+  .tabs-arriba ion-icon {
+    display: none;
   }
 
-  
+  .tabs-arriba ion-label {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 5px;
+  }
+}
 
+//Modo oscuro
+@media (prefers-color-scheme: dark) {
+  ion-tab-button {
+    color: white;
+  }
+
+  .tabs-arriba ion-icon {
+    display: none;
+  }
+
+  .tabs-arriba ion-label {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 5px;
+  }
+}
+
+.boton-opciones {
+  --background: transparent;
+  --border-radius: 15px;
+  --box-shadow: none !important;
+  --border: none !important;
+  --color: white;
+}
+
+.menu-opciones {
+  position: absolute;
+  top: 56px;
+  /* justo debajo del avatar */
+  right: 0;
+  background: var(--ion-background-color, white);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  border: 1px solid grey;
+  width: 160px;
+  padding: 8px 0;
+  z-index: 10000;
+}
+
+.avatar {
+  position: fixed;
+  top: 0.1rem;
+  right: 1rem;
+  z-index: 1001;
+  /* asegúrate de que esté por encima del contenido */
+}

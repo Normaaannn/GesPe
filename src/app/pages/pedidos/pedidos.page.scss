@@ -1,0 +1,14 @@
+ion-select {
+    max-width: 120px; /* Ajusta el ancho según necesites */
+    min-width: 80px;
+    width: auto;
+    text-align: center;
+  }
+
+  //Modo claro
+  @media (prefers-color-scheme: light) {
+    .icon-opciones {
+      color: black;
+    }
+  }
+

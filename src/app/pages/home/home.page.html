@@ -1,111 +1,49 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title><b>GesPe</b></ion-title>
+    <ion-title><b>Gespe</b></ion-title>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content [fullscreen]="true">
 
-  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-
-  <!-- Boton crear pedido -->
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed" style="margin-right: 7px; margin-bottom: 7px;">
-    <ion-fab-button (click)="goToAddPedido()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
-  <ion-fab vertical="top" horizontal="end" slot="fixed" style="top: -55px;">
-  <ion-fab-button (click)="isMenuOpen = !isMenuOpen" class="boton-opciones" style="padding: 0; overflow: visible;">
-    <ion-avatar style="height: 40px; width: 40px;">
-      <img alt="Avatar" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-    </ion-avatar>
-  </ion-fab-button>
-
-  <div *ngIf="isMenuOpen" class="menu-opciones">
-    <ion-button fill="clear" expand="block" (click)="goToAjustes()" style="border-bottom: 1px solid grey; margin-inline: 20px">Ajustes</ion-button>
-    <ion-button fill="clear" expand="block" (click)="logOut()" color="danger" style="margin-top: 5px">Cerrar sesión</ion-button>
+  <div>
+    <h1>Total facturado</h1>
+    <h2>{{ mesAnioActual }}</h2>
   </div>
-</ion-fab>
+  <br><br>
+  <div>
+    <h5>Últimos pedidos</h5>
+    <ion-list>
+      <ion-item *ngFor="let pedido of pedidos" [button]="true">
+        <ion-label>
+          <p>Pedido #{{ pedido.id }}</p>
+          <p>Total: {{ pedido.total | number: '1.2-2' }} €</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
 
-  <!-- Botones de fecha -->
-  <ion-row>
-    <ion-col size="6">
-      <p>Desde</p>
-      <ion-datetime-button datetime="fechaInicio"></ion-datetime-button>
-    </ion-col>
-  
-    <ion-col size="6">
-      <p>Hasta</p>
-      <ion-datetime-button datetime="fechaFin"></ion-datetime-button>
-    </ion-col>
-  </ion-row>
+    <h5>Últimos clientes</h5>
+    <ion-list>
+      <ion-item *ngFor="let cliente of clientes" [button]="true">
+        <ion-label>
+          <p>Cliente: {{ cliente.nombre }} {{ cliente.apellidos }}</p>
+          <p>NIF: {{ cliente.nif }} €</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
 
-  <!-- Modales fecha -->
-  <ion-modal [keepContentsMounted]="true">
-    <ng-template>
-      <ion-datetime id="fechaInicio" [(ngModel)]="fechaInicio" [max]="getFechaMinMax(true)" (ionChange)="loadPedidos()" presentation="month-year" [showDefaultButtons]="true"
-        doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
-    </ng-template>
-  </ion-modal>
-
-  <ion-modal [keepContentsMounted]="true">
-    <ng-template>
-      <ion-datetime id="fechaFin" [(ngModel)]="fechaFin" [min]="getFechaMinMax(false)" (ionChange)="loadPedidos()" presentation="month-year"
-        [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
-    </ng-template>
-  </ion-modal>
-
-
-  <!-- 
-  <ion-fab slot="fixed" vertical="top" horizontal="end" [edge]="true" style="top: -27px">
-    <ion-fab-button class="boton-opciones">
-      // <ion-icon name="ellipsis-vertical" class="icon-opciones"></ion-icon>
-       <ion-avatar style="height: 40px; width: 40px">
-        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
-      </ion-avatar>
-    </ion-fab-button>
-    <ion-fab-list side="bottom">
-      <ion-fab-button>
-        <ion-icon name="settings-sharp" (click)="goToAjustes()"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button>
-        <ion-icon name="log-out-outline" (click)="logOut()"></ion-icon>
-      </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab> -->
-
-  <!-- Lista de Pedidos -->
-  <ion-list>
-    <ion-item *ngFor="let pedido of pedidos" [button]="true" (click)="goToPedidoDetalle(pedido)">
-      <ion-label>
-        <h2>Pedido #{{ pedido.id }}</h2>
-        <p>Cliente: {{ pedido.cliente.nombre }} {{ pedido.cliente.apellidos }}</p>
-        <p>Total: {{ pedido.total | number: '1.2-2' }} €</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-
-  <!-- Contenedor de botones de paginación (izquierda a derecha) -->
-  <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px; margin-bottom: 20px;">
-    <!-- Botón de flecha izquierda -->
-    <ion-button (click)="changePage('prev')" [disabled]="currentPage === 1">←</ion-button>
-
-    <!-- Selector de página -->
-    <ion-select [(ngModel)]="currentPage" (ionChange)="loadPedidos()" interface="popover">
-      <ion-select-option *ngFor="let page of pageOptions" [value]="page">{{ page }}</ion-select-option>
-    </ion-select>
-
-    <!-- Botón de flecha derecha -->
-    <ion-button (click)="changePage('next')" [disabled]="currentPage === totalPages">→</ion-button>
+    <h5>Últimos productos</h5>
+    <ion-list>
+      <ion-item *ngFor="let producto of productos" [button]="true">
+        <ion-label>
+          <p>Producto: {{ producto.nombre }} {{ producto.descripcion }}</p>
+          <p>Precio: {{ producto.precioBruto | number: '1.2-2' }} €</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
   </div>
-
 </ion-content>
 
-<!-- Tabs component -->
 <ion-footer>
   <app-tabs></app-tabs>
 </ion-footer>

@@ -49,6 +49,7 @@ export class LoginPage implements OnInit {
         localStorage.setItem('role', data.role); //Guardar el rol del usuario
         console.log('Login exitoso');
         //Redirige al home
+        this.obtenerAvatar();
         this.router.navigate(['/home']);
       } else {
         console.log('Login fallido');
@@ -66,6 +67,36 @@ export class LoginPage implements OnInit {
 
   goToRecuperarPass() {
     this.router.navigate(['/recover-password']);
+  }
+
+  obtenerAvatar() {
+    const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
+    if (!token) {
+      console.log('No se encontró el token de acceso');
+      return;
+    }
+
+    const url = environment.apiUrl + `/usuario/obtenerAvatar`; // URL de la API para obtener el cliente
+
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(response => response.text())
+      .then(avatarUrl => {
+        console.log("Respuesta completa:", avatarUrl);
+        if (avatarUrl) {
+          localStorage.setItem('avatarUrl', avatarUrl);
+        } else {
+          console.log('No se encontró el avatar');
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+      });
   }
 
 }
