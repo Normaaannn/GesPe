@@ -51,8 +51,8 @@ export class UsuarioDetallePage implements OnInit {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.usuario = navigation.extras.state['usuario'];
-      this.esUsuario();
     }
+    this.esUsuario();
   }
 
   darRolUsuario() {
@@ -118,10 +118,12 @@ export class UsuarioDetallePage implements OnInit {
   }
 
   esUsuario() {
-    if (this.usuario.role === 'ROLE_USER') {
+    if (this.usuario.role === 'ROLE_USER' || this.usuario.role === 'ROLE_ADMIN') {
       this.rolUsuario = true;
+      console.log('Es usuario');
     } else {
       this.rolUsuario = false;
+      console.log('No es usuario');
     }
   }
 

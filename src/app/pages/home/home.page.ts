@@ -5,6 +5,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter, IonList, IonIte
 import { TabsComponent } from 'src/app/components/tabs/tabs.component';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
+import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +14,10 @@ import { environment } from 'src/environments/environment.prod';
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, TabsComponent, IonFooter, IonList, IonItem, IonLabel]
 })
-export class HomePage implements OnInit {
+export class HomePage implements ViewWillEnter {
 
   mesAnioActual: string = '';
+  total: number = 0;
   pedidos: any[] = [];
   clientes: any[] = [];
   productos: any[] = [];
@@ -23,7 +25,7 @@ export class HomePage implements OnInit {
 
   constructor(private router: Router) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.mesAnioActual = this.obtenerMesAnioActual();
     this.obtenerTresUltimos();
   }
@@ -48,7 +50,7 @@ obtenerTresUltimos() {
     console.log('No se encontró el token de acceso');
     return;
   }
-  const url = environment.apiUrl + '/misc/tresUltimos'; // Cambia por tu URL real
+  const url = environment.apiUrl + '/misc/datosHome'; // Cambia por tu URL real
 
   fetch(url, {
     method: 'GET',
@@ -68,6 +70,7 @@ obtenerTresUltimos() {
 
       // Asignar directamente los datos si existen
       if (data) {
+        this.total = data.total || 0;
         this.pedidos = data.pedidos || [];
         this.clientes = data.clientes || [];
         this.productos = data.productos || [];

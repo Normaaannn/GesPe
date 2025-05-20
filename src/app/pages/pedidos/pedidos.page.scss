@@ -1,14 +1,21 @@
 ion-select {
-    max-width: 120px; /* Ajusta el ancho según necesites */
-    min-width: 80px;
-    width: auto;
-    text-align: center;
-  }
+  max-width: 120px;
+  /* Ajusta el ancho según necesites */
+  min-width: 80px;
+  width: auto;
+  text-align: center;
+}
 
-  //Modo claro
-  @media (prefers-color-scheme: light) {
-    .icon-opciones {
-      color: black;
-    }
+//Modo claro
+@media (prefers-color-scheme: light) {
+  .icon-opciones {
+    color: black;
   }
+}
 
+.fecha {
+  max-width: 768px;
+  width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}

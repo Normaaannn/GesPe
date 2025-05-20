@@ -17,7 +17,7 @@
 <div [ngClass]="{ 'tabs-arriba': esEscritorio }">
   <ion-tab-bar slot="bottom">
     <!-- Pestaña 1: Pedidos -->
-    <ion-tab-button *ngIf="esEscritorio">
+    <ion-tab-button *ngIf="esEscritorio" (click)="navigateTo('/home')">
       <ion-title><b>GesPe</b></ion-title>
     </ion-tab-button>
 

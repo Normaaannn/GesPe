@@ -1,16 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title><b>Gespe</b></ion-title>
+    <ion-title><b>GesPe</b></ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
   <div>
-    <h1>Total facturado</h1>
-    <h2>{{ mesAnioActual }}</h2>
+    <h1><b>Total facturado</b></h1>
+    <h2><b>{{ mesAnioActual }} {{ total | number: '1.2-2' }} €</b></h2>
   </div>
-  <br><br>
+  <br>
   <div>
     <h5>Últimos pedidos</h5>
     <ion-list>
