@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, ToastController } from '@ionic/angular/standalone';
 import { IonInput, IonItem, IonList } from '@ionic/angular/standalone';
 import { IonButton } from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment.prod';
@@ -77,7 +77,7 @@ export class InfoEmpresaPage implements OnInit {
   ];
 
 
-  constructor(private router : Router) { }
+  constructor(private router : Router, private toastController: ToastController) { }
 
   ngOnInit() {
     // Accede al estado de la navegación para obtener el pedidoId y cliente
@@ -134,7 +134,7 @@ export class InfoEmpresaPage implements OnInit {
     .then(response => response.text())
     .then(data => {
       if (data.trim() === 'Información actualizada') {
-        alert('Información actualizada');
+        this.presentToast('Información actualizada');
 
         this.nombre = this.nombreForm;
         this.apellidos = this.apellidosForm;
@@ -244,6 +244,16 @@ export class InfoEmpresaPage implements OnInit {
     this.ciudadForm = this.ciudad;
     this.codigoPostalForm = this.codigoPostal;
     this.paisForm = this.pais;
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+    });
+
+    await toast.present();
   }
 
 }

@@ -60,6 +60,7 @@ export class TabsComponent implements OnInit {
     this.avatarUrl = localStorage.getItem('avatarUrl');  // Obtener el avatar desde el localStorage
     if (!this.avatarUrl) {
       this.avatarUrl = "https://ionicframework.com/docs/img/demos/avatar.svg";
+      alert("No se ha encontrado el avatar, se usará el predeterminado.");
     }
   }
 
@@ -71,7 +72,10 @@ export class TabsComponent implements OnInit {
     localStorage.removeItem('accessToken');  // Eliminar el token del localStorage
     localStorage.removeItem('refreshToken');  // Eliminar el refresh token del localStorage
     localStorage.removeItem('role');  // Eliminar el rol del localStorage
-    this.router.navigate(['/login']);  // Redirigir a la página de login
+    localStorage.removeItem('avatarUrl');  // Eliminar el avatar del localStorage
+    this.router.navigateByUrl('/login').then(() => {
+      window.location.reload();  // Opcional: fuerza limpieza total
+    });
   }
 
 }

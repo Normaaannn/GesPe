@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, ToastController } from '@ionic/angular/standalone';
 import { IonInput, IonItem, IonList } from '@ionic/angular/standalone';
 import { IonButton } from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment.prod';
@@ -19,7 +19,7 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class RegistroPage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
     console.log('RegisterPage cargada');
@@ -53,7 +53,7 @@ export class RegistroPage implements OnInit {
     }
 
     if (this.password !== this.confirmPassword) {
-      alert('Las contraseñas no coinciden');
+      this.presentToast('Las contraseñas no coinciden');
       return;
     }
 
@@ -74,10 +74,9 @@ export class RegistroPage implements OnInit {
     .then(response => response.text())
     .then(data => {
       if (data.trim() === 'Registro completado') {
-        alert('Registro exitoso');
         this.router.navigate(['/login']);
       } else {
-        alert('Error en el registro: ' + data);
+        this.presentToast(data);
       }
     })
     .catch(error => {
@@ -88,6 +87,16 @@ export class RegistroPage implements OnInit {
 
   goToLogin() {
     this.router.navigate(['/login']);
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+    });
+
+    await toast.present();
   }
 
 

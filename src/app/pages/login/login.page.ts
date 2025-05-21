@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, ToastController } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
@@ -19,7 +19,7 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
     console.log('LoginPage cargada');
@@ -49,11 +49,13 @@ export class LoginPage implements OnInit {
         localStorage.setItem('role', data.role); //Guardar el rol del usuario
         console.log('Login exitoso');
         //Redirige al home
-        this.obtenerAvatar();
-        this.router.navigate(['/home']);
+        this.obtenerAvatar().then(() => {
+          console.log('Avatar obtenido');
+          this.router.navigate(['/home']);
+        });     
       } else {
         console.log('Login fallido');
-        alert('Credenciales incorrectas');
+        this.presentToast('Credenciales incorrectas');
       }
     })
     .catch(error => {
@@ -69,7 +71,7 @@ export class LoginPage implements OnInit {
     this.router.navigate(['/recover-password']);
   }
 
-  obtenerAvatar() {
+  async obtenerAvatar(): Promise<void> {
     const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
     if (!token) {
       console.log('No se encontró el token de acceso');
@@ -78,7 +80,7 @@ export class LoginPage implements OnInit {
 
     const url = environment.apiUrl + `/usuario/obtenerAvatar`; // URL de la API para obtener el cliente
 
-    fetch(url, {
+    return fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -97,6 +99,16 @@ export class LoginPage implements OnInit {
       .catch(error => {
         console.error('Error en la solicitud:', error);
       });
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+    });
+
+    await toast.present();
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonLabel, IonButton, IonInput, IonBackButton, IonButtons } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonLabel, IonButton, IonInput, IonBackButton, IonButtons, ToastController } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
 
@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class CambiarPasswordPage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
   }
@@ -62,10 +62,10 @@ export class CambiarPasswordPage implements OnInit {
       .then(response => response.text())
       .then(data => {
         if (data.trim() === 'Contraseña actualizada') {
-          alert('Contraseña actualizada');
+          this.presentToast('Contraseña actualizada');
           this.router.navigate(['/ajustes']); // Redirigir a la página de ajustes
         } else {
-          alert('Error en el registro: ' + data);
+          this.presentToast('Error en el registro: ' + data);
         }
       })
       .catch(error => {
@@ -74,4 +74,13 @@ export class CambiarPasswordPage implements OnInit {
       });
   }
 
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+    });
+
+    await toast.present();
+  }
 }

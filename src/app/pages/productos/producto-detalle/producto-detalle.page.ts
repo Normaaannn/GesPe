@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, ToastController } from '@ionic/angular/standalone';
 import { IonInput, IonItem, IonList } from '@ionic/angular/standalone';
 import { IonButton } from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment.prod';
@@ -93,7 +93,7 @@ export class ProductoDetallePage implements OnInit {
   ];
 
 
-  constructor(private router : Router) { }
+  constructor(private router : Router, private toastController: ToastController) { }
 
   ngOnInit() {
     // Accede al estado de la navegación para obtener el pedidoId y cliente
@@ -159,14 +159,14 @@ export class ProductoDetallePage implements OnInit {
     .then(response => response.text())
     .then(data => {
       if (data.trim() === 'Producto actualizado') {
-        alert('Producto actualizado');
+        this.presentToast('Producto actualizado');
         this.nombre = this.nombreForm;
         this.descripcion = this.descripcionForm;
         this.precioNeto = this.precioNetoForm;
         this.iva = this.ivaForm;
         this.modoEdicion = false;
       } else {
-        alert('Error en el registro: ' + data);
+        this.presentToast('Error en el registro: ' + data);
       }
     })
     .catch(error => {
@@ -211,10 +211,10 @@ export class ProductoDetallePage implements OnInit {
     .then(response => response.text())
     .then(data => {
       if (data.trim() === 'Producto desactivado correctamente') {
-        alert('Producto eliminado');
+        this.presentToast('Producto eliminado');
         this.router.navigate(['/productos']);
       } else {
-        alert('Error en el registro: ' + data);
+        this.presentToast('Error en el registro: ' + data);
       }
     })
     .catch(error => {
@@ -242,16 +242,26 @@ export class ProductoDetallePage implements OnInit {
     .then(response => response.text())
     .then(data => {
       if (data.trim() === 'Producto activado correctamente') {
-        alert('Producto habilitado');
+        this.presentToast('Producto habilitado');
         this.activo = true;
       } else {
-        alert('Error en el registro: ' + data);
+        this.presentToast('Error en el registro: ' + data);
       }
     })
     .catch(error => {
       console.error('Error en la solicitud:', error);
       alert('Error en la solicitud');
     });
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+    });
+
+    await toast.present();
   }
 
 }

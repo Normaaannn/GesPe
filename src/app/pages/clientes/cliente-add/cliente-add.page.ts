@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, ToastController } from '@ionic/angular/standalone';
 import { IonInput, IonItem, IonList } from '@ionic/angular/standalone';
 import { IonButton } from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment.prod';
@@ -20,7 +20,7 @@ import { environment } from 'src/environments/environment.prod';
 export class ClienteAddPage implements OnInit {
 
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private toastController: ToastController) {
    }
 
   ngOnInit() {
@@ -85,10 +85,9 @@ export class ClienteAddPage implements OnInit {
     .then(response => response.text())
     .then(data => {
       if (data.trim() === 'Cliente añadido') {
-        alert('Cliente añadido');
         this.router.navigate(['/clientes']);
       } else {
-        alert('Error en el registro: ' + data);
+        this.presentToast('Error en el registro: ' + data);
       }
     })
     .catch(error => {
@@ -99,5 +98,15 @@ export class ClienteAddPage implements OnInit {
 
   cancelar() {
     this.router.navigate(['/clientes']);
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+    });
+
+    await toast.present();
   }
 }
