@@ -65,7 +65,7 @@ export class CambiarPasswordPage implements OnInit {
           this.presentToast('Contraseña actualizada');
           this.router.navigate(['/ajustes']); // Redirigir a la página de ajustes
         } else {
-          this.presentToast('Error en el registro: ' + data);
+          this.presentToast('Error: ' + data);
         }
       })
       .catch(error => {

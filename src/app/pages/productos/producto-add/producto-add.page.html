@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="centrar">
   <form #clienteForm="ngForm" (ngSubmit)="addProducto()" class="addProducto">
 
     <ion-item [class.invalid]="!nombre && formSubmitted">
@@ -42,4 +43,5 @@
       Cancelar
     </ion-button>
   </form>
+  </div>
 </ion-content>

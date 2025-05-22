@@ -72,6 +72,10 @@ export class RecoverPasswordPage implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  goToReset() {
+    this.router.navigate(['/reset-password']);
+  }
+
   redirigirADespuesDe2Segundos() {
     setTimeout(() => {
       this.router.navigate(['/login']);

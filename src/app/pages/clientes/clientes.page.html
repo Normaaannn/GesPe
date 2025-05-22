@@ -5,11 +5,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="centrar">
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed" style="margin-right: 7px; margin-bottom: 7px;">
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed" style="margin-right: 7px; margin-bottom: 70px;">
     <ion-fab-button (click)="goToAddCliente()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
@@ -63,6 +64,7 @@
 
     <!-- Botón de flecha derecha -->
     <ion-button (click)="changePage('next')" [disabled]="currentPage === totalPages">→</ion-button>
+  </div>
   </div>
 </ion-content>
 

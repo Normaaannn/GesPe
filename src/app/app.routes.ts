@@ -13,6 +13,7 @@ export const routes: Routes = [
   },
   {
     path: 'home',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/home/home.page').then( m => m.HomePage)
   },
   {
@@ -66,22 +67,27 @@ export const routes: Routes = [
   },
   {
     path: 'ajustes',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/ajustes/ajustes.page').then( m => m.AjustesPage)
   },
   {
     path: 'cambiar-password',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/ajustes/cambiar-password/cambiar-password.page').then( m => m.CambiarPasswordPage)
   },
   {
     path: 'usuarios',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/ajustes/usuarios/usuarios.page').then( m => m.UsuariosPage)
   },
   {
     path: 'usuario-detalle',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/ajustes/usuarios/usuario-detalle/usuario-detalle.page').then( m => m.UsuarioDetallePage)
   },
   {
     path: 'info-empresa',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/ajustes/info-empresa/info-empresa.page').then( m => m.InfoEmpresaPage)
   },
   {
@@ -94,6 +100,7 @@ export const routes: Routes = [
   },
   {
     path: 'cambiar-avatar',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/ajustes/cambiar-avatar/cambiar-avatar.page').then( m => m.CambiarAvatarPage)
   },
 ];

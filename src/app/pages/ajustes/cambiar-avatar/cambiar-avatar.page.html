@@ -3,11 +3,13 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/ajustes"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
     </ion-buttons>
-    <ion-title>Cambiar-avatar</ion-title>
+    <ion-title>Cambiar avatar</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="centrar">
+    <br>
   <ion-avatar *ngIf="avatarUrl" style="width: 100px; height: 100px; margin-bottom: 20px;">
     <img [src]="avatarUrl" />
   </ion-avatar>
@@ -17,4 +19,5 @@
   <ion-button expand="block" (click)="cancelar()">Cancelar</ion-button>
 
   <input type="file" #fileInput accept="image/*" style="display:none" (change)="uploadImage($event)" />
+  </div>
 </ion-content>

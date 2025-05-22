@@ -18,6 +18,7 @@
     </ion-item>
 
     <ion-button expand="block" type="submit" class="boton-login">Iniciar sesión</ion-button>
+    <ion-checkbox [(ngModel)]="mantenerConectado" style="padding-bottom: 20px; padding-left: 20px;" labelPlacement="end">Mantener conectado</ion-checkbox>
     <ion-button expand="block" class="boton-registro-recover" (click)="goToRegistro()">Registrarse</ion-button>
     <ion-button expand="block" class="boton-registro-recover" (click)="goToRecuperarPass()">Recuperar contraseña</ion-button>
     

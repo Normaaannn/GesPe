@@ -21,6 +21,7 @@ export class PedidoDetallePage implements OnInit {
   pedidoFecha: string | undefined;
   cliente: any;
   detalles: any;
+  usuarioCreador: string | undefined;
 
   constructor(private router : Router) { }
 
@@ -31,6 +32,7 @@ export class PedidoDetallePage implements OnInit {
       this.pedidoId = navigation.extras.state['pedidoId'];
       this.pedidoFecha = navigation.extras.state['pedidoFecha'];
       this.cliente = navigation.extras.state['cliente'];
+      this.usuarioCreador = navigation.extras.state['usuarioCreador'];
       this.loadDetalles();  // Llama a la función para cargar los detalles del pedido
     }    
   }

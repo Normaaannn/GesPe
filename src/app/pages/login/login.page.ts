@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, ToastController } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCheckbox } from '@ionic/angular/standalone';
 import { IonInput, IonItem, IonList } from '@ionic/angular/standalone';
 import { IonButton } from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment.prod';
@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment.prod';
   styleUrls: ['./login.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonicModule,
-    IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonInput, IonItem, IonList, IonButton]
+    IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonInput, IonItem, IonList, IonButton, IonCheckbox]
 })
 export class LoginPage implements OnInit {
 
@@ -27,6 +27,7 @@ export class LoginPage implements OnInit {
 
   username: string = '';
   password: string = '';
+  mantenerConectado: boolean = false;
 
   login() {
     fetch(environment.apiUrl + '/auth/login', {
@@ -45,12 +46,16 @@ export class LoginPage implements OnInit {
       if (data.accessToken && data.refreshToken && data.role) {
         //Guardar los tokens en el localStorage o sessionStorage
         localStorage.setItem('accessToken', data.accessToken);
-        localStorage.setItem('refreshToken', data.refreshToken);
+        //Si se mantiene conectado, guardar el refreshToken
+        if(this.mantenerConectado){
+          localStorage.setItem('refreshToken', data.refreshToken);
+        }
         localStorage.setItem('role', data.role); //Guardar el rol del usuario
         console.log('Login exitoso');
         //Redirige al home
         this.obtenerAvatar().then(() => {
           console.log('Avatar obtenido');
+          this.presentToast('Sesión iniciada');
           this.router.navigate(['/home']);
         });     
       } else {

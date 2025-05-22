@@ -60,7 +60,6 @@ export class TabsComponent implements OnInit {
     this.avatarUrl = localStorage.getItem('avatarUrl');  // Obtener el avatar desde el localStorage
     if (!this.avatarUrl) {
       this.avatarUrl = "https://ionicframework.com/docs/img/demos/avatar.svg";
-      alert("No se ha encontrado el avatar, se usará el predeterminado.");
     }
   }
 

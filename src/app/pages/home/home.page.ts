@@ -87,5 +87,32 @@ obtenerTresUltimos() {
     });
 }
 
+goToPedidoDetalle(pedido: any) {
+    this.router.navigate(['/pedido-detalle'], {
+      state: {
+        pedidoId: pedido.id,  // El id del pedido
+        pedidoFecha: pedido.fechaEmision,  // La fecha del pedido
+        cliente: pedido.cliente,  // El objeto completo cliente
+        usuarioCreador: pedido.usuarioCreador.username,  // El objeto completo usuarioCreador
+      }
+    });
+  }
+  
+  goToClienteDetalle(cliente: any) {
+    this.router.navigate(['/cliente-detalle'], {
+      state: { 
+        cliente: cliente,
+      }
+    });
+  }
+
+goToProductoDetalle(producto: any) {
+    this.router.navigate(['/producto-detalle'], {
+      state: { 
+        producto: producto,
+      }
+    });
+  }
+
 
 }

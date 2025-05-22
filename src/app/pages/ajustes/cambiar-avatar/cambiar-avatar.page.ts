@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonAvatar, IonInput, IonButtons, IonBackButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonAvatar, IonInput, IonButtons, IonBackButton, ToastController } from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.prod';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ export class CambiarAvatarPage implements OnInit {
 
   avatarUrl: string | null = null;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
   }
@@ -102,11 +102,11 @@ guardarAvatar() {
       .then(response => response.text())
       .then(data => {
         if (data.trim() === 'Avatar actualizado') {
-          alert('Avatar actualizado');
+          this.presentToast('Avatar actualizado');
           localStorage.setItem('avatarUrl', this.avatarUrl || '');
           this.router.navigate(['/ajustes']);
         } else {
-          alert('Error en el registro: ' + data);
+          this.presentToast('Error: ' + data);
         }
       })
       .catch(error => {
@@ -117,6 +117,17 @@ guardarAvatar() {
 
   cancelar() {
     this.router.navigate(['/ajustes']);
+  }
+
+  presentToast(message: string) {
+    this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      cssClass: 'custom-toast'
+    }).then(toast => {
+      toast.present();
+    });
   }
 
 }

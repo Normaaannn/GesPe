@@ -10,11 +10,12 @@
 <ion-content>
 <div class="centrar">
     <!-- Lista de productos seleccionados para el pedido -->
-    <ion-item *ngIf="cliente">
+    <br><ion-item *ngIf="cliente">
       <ion-label>
         {{ cliente.nombre }}<br>
         NIF:  {{ cliente.nif }}<br>
-        Correo : {{ cliente.email }}
+        Correo : {{ cliente.email }}<br>
+        Ciudad : {{ cliente.ciudad }}
       </ion-label>
       <!-- Botón para eliminar el producto -->
       <ion-button (click)="eliminarCliente()" color="danger">Eliminar</ion-button>
@@ -45,12 +46,11 @@
 
   <!-- Total del pedido -->
   <ion-item>
-    <ion-label>Total:</ion-label>
-    <ion-text>{{ calcularTotal() }} €</ion-text>
+    <h4 slot="end"><b>Total:  {{ calcularTotal() }} €</b></h4>
   </ion-item>
 
 </div>
 </ion-content>
-<ion-footer>
+<ion-footer class="centrar">
 <ion-button class="boton-crear" *ngIf="cliente && productosSeleccionados.length > 0" expand="full" (click)="crearPedido()" color="success">Crear Pedido</ion-button>
 </ion-footer>

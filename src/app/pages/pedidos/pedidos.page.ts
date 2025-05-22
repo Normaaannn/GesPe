@@ -130,7 +130,8 @@ export class HomePage implements ViewWillEnter {
       state: {
         pedidoId: pedido.id,  // El id del pedido
         pedidoFecha: pedido.fechaEmision,  // La fecha del pedido
-        cliente: pedido.cliente  // El objeto completo cliente
+        cliente: pedido.cliente,  // El objeto completo cliente
+        usuarioCreador: pedido.usuarioCreador.username,  // El objeto completo usuarioCreador
       }
     });
   }

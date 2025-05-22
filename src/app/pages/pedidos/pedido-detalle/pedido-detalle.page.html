@@ -1,13 +1,14 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
+      <ion-back-button defaultHref="/pedidos"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
     </ion-buttons>
     <ion-title>Pedido #{{ pedidoId}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="centrar">
   <ion-card>
     <ion-card-header>
       <ion-card-title>{{cliente.nombre}}  {{cliente.apellidos}}</ion-card-title>
@@ -19,7 +20,8 @@
       Telefono: {{cliente.telefono}}<br>
       Direccion: {{cliente.direccion}}<br>
       Ciudad: {{cliente.ciudad}}<br>
-      Pais: {{cliente.pais}}<br>
+      Pais: {{cliente.pais}}<br><br>
+      Usuario creador: {{ usuarioCreador }}<br>
     </ion-card-content>
   </ion-card>
 
@@ -34,14 +36,16 @@
         <p><strong>Descripción:</strong> {{ detalle.descripcion }}</p>
         <p><strong>IVA:</strong> {{ detalle.iva }}%</p>
         <p><strong>Cantidad:</strong> {{ detalle.cantidad }}</p>
-        <p><strong>Precio unitario:</strong> {{ detalle.precio | number: '1.2-2' }} €</p>
+        <p><strong>Precio unitario neto:</strong> {{ detalle.precio | number: '1.2-2' }} €</p>
+        <p><strong>Precio unitario bruto:</strong> {{ detalle.precio + (detalle.precio * detalle.iva / 100) | number: '1.2-2' }} €</p>
       </div>
     </ion-accordion>
   </ion-accordion-group>
+  </div>
 </ion-content>
 
-<ion-footer>
+<ion-footer class="centrar">
   <ion-button (click)="generarPDF()" expand="full" color="primary" class="ion-no-margin ion-no-padding">
     Generar PDF
-  </ion-button>
+  </ion-button><br>
 </ion-footer>

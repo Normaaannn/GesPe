@@ -74,6 +74,7 @@ export class RegistroPage implements OnInit {
     .then(response => response.text())
     .then(data => {
       if (data.trim() === 'Registro completado') {
+        this.presentToast('Usuario registrado correctamente');
         this.router.navigate(['/login']);
       } else {
         this.presentToast(data);

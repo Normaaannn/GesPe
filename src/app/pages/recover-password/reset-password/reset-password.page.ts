@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonInput, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonInput, IonButton, ToastController } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
@@ -20,7 +20,7 @@ export class ResetPasswordPage implements OnInit {
   formSubmitted = false;
   token: string | null = null;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private toastController: ToastController) { }
 
   ngOnInit() {
     this.activatedRoute.queryParamMap.subscribe(params => {
@@ -42,7 +42,7 @@ export class ResetPasswordPage implements OnInit {
     }
 
     if (this.newPassword !== this.confirmPassword) {
-      alert('Las contraseñas no coinciden');
+      this.presentToast('Las contraseñas no coinciden');
       return;
     }
 
@@ -63,16 +63,33 @@ export class ResetPasswordPage implements OnInit {
       .then(response => response.text())
       .then(data => {
         if (data.trim() === 'Contraseña actualizada') {
-          alert('Contraseña actualizada');
-          this.router.navigate(['/login']); // Redirigir a la página de ajustes
+          this.presentToast('Contraseña actualizada');
+          setTimeout
+          (() => {
+            this.router.navigate(['/login']); // Redirigir a la página de ajustes
+          }, 2000);
         } else {
-          alert('Error en el registro: ' + data);
+          this.presentToast('Error: ' + data);
         }
       })
       .catch(error => {
         console.error('Error en la solicitud:', error);
         alert('Error en la solicitud');
       });
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+    });
+
+    await toast.present();
   }
 
 }

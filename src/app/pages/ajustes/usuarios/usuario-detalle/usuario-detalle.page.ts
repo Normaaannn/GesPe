@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonLabel, IonButton, IonAlert } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonLabel, IonButton, IonAlert, IonList, IonItem, ToastController } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
 
@@ -10,11 +10,12 @@ import { environment } from 'src/environments/environment.prod';
   templateUrl: './usuario-detalle.page.html',
   styleUrls: ['./usuario-detalle.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonLabel, IonButton, IonAlert]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonLabel, IonButton,
+     IonAlert, IonList, IonItem]
 })
 export class UsuarioDetallePage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private toastController: ToastController) { }
 
   usuario: any;
   rolUsuario: boolean = false;
@@ -74,10 +75,10 @@ export class UsuarioDetallePage implements OnInit {
     .then(response => response.text())
     .then(data => {
       if (data.trim() === 'Usuario activado correctamente') {
-        alert('Usuario activado');
+        this.presentToast('Usuario activado');
         this.router.navigate(['/usuarios']);
       } else {
-        alert('Error en el registro: ' + data);
+        this.presentToast('Error en el registro: ' + data);
       }
     })
     .catch(error => {
@@ -105,10 +106,10 @@ export class UsuarioDetallePage implements OnInit {
     .then(response => response.text())
     .then(data => {
       if (data.trim() === 'Usuario baneado correctamente') {
-        alert('Usuario baneado');
+        this.presentToast('Usuario baneado');
         this.router.navigate(['/usuarios']);
       } else {
-        alert('Error en el registro: ' + data);
+        this.presentToast('Error: ' + data);
       }
     })
     .catch(error => {
@@ -120,12 +121,23 @@ export class UsuarioDetallePage implements OnInit {
   esUsuario() {
     if (this.usuario.role === 'ROLE_USER' || this.usuario.role === 'ROLE_ADMIN') {
       this.rolUsuario = true;
-      console.log('Es usuario');
     } else {
       this.rolUsuario = false;
-      console.log('No es usuario');
     }
   }
 
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      cssClass: 'custom-toast'
+    });
+    toast.present();
+  }
+
+  cancelar() {
+    this.router.navigate(['/usuarios']);
+  }
 
 }

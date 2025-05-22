@@ -5,43 +5,46 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="centrar">
 
-  <div>
-    <h1><b>{{ mesAnioActual }}</b></h1>
-    <h3><b>Total facturado {{ total | number: '1.2-2' }} €</b></h3>
+    <div>
+      <h1><b>{{ mesAnioActual }}</b></h1>
+      <h3><b>Total facturado {{ total | number: '1.2-2' }} €</b></h3>
+    </div>
+    <br>
+    <div>
+      <h5>Últimos pedidos</h5>
+      <ion-list>
+        <ion-item *ngFor="let pedido of pedidos" [button]="true" (click)="goToPedidoDetalle(pedido)">
+          <ion-label>
+            <p>Pedido #{{ pedido.id }}</p>
+            <p>Total: {{ pedido.total | number: '1.2-2' }} €</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <h5>Últimos clientes</h5>
+      <ion-list>
+        <ion-item *ngFor="let cliente of clientes" [button]="true" (click)="goToClienteDetalle(cliente)">
+          <ion-label>
+            <p>Cliente: {{ cliente.nombre }} {{ cliente.apellidos }}</p>
+            <p>NIF: {{ cliente.nif }} €</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <h5>Últimos productos</h5>
+      <ion-list>
+        <ion-item *ngFor="let producto of productos" [button]="true" (click)="goToProductoDetalle(producto)">
+          <ion-label>
+            <p>Producto: {{ producto.nombre }} {{ producto.descripcion }}</p>
+            <p>Precio: {{ producto.precioBruto | number: '1.2-2' }} €</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
   </div>
   <br>
-  <div>
-    <h5>Últimos pedidos</h5>
-    <ion-list>
-      <ion-item *ngFor="let pedido of pedidos" [button]="true">
-        <ion-label>
-          <p>Pedido #{{ pedido.id }}</p>
-          <p>Total: {{ pedido.total | number: '1.2-2' }} €</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-
-    <h5>Últimos clientes</h5>
-    <ion-list>
-      <ion-item *ngFor="let cliente of clientes" [button]="true">
-        <ion-label>
-          <p>Cliente: {{ cliente.nombre }} {{ cliente.apellidos }}</p>
-          <p>NIF: {{ cliente.nif }} €</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-
-    <h5>Últimos productos</h5>
-    <ion-list>
-      <ion-item *ngFor="let producto of productos" [button]="true">
-        <ion-label>
-          <p>Producto: {{ producto.nombre }} {{ producto.descripcion }}</p>
-          <p>Precio: {{ producto.precioBruto | number: '1.2-2' }} €</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
 </ion-content>
 
 <ion-footer>
