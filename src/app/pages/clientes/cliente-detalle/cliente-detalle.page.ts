@@ -83,7 +83,7 @@ export class ClienteDetallePage implements OnInit {
       text: 'Si',
       cssClass: 'alert-button-confirm',
       handler: () => {
-        this.addCliente();
+        this.updateCliente();
       }
     },
   ];
@@ -150,7 +150,7 @@ export class ClienteDetallePage implements OnInit {
     return !this.nombreForm || !this.apellidosForm || !this.nifForm || !this.emailForm || !this.emailValid || !this.telefonoForm || !this.direccionForm || !this.ciudadForm || !this.codigoPostalForm || !this.paisForm;
   }
 
-  addCliente() {
+  updateCliente() {
     this.formSubmitted = true;
 
     if (this.formInvalid) {
@@ -281,7 +281,7 @@ export class ClienteDetallePage implements OnInit {
     .then(data => {
       if (data.trim() === 'Cliente activado correctamente') {
         this.presentToast('Cliente habilitado');
-        this.activo = true;
+        this.router.navigate(['/clientes']);
       } else {
         this.presentToast('Error en el registro: ' + data);
       }

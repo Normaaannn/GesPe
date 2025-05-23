@@ -19,7 +19,7 @@
   <ion-button id="darRolUsuario" *ngIf="!rolUsuario" expand="block" color="success" class="boton">Dar rol de usuario</ion-button>
   <ion-alert trigger="darRolUsuario" class="custom-alert" header="Vas a dar el rol usuario. ¿Estás seguro?" [buttons]="alertButtonsDarRolUsuario"></ion-alert>
 
-  <ion-button id="eliminarUsuario" expand="block" color="danger" class="boton-eliminar">Eliminar</ion-button>
+  <ion-button id="eliminarUsuario" *ngIf="!baneado" expand="block" color="danger" class="boton-eliminar">Eliminar</ion-button>
   <ion-alert trigger="eliminarUsuario" class="custom-alert" header="Vas a eliminar al usuario. ¿Estás seguro?" [buttons]="alertButtonsEliminarUsuario"></ion-alert>
 
   <ion-button expand="block" class="boton" (click)="cancelar()">Atrás</ion-button>

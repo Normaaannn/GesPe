@@ -9,7 +9,7 @@
 
 <ion-content [fullscreen]="true">
   <div class="centrar">
-  <form #clienteForm="ngForm" (ngSubmit)="addProducto()" class="addProducto">
+  <form #clienteForm="ngForm" (ngSubmit)="updateProducto()" class="updateProducto">
 
     <ion-item [class.invalid]="!nombre && formSubmitted">
       <ion-input type="text" [(ngModel)]="nombreForm" [readonly]="!modoEdicion" placeholder="Nombre" name="nombre" label = "Nombre" labelPlacement="floating" required></ion-input>

@@ -73,7 +73,7 @@ export class ProductoDetallePage implements OnInit {
       text: 'Si',
       cssClass: 'alert-button-confirm',
       handler: () => {
-        this.addProducto();
+        this.updateProducto();
       }
     },
   ];
@@ -128,7 +128,7 @@ export class ProductoDetallePage implements OnInit {
     this.precioBruto = (parseFloat(this.precioNeto) * (1 + parseFloat(this.iva) / 100)).toString();
   }
 
-  addProducto() {
+  updateProducto() {
     this.formSubmitted = true;
 
     if (this.formInvalid) {
@@ -243,7 +243,7 @@ export class ProductoDetallePage implements OnInit {
     .then(data => {
       if (data.trim() === 'Producto activado correctamente') {
         this.presentToast('Producto habilitado');
-        this.activo = true;
+        this.router.navigate(['/productos']);
       } else {
         this.presentToast('Error en el registro: ' + data);
       }

@@ -19,6 +19,7 @@ export class UsuarioDetallePage implements OnInit {
 
   usuario: any;
   rolUsuario: boolean = false;
+  baneado: boolean = false;
 
   public alertButtonsEliminarUsuario = [
     {
@@ -54,6 +55,7 @@ export class UsuarioDetallePage implements OnInit {
       this.usuario = navigation.extras.state['usuario'];
     }
     this.esUsuario();
+    this.esBaneado();
   }
 
   darRolUsuario() {
@@ -123,6 +125,14 @@ export class UsuarioDetallePage implements OnInit {
       this.rolUsuario = true;
     } else {
       this.rolUsuario = false;
+    }
+  }
+
+  esBaneado() {
+    if (this.usuario.role === 'ROLE_BANNED') {
+      this.baneado = true;
+    } else {
+      this.baneado = false;
     }
   }
 
