@@ -118,15 +118,6 @@ export class ProductosPage implements ViewWillEnter {
     })
   }
 
-  onSearchInput() {
-    if (this.searchTerm.trim() === '') {
-      // Si el searchbar está vacío, llamar con searchType 1
-      this.loadProductos(1);
-    } else {
-      // Si hay texto en el searchbar, llamar con searchType 2
-      this.loadProductos(2);
-    }
-  }
 
   changePage(direction: string) {
     if (direction === 'prev' && this.currentPage > 1) {

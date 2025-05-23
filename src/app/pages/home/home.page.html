@@ -7,28 +7,27 @@
 <ion-content [fullscreen]="true">
   <div class="centrar">
 
-    <div>
+    <div style="margin-bottom: 30px;">
       <h1><b>{{ mesAnioActual }}</b></h1>
-      <h3><b>Total facturado {{ total | number: '1.2-2' }} €</b></h3>
+      <h3><b>Total facturado este mes<br> {{ total | number: '1.2-2' }} €</b></h3>
     </div>
-    <br>
     <div>
       <h5>Últimos pedidos</h5>
-      <ion-list>
+      <ion-list style="margin-bottom: 20px;">
         <ion-item *ngFor="let pedido of pedidos" [button]="true" (click)="goToPedidoDetalle(pedido)">
           <ion-label>
-            <p>Pedido #{{ pedido.id }}</p>
+            <p>Pedido #{{ pedido.id }}&nbsp;&nbsp; Cliente: {{ pedido.cliente.nombre }} {{ pedido.cliente.apellidos }}</p>
             <p>Total: {{ pedido.total | number: '1.2-2' }} €</p>
           </ion-label>
         </ion-item>
       </ion-list>
 
       <h5>Últimos clientes</h5>
-      <ion-list>
+      <ion-list style="margin-bottom: 20px;">
         <ion-item *ngFor="let cliente of clientes" [button]="true" (click)="goToClienteDetalle(cliente)">
           <ion-label>
-            <p>Cliente: {{ cliente.nombre }} {{ cliente.apellidos }}</p>
-            <p>NIF: {{ cliente.nif }} €</p>
+            <p>{{ cliente.nombre }} {{ cliente.apellidos }}</p>
+            <p>Ciudad: {{ cliente.ciudad }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -37,8 +36,9 @@
       <ion-list>
         <ion-item *ngFor="let producto of productos" [button]="true" (click)="goToProductoDetalle(producto)">
           <ion-label>
-            <p>Producto: {{ producto.nombre }} {{ producto.descripcion }}</p>
-            <p>Precio: {{ producto.precioBruto | number: '1.2-2' }} €</p>
+            <p>{{ producto.nombre }}</p>
+            <p>Descripción: {{ producto.descripcion }}</p>
+            <p>Precio bruto: {{ producto.precioBruto | number: '1.2-2' }} €</p>
           </ion-label>
         </ion-item>
       </ion-list>

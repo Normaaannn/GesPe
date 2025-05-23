@@ -32,15 +32,15 @@
   </ion-segment>
 
   <!-- Searchbar -->
-  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="onSearchInput()" [debounce]="1000" placeholder="Buscar por nombre..."></ion-searchbar>
+  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="loadProductos()" [debounce]="1000" placeholder="Buscar por nombre..."></ion-searchbar>
   
   <!-- Lista de Clientes -->
   <ion-list>
     <ion-item *ngFor="let producto of productos" [button]="true" (click)="goToProductoDetalle(producto)">
       <ion-label>
         <h2>{{ producto.nombre }}</h2>
-        <p>{{ producto.descripcion }}</p>
-        <p>Precio neto : {{ producto.precioNeto }} €</p>
+        <p>Descripción: {{ producto.descripcion }}</p>
+        <p>Precio neto: {{ producto.precioNeto }} €</p>
       </ion-label>
     </ion-item>
   </ion-list>

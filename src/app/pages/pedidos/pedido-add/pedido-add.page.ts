@@ -6,7 +6,6 @@ import { ProductoSearchModalComponent } from './producto-search-modal/producto-s
 import { ClienteSearchModalComponent } from './cliente-search-modal/cliente-search-modal.component';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
-import { v } from '@angular/core/weak_ref.d-Bp6cSy-X';
 
 @Component({
   selector: 'app-pedido-add',
