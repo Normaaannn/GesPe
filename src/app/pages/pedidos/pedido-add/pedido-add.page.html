@@ -30,8 +30,8 @@
     <ion-item *ngFor="let producto of productosSeleccionados; let i = index">
       <ion-label>
         {{ producto.nombre }}<br>
-        <ion-input label="Precio Neto:" [(ngModel)]="producto.precioNeto"  (ionBlur)="actualizarSubtotal(i)" (ionFocus)="guardarValorAnterior(i)" type="number" min="1" pattern="^[0-9]*[.,]?[0-9]*$" style="max-width: 200px;"></ion-input>
-        <ion-input label="Cantidad:" [(ngModel)]="producto.cantidad"  (ionBlur)="actualizarSubtotal(i)" (ionFocus)="guardarValorAnterior(i)" type="number" min="1" pattern="^[0-9]*[.,]?[0-9]*$" style="max-width: 200px;"></ion-input>
+        <ion-input label="Precio Neto:" [(ngModel)]="producto.precioNeto" (ngModelChange)="onChange(producto.precioNeto, i)"  (ionBlur)="actualizarSubtotal(i)" (ionFocus)="guardarValorAnterior(i)" type="number" min="1" pattern="^[0-9]*[.,]?[0-9]*$" style="max-width: 200px;"></ion-input>
+        <ion-input label="Cantidad:" [(ngModel)]="producto.cantidad" (ngModelChange)="onChange(producto.cantidad, i)" (ionBlur)="actualizarSubtotal(i)" (ionFocus)="guardarValorAnterior(i)" type="number" min="1" pattern="^[0-9]*[.,]?[0-9]*$" style="max-width: 200px;"></ion-input>
         IVA: {{ producto.iva }}%<br>  
         Subtotal: {{ producto.subtotal }} €
       </ion-label>

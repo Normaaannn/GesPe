@@ -58,10 +58,19 @@ export class PedidoAddPage implements OnInit {
     }
   }
 
+  onChange(valor: any, index: number) {
+  if (valor === '' || valor === null || valor === 0) {
+    //No hace nada para que el usuario pueda seguir escribiendo
+    return;
+  } else {
+    this.actualizarSubtotal(index);
+  }
+}
+
   guardarValorAnterior(index: number) {
     const producto = this.productosSeleccionados[index];
-    const cantidad = parseFloat(producto.cantidad);
-    const precioNeto = parseFloat(producto.precioNeto);
+    const cantidad = Number(producto.cantidad);
+    const precioNeto = Number(producto.precioNeto);
 
     this.valorAnteriorCantidad[index] = isNaN(cantidad) ? 1 : cantidad;
     this.valorAnteriorPrecioNeto[index] = isNaN(precioNeto) ? 0 : precioNeto;
@@ -70,8 +79,8 @@ export class PedidoAddPage implements OnInit {
   // Función para actualizar el subtotal cuando se cambia la cantidad
   actualizarSubtotal(index: number) {
     const producto = this.productosSeleccionados[index];
-    let precioNeto = parseFloat(producto.precioNeto);
-    let cantidad = parseFloat(producto.cantidad);
+    let precioNeto = Number(producto.precioNeto);
+    let cantidad = Number(producto.cantidad);
     
     if (isNaN(precioNeto) || precioNeto <= 0) {
       producto.precioNeto = this.valorAnteriorPrecioNeto[index];
@@ -84,7 +93,8 @@ export class PedidoAddPage implements OnInit {
 
   // Función para calcular el subtotal
   calcularSubtotal(precioNeto: number, cantidad: number, iva: number) {
-    return (precioNeto * cantidad) + (precioNeto * cantidad * iva / 100);
+    const subtotal = (precioNeto * cantidad) + (precioNeto * cantidad * iva / 100);
+    return Math.round(subtotal * 100) / 100;
   }
 
   // Función para eliminar un producto del pedido
@@ -94,7 +104,8 @@ export class PedidoAddPage implements OnInit {
 
   // Función para calcular el total del pedido
   calcularTotal() {
-    return this.productosSeleccionados.reduce((total, producto) => total + producto.subtotal, 0);
+    const total = this.productosSeleccionados.reduce((total, producto) => total + producto.subtotal, 0);
+    return Math.round(total * 100) / 100;
   }
 
 
