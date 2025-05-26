@@ -37,7 +37,7 @@ export class TabsComponent implements OnInit {
       });
     this.checkScreen();
     window.addEventListener('resize', this.checkScreen.bind(this));
-    this.loadAvatar();
+    this.avatarUrl = localStorage.getItem('avatarUrl');  // Obtener el avatar desde el localStorage
   }
 
   checkScreen() {
@@ -54,13 +54,6 @@ export class TabsComponent implements OnInit {
   //Verifico si la ruta está activa
   isActive(route: string): boolean {
     return this.currentRoute === route;
-  }
-
-  loadAvatar() {
-    this.avatarUrl = localStorage.getItem('avatarUrl');  // Obtener el avatar desde el localStorage
-    if (!this.avatarUrl) {
-      this.avatarUrl = "https://ionicframework.com/docs/img/demos/avatar.svg";
-    }
   }
 
   goToAjustes() {

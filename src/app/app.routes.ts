@@ -103,4 +103,8 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     loadComponent: () => import('./pages/ajustes/cambiar-avatar/cambiar-avatar.page').then( m => m.CambiarAvatarPage)
   },
+  {
+    path: 'cambiar-logo-empresa',
+    loadComponent: () => import('./pages/ajustes/cambiar-logo-empresa/cambiar-logo-empresa.page').then( m => m.CambiarLogoEmpresaPage)
+  },
 ];

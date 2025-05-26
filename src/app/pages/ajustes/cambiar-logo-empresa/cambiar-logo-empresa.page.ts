@@ -7,22 +7,22 @@ import { environment } from 'src/environments/environment.prod';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-cambiar-avatar',
-  templateUrl: './cambiar-avatar.page.html',
-  styleUrls: ['./cambiar-avatar.page.scss'],
+  selector: 'app-cambiar-logo-empresa',
+  templateUrl: './cambiar-logo-empresa.page.html',
+  styleUrls: ['./cambiar-logo-empresa.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonAvatar, IonInput, IonButtons, IonBackButton]
 })
-export class CambiarAvatarPage implements OnInit {
+export class CambiarLogoEmpresaPage implements OnInit {
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
-  avatarUrl: string | null = null;
+  logoUrl: string | null = null;
 
   constructor(private http: HttpClient, private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
-    this.avatarUrl = localStorage.getItem('avatarUrl') || null; // Cargar el avatar desde el localStorage
+    this.obtenerLogo();
   }
 
   selectImage() {
@@ -65,8 +65,8 @@ export class CambiarAvatarPage implements OnInit {
       this.http.post(`https://api.imgbb.com/1/upload?key=${apiKey}`, formData)
         .subscribe({
           next: (res: any) => {
-            this.avatarUrl = res.data.url;
-            console.log('Imagen subida', this.avatarUrl);
+            this.logoUrl = res.data.url;
+            console.log('Imagen subida', this.logoUrl);
           },
           error: err => {
             console.error('Error al subir la imagen', err);
@@ -80,7 +80,7 @@ export class CambiarAvatarPage implements OnInit {
   reader.readAsDataURL(file);
 }
 
-guardarAvatar() {
+guardarLogo() {
     
     const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
     if (!token) {
@@ -88,12 +88,7 @@ guardarAvatar() {
       return;
     }
 
-    if (!this.avatarUrl || this.avatarUrl === localStorage.getItem('avatarUrl')) {
-      this.presentToast('Selecciona una imagen para el avatar');
-      return;
-    }
-
-    const url = environment.apiUrl + `/usuario/actualizarAvatar`; // URL de la API para actualizar el cliente
+    const url = environment.apiUrl + `/info_empresa/actualizarLogo`; // URL de la API para actualizar el cliente
 
     fetch(url, {
       method: 'PATCH',
@@ -102,14 +97,13 @@ guardarAvatar() {
         'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({
-        avatarUrl: this.avatarUrl
+        avatarUrl: this.logoUrl
       })
     })
       .then(response => response.text())
       .then(data => {
-        if (data.trim() === 'Avatar actualizado') {
-          this.presentToast('Avatar actualizado');
-          localStorage.setItem('avatarUrl', this.avatarUrl || '');
+        if (data.trim() === 'Logo actualizado') {
+          this.presentToast('Logo actualizado');
           this.router.navigate(['/ajustes']);
         } else {
           this.presentToast('Error: ' + data);
@@ -118,6 +112,36 @@ guardarAvatar() {
       .catch(error => {
         console.error('Error en la solicitud:', error);
         alert('Error en la solicitud');
+      });
+  }
+
+  obtenerLogo(){
+    const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
+    if (!token) {
+      console.log('No se encontró el token de acceso');
+      return;
+    }
+
+    const url = environment.apiUrl + `/info_empresa/obtenerLogo`; // URL de la API para obtener el cliente
+
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(response => response.text())
+      .then(logoUrl => {
+        console.log("Respuesta completa:", logoUrl);
+        if (logoUrl) {
+          this.logoUrl = logoUrl;
+        } else {
+          console.log('No se encontró el logo');
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
       });
   }
 

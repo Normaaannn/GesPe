@@ -99,6 +99,7 @@ export class LoginPage implements OnInit {
           localStorage.setItem('avatarUrl', avatarUrl);
         } else {
           console.log('No se encontró el avatar');
+          localStorage.setItem('avatarUrl', 'https://ionicframework.com/docs/img/demos/avatar.svg'); // URL por defecto
         }
       })
       .catch(error => {
