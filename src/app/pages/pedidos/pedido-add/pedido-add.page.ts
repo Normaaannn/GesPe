@@ -46,25 +46,30 @@ export class PedidoAddPage implements OnInit {
   agregarProductoAlPedido(producto: any) {
     const productoExistente = this.productosSeleccionados.find(p => p.nombre === producto.nombre);
     if (!productoExistente) {
+      const cantidad = 1;
+      const subtotal = this.calcularSubtotal(producto.precioNeto, cantidad, producto.iva);
+      const ivaTotal = this.calcularIva(subtotal, producto.precioNeto, cantidad);
+
       this.productosSeleccionados.push({
         id: producto.id,
         nombre: producto.nombre,
         precioNeto: producto.precioNeto,
         iva: producto.iva,
         cantidad: 1,
-        subtotal: this.calcularSubtotal(producto.precioNeto, 1, producto.iva),
+        subtotal,
+        ivaTotal,
       });
     }
   }
 
   onChange(valor: any, index: number) {
-  if (valor === '' || valor === null || valor === 0) {
-    //No hace nada para que el usuario pueda seguir escribiendo
-    return;
-  } else {
-    this.actualizarSubtotal(index);
+    if (valor === '' || valor === null || valor === 0) {
+      //No hace nada para que el usuario pueda seguir escribiendo
+      return;
+    } else {
+      this.actualizarSubtotal(index);
+    }
   }
-}
 
   guardarValorAnterior(index: number) {
     const producto = this.productosSeleccionados[index];
@@ -80,7 +85,7 @@ export class PedidoAddPage implements OnInit {
     const producto = this.productosSeleccionados[index];
     let precioNeto = Number(producto.precioNeto);
     let cantidad = Number(producto.cantidad);
-    
+
     if (isNaN(precioNeto) || precioNeto <= 0) {
       producto.precioNeto = this.valorAnteriorPrecioNeto[index];
     }
@@ -88,12 +93,18 @@ export class PedidoAddPage implements OnInit {
       producto.cantidad = this.valorAnteriorCantidad[index];
     }
     producto.subtotal = this.calcularSubtotal(producto.precioNeto, producto.cantidad, producto.iva);
+    producto.ivaTotal = this.calcularIva(producto.subtotal, producto.precioNeto, producto.cantidad);
   }
 
   // Función para calcular el subtotal
   calcularSubtotal(precioNeto: number, cantidad: number, iva: number) {
     const subtotal = (precioNeto * cantidad) + (precioNeto * cantidad * iva / 100);
     return Math.round(subtotal * 100) / 100;
+  }
+
+  calcularIva(subtotal: number, precioNeto: number, cantidad: number): number {
+    const iva = subtotal - (precioNeto * cantidad);
+    return Math.round(iva * 100) / 100;
   }
 
   // Función para eliminar un producto del pedido
