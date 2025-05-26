@@ -30,10 +30,10 @@
     <ion-item *ngFor="let producto of productosSeleccionados; let i = index">
       <ion-label>
         {{ producto.nombre }}<br>
-        <ion-input label="Precio Neto:" [(ngModel)]="producto.precioNeto" (ngModelChange)="onChange(producto.precioNeto, i)"  (ionBlur)="actualizarSubtotal(i)" (ionFocus)="guardarValorAnterior(i)" type="number" min="1" pattern="^[0-9]*[.,]?[0-9]*$" style="max-width: 200px;"></ion-input>
-        <ion-input label="Cantidad:" [(ngModel)]="producto.cantidad" (ngModelChange)="onChange(producto.cantidad, i)" (ionBlur)="actualizarSubtotal(i)" (ionFocus)="guardarValorAnterior(i)" type="number" min="1" pattern="^[0-9]*[.,]?[0-9]*$" style="max-width: 200px;"></ion-input>
-        IVA: {{ producto.iva }}% &nbsp;&nbsp; ( {{ producto.ivaTotal }} € )<br>  
-        <br><b style="font-size: 17px;">Subtotal: {{ producto.subtotal }} €</b>
+        <ion-input label="Precio Neto:" [(ngModel)]="producto.precioNeto" (ngModelChange)="onChange(producto.precioNeto, i)"  (ionBlur)="actualizarSubtotal(i)" (ionFocus)="guardarValorAnterior(i)" type="number" min="1" pattern="^[0-9]*[.,]?[0-9]*$" style="max-width: 200px;" maxlength="10"></ion-input>
+        <ion-input label="Cantidad:" [(ngModel)]="producto.cantidad" (ngModelChange)="onChange(producto.cantidad, i)" (ionBlur)="actualizarSubtotal(i)" (ionFocus)="guardarValorAnterior(i)" type="number" min="1" pattern="^[0-9]*[.,]?[0-9]*$" style="max-width: 200px;" maxlength="10"></ion-input>
+        IVA: {{ producto.iva }}% &nbsp;&nbsp; ( {{ producto.ivaTotal | number: '1.2-2' }} € )<br>  
+        <br><b style="font-size: 17px;">Subtotal: {{ producto.subtotal | number: '1.2-2' }} €</b>
       </ion-label>
       <!-- Campo para cambiar cantidad -->
       
@@ -46,7 +46,7 @@
 
   <!-- Total del pedido -->
   <ion-item>
-    <h4 slot="end"><b>Total:  {{ calcularTotal() }} €</b></h4>
+    <h4 slot="end"><b>Total:  {{ calcularTotal() | number: '1.2-2' }} €</b></h4>
   </ion-item>
 
 </div>

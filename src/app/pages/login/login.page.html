@@ -11,10 +11,10 @@
 
   <form (ngSubmit)="login()" class="login">
     <ion-item>
-      <ion-input type="text" [(ngModel)]="username" placeholder="Usuario" name="username" label = "Usuario" labelPlacement="floating" required></ion-input>
+      <ion-input type="text" [(ngModel)]="username" placeholder="Usuario" name="username" label = "Usuario" labelPlacement="floating" maxlength="25" required></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="password" [(ngModel)]="password" placeholder="Contraseña" name="password" label = "Contraseña" labelPlacement="floating" required></ion-input>
+      <ion-input type="password" [(ngModel)]="password" placeholder="Contraseña" name="password" label = "Contraseña" labelPlacement="floating" maxlength="50" required></ion-input>
     </ion-item>
 
     <ion-button expand="block" type="submit" class="boton-login">Iniciar sesión</ion-button>

@@ -12,39 +12,39 @@
   <form #clienteForm="ngForm" (ngSubmit)="updateCliente()" class="updateCliente">
 
     <ion-item [class.invalid]="!nombre && formSubmitted">
-      <ion-input type="text" [(ngModel)]="nombreForm" [readonly]="!modoEdicion" placeholder="Nombre" name="nombre" label = "Nombre" labelPlacement="floating" required></ion-input>
+      <ion-input type="text" [(ngModel)]="nombreForm" [readonly]="!modoEdicion" placeholder="Nombre" name="nombre" label = "Nombre" labelPlacement="floating" maxlength="60" required></ion-input>
     </ion-item>
 
     <ion-item [class.invalid]="!apellidos && formSubmitted">
-      <ion-input type="text" [(ngModel)]="apellidosForm" [readonly]="!modoEdicion" placeholder="Apellidos" name="apellidos" label = "Apellidos" labelPlacement="floating" required></ion-input>
+      <ion-input type="text" [(ngModel)]="apellidosForm" [readonly]="!modoEdicion" placeholder="Apellidos" name="apellidos" label = "Apellidos" labelPlacement="floating" maxlength="60" required></ion-input>
     </ion-item>
 
     <ion-item [class.invalid]="!nif && formSubmitted">
-      <ion-input type="text" [(ngModel)]="nifForm" [readonly]="!modoEdicion" placeholder="NIF" name="nif" label = "NIF" labelPlacement="floating" required></ion-input>
+      <ion-input type="text" [(ngModel)]="nifForm" [readonly]="!modoEdicion" placeholder="NIF" name="nif" label = "NIF" labelPlacement="floating" maxlength="15" required></ion-input>
     </ion-item>
     
     <ion-item [class.invalid]="(!email || !isEmailValid()) && formSubmitted">
-      <ion-input type="email" [(ngModel)]="emailForm" [readonly]="!modoEdicion" (ionInput)="validateEmail()" placeholder="Correo electrónico" name="email" label = "Email" labelPlacement="floating" required></ion-input>
+      <ion-input type="email" [(ngModel)]="emailForm" [readonly]="!modoEdicion" (ionInput)="validateEmail()" placeholder="Correo electrónico" name="email" label = "Email" labelPlacement="floating" maxlength="60" required></ion-input>
     </ion-item>
 
     <ion-item [class.invalid]="!telefono && formSubmitted">
-      <ion-input type="text" [(ngModel)]="telefonoForm" [readonly]="!modoEdicion" placeholder="Teléfono" name="telefono" label = "Teléfono" labelPlacement="floating" required></ion-input>
+      <ion-input type="text" [(ngModel)]="telefonoForm" [readonly]="!modoEdicion" placeholder="Teléfono" name="telefono" label = "Teléfono" labelPlacement="floating" maxlength="20" required></ion-input>
     </ion-item>
 
     <ion-item [class.invalid]="!direccion && formSubmitted">
-      <ion-input type="text" [(ngModel)]="direccionForm" [readonly]="!modoEdicion" placeholder="Dirección" name="direccion" label = "Dirección" labelPlacement="floating" required></ion-input>
+      <ion-input type="text" [(ngModel)]="direccionForm" [readonly]="!modoEdicion" placeholder="Dirección" name="direccion" label = "Dirección" labelPlacement="floating" maxlength="100" required></ion-input>
     </ion-item>
 
     <ion-item [class.invalid]="!ciudad && formSubmitted">
-      <ion-input type="text" [(ngModel)]="ciudadForm" [readonly]="!modoEdicion" placeholder="Ciudad" name="ciudad" label = "Ciudad" labelPlacement="floating" required></ion-input>
+      <ion-input type="text" [(ngModel)]="ciudadForm" [readonly]="!modoEdicion" placeholder="Ciudad" name="ciudad" label = "Ciudad" labelPlacement="floating" maxlength="50" required></ion-input>
     </ion-item>
 
     <ion-item [class.invalid]="!codigoPostal && formSubmitted">
-      <ion-input type="text" [(ngModel)]="codigoPostalForm" [readonly]="!modoEdicion" placeholder="Código postal" name="codigoPostal" label = "Código postal" labelPlacement="floating" required></ion-input>
+      <ion-input type="text" [(ngModel)]="codigoPostalForm" [readonly]="!modoEdicion" placeholder="Código postal" name="codigoPostal" label = "Código postal" labelPlacement="floating" maxlength="10" required></ion-input>
     </ion-item>
 
     <ion-item [class.invalid]="!pais && formSubmitted">
-      <ion-input type="text" [(ngModel)]="paisForm" [readonly]="!modoEdicion" placeholder="País" name="pais" label = "País" labelPlacement="floating" required></ion-input>
+      <ion-input type="text" [(ngModel)]="paisForm" [readonly]="!modoEdicion" placeholder="País" name="pais" label = "País" labelPlacement="floating" maxlength="50" required></ion-input>
     </ion-item>
     
 

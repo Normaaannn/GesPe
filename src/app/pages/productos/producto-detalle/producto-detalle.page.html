@@ -12,19 +12,19 @@
   <form #clienteForm="ngForm" (ngSubmit)="updateProducto()" class="updateProducto">
 
     <ion-item [class.invalid]="!nombre && formSubmitted">
-      <ion-input type="text" [(ngModel)]="nombreForm" [readonly]="!modoEdicion" placeholder="Nombre" name="nombre" label = "Nombre" labelPlacement="floating" required></ion-input>
+      <ion-input type="text" [(ngModel)]="nombreForm" [readonly]="!modoEdicion" placeholder="Nombre" name="nombre" label = "Nombre" labelPlacement="floating" maxlength="40" required></ion-input>
     </ion-item>
 
     <ion-item [class.invalid]="!descripcion && formSubmitted">
-      <ion-input type="text" [(ngModel)]="descripcionForm" [readonly]="!modoEdicion" placeholder="Descripción" name="descripcion" label = "Descripción" labelPlacement="floating" required></ion-input>
+      <ion-input type="text" [(ngModel)]="descripcionForm" [readonly]="!modoEdicion" placeholder="Descripción" name="descripcion" label = "Descripción" labelPlacement="floating" maxlength="200" required></ion-input>
     </ion-item>
 
     <ion-item [class.invalid]="!precioNeto && formSubmitted">
-      <ion-input type="number" [(ngModel)]="precioNetoForm" [readonly]="!modoEdicion" placeholder="Precio neto" name="precioNeto" label = "Precio neto" labelPlacement="floating" required></ion-input>
+      <ion-input type="number" [(ngModel)]="precioNetoForm" [readonly]="!modoEdicion" placeholder="Precio neto" name="precioNeto" label = "Precio neto" labelPlacement="floating" maxlength="10" required></ion-input>
     </ion-item>   
 
     <ion-item [class.invalid]="!iva && formSubmitted">
-      <ion-input type="number" [(ngModel)]="ivaForm" [readonly]="!modoEdicion" placeholder="I.V.A." name="iva" label = "I.V.A." labelPlacement="floating" required></ion-input>
+      <ion-input type="number" [(ngModel)]="ivaForm" [readonly]="!modoEdicion" placeholder="I.V.A." name="iva" label = "I.V.A." labelPlacement="floating" maxlength="2" required></ion-input>
     </ion-item>
 
     <ion-item>

@@ -42,6 +42,22 @@ export class ProductoAddPage implements OnInit {
       return; // No envía si hay campos vacíos
     }
 
+    if (Number(this.precioNeto) < 0 || Number(this.precioNeto) > 9999999999 || Number(this.iva) < 0 || Number(this.iva) > 99) {
+      this.presentToast('Los valores de precio neto o IVA son negativos o muy grandes.');
+      return; // No envía si los valores son inválidos
+    }
+
+    if(this.tieneDecimales(this.precioNeto, 2)) {
+      this.presentToast('El precio neto no puede tener mas de dos decimales.');
+      return; // No envía si los valores tienen demasiados decimales
+    }
+
+    if(this.tieneDecimales(this.iva, 0)) {
+      this.presentToast('El iva no puede tener decimales.');
+      return; // No envía si los valores tienen demasiados decimales
+    }
+
+
     const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
     if (!token) {
       console.log('No se encontró el token de acceso');
@@ -63,18 +79,18 @@ export class ProductoAddPage implements OnInit {
         iva: this.iva,
       })
     })
-    .then(response => response.text())
-    .then(data => {
-      if (data.trim() === 'Producto añadido') {
-        this.router.navigate(['/productos']);
-      } else {
-        this.presentToast('Error en el registro: ' + data);
-      }
-    })
-    .catch(error => {
-      console.error('Error en la solicitud:', error);
-      alert('Error en la solicitud');
-    });
+      .then(response => response.text())
+      .then(data => {
+        if (data.trim() === 'Producto añadido') {
+          this.router.navigate(['/productos']);
+        } else {
+          this.presentToast('Error en el registro: ' + data);
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+        alert('Error en la solicitud');
+      });
   }
 
   cancelar() {
@@ -82,12 +98,29 @@ export class ProductoAddPage implements OnInit {
   }
 
   actualizarPrecioBruto() {
-  const neto = parseFloat(this.precioNeto as any) || 0;
-  const ivaPorcentaje = parseFloat(this.iva as any) || 0;
-  this.precioBruto = parseFloat((neto * (1 + ivaPorcentaje / 100)).toFixed(2));
-}
+    const neto = parseFloat(this.precioNeto as any) || 0;
+    const ivaPorcentaje = parseFloat(this.iva as any) || 0;
+    this.precioBruto = parseFloat((neto * (1 + ivaPorcentaje / 100)).toFixed(2));
+  }
 
-async presentToast(message: string) {
+  tieneDecimales(valor: string | number, limite: number): boolean {
+
+    //Reemplaza la coma por punto para unificar el formato decimal
+    const valorNormalizado = String(valor).replace(',', '.');
+
+    //Verifica si hay parte decimal
+    const partes = valorNormalizado.split('.');
+
+    if (partes.length < 2) {
+      return false; //No hay parte decimal
+    }
+
+    const decimales = partes[1];
+
+    return decimales.length > limite;
+  }
+
+  async presentToast(message: string) {
     const toast = await this.toastController.create({
       message: message,
       duration: 2000,

@@ -135,6 +135,21 @@ export class ProductoDetallePage implements OnInit {
       return; // No envía si hay campos vacíos
     }
 
+    if(Number(this.precioNeto) < 0 || Number(this.precioNeto) > 9999999999 || Number(this.iva) < 0 || Number(this.iva) > 99) {
+      this.presentToast('Los valores de precio neto o IVA son negativos o muy grandes.');
+      return; // No envía si los valores son inválidos
+    }
+
+    if(this.tieneDecimales(this.precioNeto, 2)) {
+      this.presentToast('El precio neto no puede tener mas de dos decimales.');
+      return; // No envía si los valores tienen demasiados decimales
+    }
+
+    if(this.tieneDecimales(this.iva, 0)) {
+      this.presentToast('El iva no puede tener decimales.');
+      return; // No envía si los valores tienen demasiados decimales
+    }
+
     const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
     if (!token) {
       console.log('No se encontró el token de acceso');
@@ -190,6 +205,23 @@ export class ProductoDetallePage implements OnInit {
     this.descripcionForm = this.descripcion;
     this.precioNetoForm = this.precioNeto;
     this.ivaForm = this.iva;
+  }
+
+  tieneDecimales(valor: string | number, limite: number): boolean {
+
+    //Reemplaza la coma por punto para unificar el formato decimal
+    const valorNormalizado = String(valor).replace(',', '.');
+
+    //Verifica si hay parte decimal
+    const partes = valorNormalizado.split('.');
+
+    if (partes.length < 2) {
+      return false; //No hay parte decimal
+    }
+
+    const decimales = partes[1];
+
+    return decimales.length > limite;
   }
 
   eliminarProducto() {

@@ -97,7 +97,7 @@ guardarLogo() {
         'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({
-        avatarUrl: this.logoUrl
+        logoUrl: this.logoUrl
       })
     })
       .then(response => response.text())

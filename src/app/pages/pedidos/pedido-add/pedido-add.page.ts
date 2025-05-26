@@ -63,7 +63,7 @@ export class PedidoAddPage implements OnInit {
   }
 
   onChange(valor: any, index: number) {
-    if (valor === '' || valor === null || valor === 0) {
+    if (valor === '' || valor === null || valor === 0 || this.tieneDecimales(valor, 2)) {
       //No hace nada para que el usuario pueda seguir escribiendo
       return;
     } else {
@@ -86,12 +86,20 @@ export class PedidoAddPage implements OnInit {
     let precioNeto = Number(producto.precioNeto);
     let cantidad = Number(producto.cantidad);
 
-    if (isNaN(precioNeto) || precioNeto <= 0) {
+    if (isNaN(precioNeto) || precioNeto <= 0 || precioNeto > 9999999999) {
       producto.precioNeto = this.valorAnteriorPrecioNeto[index];
     }
-    if (isNaN(cantidad) || cantidad <= 0) {
+    if (isNaN(cantidad) || cantidad <= 0 || cantidad > 9999999999) {
       producto.cantidad = this.valorAnteriorCantidad[index];
     }
+    if (this.tieneDecimales(producto.precioNeto, 2)) {
+      producto.precioNeto = this.recortarADecimales(producto.precioNeto, 2);
+    }
+
+    if (this.tieneDecimales(producto.cantidad, 2)) {
+      producto.cantidad = this.recortarADecimales(producto.cantidad, 0);
+    }
+
     producto.subtotal = this.calcularSubtotal(producto.precioNeto, producto.cantidad, producto.iva);
     producto.ivaTotal = this.calcularIva(producto.subtotal, producto.precioNeto, producto.cantidad);
   }
@@ -221,4 +229,27 @@ export class PedidoAddPage implements OnInit {
         alert('Error en la solicitud');
       });
   }
+
+  tieneDecimales(valor: string | number, limite: number): boolean {
+
+    //Reemplaza la coma por punto para unificar el formato decimal
+    const valorNormalizado = String(valor).replace(',', '.');
+
+    //Verifica si hay parte decimal
+    const partes = valorNormalizado.split('.');
+
+    if (partes.length < 2) {
+      return false; //No hay parte decimal
+    }
+
+    const decimales = partes[1];
+
+    return decimales.length > limite;
+  }
+
+  recortarADecimales(valor: string | number, decimales: number): number {
+  const num = Number(valor.toString().replace(',', '.'));
+  const factor = Math.pow(10, decimales);
+  return Math.trunc(num * factor) / factor;
+}
 }
