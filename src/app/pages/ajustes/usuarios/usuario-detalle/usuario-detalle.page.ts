@@ -141,7 +141,7 @@ export class UsuarioDetallePage implements OnInit {
       message: message,
       duration: 2000,
       position: 'top',
-      cssClass: 'custom-toast'
+      cssClass: 'toast',
     });
     toast.present();
   }

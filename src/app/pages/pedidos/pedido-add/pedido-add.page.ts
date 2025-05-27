@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonItem, IonLabel, IonInput, IonSearchbar, ModalController, IonList, IonText, IonButtons, IonBackButton, IonFooter } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonItem, IonLabel, IonInput, IonSearchbar, ModalController, IonList, IonText, IonButtons, IonBackButton, IonFooter, ToastController } from '@ionic/angular/standalone';
 import { ProductoSearchModalComponent } from './producto-search-modal/producto-search-modal.component';
 import { ClienteSearchModalComponent } from './cliente-search-modal/cliente-search-modal.component';
 import { Router } from '@angular/router';
@@ -22,7 +22,7 @@ export class PedidoAddPage implements OnInit {
   valorAnteriorPrecioNeto: number[] = [];
   valorAnteriorCantidad: number[] = [];
 
-  constructor(private modalController: ModalController, private router: Router) { }
+  constructor(private modalController: ModalController, private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
   }
@@ -53,6 +53,7 @@ export class PedidoAddPage implements OnInit {
       this.productosSeleccionados.push({
         id: producto.id,
         nombre: producto.nombre,
+        descripcion: producto.descripcion,
         precioNeto: producto.precioNeto,
         iva: producto.iva,
         cantidad: 1,
@@ -184,8 +185,8 @@ export class PedidoAddPage implements OnInit {
       .then(data => {
         const id = Number(data.trim());
         if (!isNaN(id)) {
-          alert('Pedido creado');
           this.crearDetalles(token, id, this.productosSeleccionados);
+          this.presentToast('Pedido creado con éxito');
           this.router.navigate(['/pedidos']);
         } else {
           alert('Error en el registro: ' + data);
@@ -252,4 +253,15 @@ export class PedidoAddPage implements OnInit {
   const factor = Math.pow(10, decimales);
   return Math.trunc(num * factor) / factor;
 }
+
+async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      cssClass: 'toast',
+    });
+
+    await toast.present();
+  }
 }

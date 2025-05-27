@@ -74,11 +74,16 @@ export class CambiarPasswordPage implements OnInit {
       });
   }
 
+  cancelar() {
+    this.router.navigate(['/ajustes']);
+  }
+
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message: message,
       duration: 2000,
       position: 'top',
+      cssClass: 'toast',
     });
 
     await toast.present();

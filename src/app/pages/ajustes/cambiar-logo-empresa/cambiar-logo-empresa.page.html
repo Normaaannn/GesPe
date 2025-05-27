@@ -10,7 +10,7 @@
 <ion-content [fullscreen]="true">
   <div class="centrar">
     <br>
-    <img *ngIf="logoUrl" style="width: 100px; height: 100px; margin-bottom: 20px;" [src]="logoUrl" />
+    <img *ngIf="logoUrl" style="width: 100px; height: 100px; display: block; margin: 0 auto;" [src]="logoUrl" />
 
   <ion-button expand="block" (click)="selectImage()">Subir Logo</ion-button>
   <ion-button expand="block" (click)="guardarLogo()">Guardar Logo</ion-button>

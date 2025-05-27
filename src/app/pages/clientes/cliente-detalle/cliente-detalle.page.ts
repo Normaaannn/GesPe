@@ -297,6 +297,7 @@ export class ClienteDetallePage implements OnInit {
       message: message,
       duration: 2000,
       position: 'top',
+      cssClass: 'toast',
     });
 
     await toast.present();

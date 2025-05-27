@@ -154,7 +154,7 @@ guardarLogo() {
       message: message,
       duration: 2000,
       position: 'top',
-      cssClass: 'custom-toast'
+      cssClass: 'toast'
     }).then(toast => {
       toast.present();
     });
