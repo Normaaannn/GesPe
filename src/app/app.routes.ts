@@ -19,7 +19,7 @@ export const routes: Routes = [
   {
     path: 'pedidos',
     canActivate: [AuthGuard],
-    loadComponent: () => import('./pages/pedidos/pedidos.page').then( m => m.HomePage)
+    loadComponent: () => import('./pages/pedidos/pedidos.page').then( m => m.PedidosPage)
   },
   {
     path: 'registro',
@@ -105,6 +105,7 @@ export const routes: Routes = [
   },
   {
     path: 'cambiar-logo-empresa',
+    canActivate: [AuthGuard],
     loadComponent: () => import('./pages/ajustes/cambiar-logo-empresa/cambiar-logo-empresa.page').then( m => m.CambiarLogoEmpresaPage)
   },
 ];

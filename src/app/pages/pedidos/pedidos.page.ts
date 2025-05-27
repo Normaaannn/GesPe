@@ -24,7 +24,7 @@ import { add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPal
     TabsComponent, IonFooter, IonIcon, IonFab, IonFabButton, IonFabList, IonDatetime, IonDatetimeButton, IonModal,
     IonRow, IonCol, IonAvatar]
 })
-export class HomePage implements ViewWillEnter {
+export class PedidosPage implements ViewWillEnter {
   pedidos: any[] = [];
   currentPage: number = 1;
   totalPages: number = 1;

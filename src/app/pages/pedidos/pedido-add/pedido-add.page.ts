@@ -60,6 +60,8 @@ export class PedidoAddPage implements OnInit {
         subtotal,
         ivaTotal,
       });
+    } else{
+      this.presentToast('El producto ya está en el pedido');
     }
   }
 
