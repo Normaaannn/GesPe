@@ -1,7 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/ajustes"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
+      <ion-back-button defaultHref="/ajustes"></ion-back-button>
+      <!-- Esto redirige a la página home si no hay historial -->
     </ion-buttons>
     <ion-title>Usuario</ion-title>
   </ion-toolbar>
@@ -10,18 +11,23 @@
 <ion-content [fullscreen]="true">
   <div class="centrar">
     <br>
-  <ion-list>
-  <ion-item><ion-label>Usuario: {{usuario.username}}</ion-label><br></ion-item>
-  <ion-item><ion-label>Email: {{usuario.email}}</ion-label><br></ion-item>
-  <ion-item><ion-label>Rol: {{usuario.role}}</ion-label></ion-item>
-  </ion-list>
+    <ion-list>
+      <ion-item><ion-label>Usuario: {{usuario.username}}</ion-label><br></ion-item>
+      <ion-item><ion-label>Email: {{usuario.email}}</ion-label><br></ion-item>
+      <ion-item><ion-label>Fecha de registro: {{usuario.fechaRegistro | date: 'dd-MM-yyyy'}}</ion-label><br></ion-item>
+      <ion-item><ion-label>Rol: {{usuario.role}}</ion-label></ion-item>
+    </ion-list>
 
-  <ion-button id="darRolUsuario" *ngIf="!rolUsuario" expand="block" color="success" class="boton">Dar rol de usuario</ion-button>
-  <ion-alert trigger="darRolUsuario" class="custom-alert" header="Vas a dar el rol usuario. ¿Estás seguro?" [buttons]="alertButtonsDarRolUsuario"></ion-alert>
+    <ion-button id="darRolUsuario" *ngIf="!rolUsuario" expand="block" color="success" class="boton">Dar rol de
+      usuario</ion-button>
+    <ion-alert trigger="darRolUsuario" class="custom-alert" header="Vas a dar el rol usuario. ¿Estás seguro?"
+      [buttons]="alertButtonsDarRolUsuario"></ion-alert>
 
-  <ion-button id="eliminarUsuario" *ngIf="!baneado" expand="block" color="danger" class="boton-eliminar">Eliminar</ion-button>
-  <ion-alert trigger="eliminarUsuario" class="custom-alert" header="Vas a eliminar al usuario. ¿Estás seguro?" [buttons]="alertButtonsEliminarUsuario"></ion-alert>
+    <ion-button id="eliminarUsuario" *ngIf="!baneado" expand="block" color="danger"
+      class="boton-eliminar">Eliminar</ion-button>
+    <ion-alert trigger="eliminarUsuario" class="custom-alert" header="Vas a eliminar al usuario. ¿Estás seguro?"
+      [buttons]="alertButtonsEliminarUsuario"></ion-alert>
 
-  <ion-button expand="block" class="boton" (click)="cancelar()">Atrás</ion-button>
+    <ion-button expand="block" class="boton" (click)="cancelar()">Atrás</ion-button>
   </div>
 </ion-content>

@@ -1,6 +1,7 @@
 {
   "name": "gespeandroid",
   "version": "0.0.0",
+  "main": "main.js",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
@@ -11,7 +12,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "ionic:build": "npm run build",
-    "ionic:serve": "npm run start -- --open"
+    "ionic:serve": "npm run start -- --open",
+    "electron": "electron ."
   },
   "private": true,
   "dependencies": {
@@ -31,6 +33,7 @@
     "@capacitor/status-bar": "7.0.1",
     "@ionic/angular": "^8.0.0",
     "decimal.js": "^10.5.0",
+    "electron-context-menu": "^4.1.0",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
@@ -51,6 +54,7 @@
     "@types/jasmine": "~5.1.0",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
     "@typescript-eslint/parser": "^8.18.0",
+    "electron": "^36.3.2",
     "eslint": "^9.16.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsdoc": "^48.2.1",
