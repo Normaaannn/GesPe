@@ -1,58 +1,67 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/pedidos"></ion-back-button> <!-- Esto redirige a la página home si no hay historial -->
+      <ion-back-button defaultHref="/pedidos"></ion-back-button>
+      <!-- Esto redirige a la página home si no hay historial -->
     </ion-buttons>
     <ion-title>Crear pedido</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<div class="centrar">
+  <div class="centrar">
     <!-- Lista de productos seleccionados para el pedido -->
     <br><ion-item *ngIf="cliente">
       <ion-label>
-        <b style="display: inline-block; margin-bottom: 0.5em;">{{ cliente.nombre }}</b><br>
-        NIF:  {{ cliente.nif }}<br>
+        <b style="display: inline-block; margin-bottom: 0.5em;">{{ cliente.nombre }} {{ cliente.apellidos }}</b><br>
+        NIF: {{ cliente.nif }}<br>
         Correo : {{ cliente.email }}<br>
         Ciudad : {{ cliente.ciudad }}
       </ion-label>
       <!-- Botón para eliminar el producto -->
       <ion-button (click)="eliminarCliente()" color="danger">Eliminar</ion-button>
     </ion-item>
-  
-
-  <ion-button class="boton-añadir-cliente" expand="block" (click)="abrirBusquedaCliente()">{{ cliente ? 'Cambiar Cliente' : 'Añadir Cliente' }}</ion-button>
 
 
-  <ion-list>
-    <!-- Lista de productos seleccionados para el pedido -->
-    <ion-item *ngFor="let producto of productosSeleccionados; let i = index">
-      <ion-label>
-        <b style="display: inline-block; margin-bottom: 0.5em;">{{ producto.nombre }}</b><br>
-        Descripción: {{ producto.descripcion }}<br>
-        <ion-input label="Precio Neto:" [(ngModel)]="producto.precioNeto" (ngModelChange)="onChange(producto.precioNeto, i)"  (ionBlur)="actualizarSubtotal(i)" (ionFocus)="guardarValorAnterior(i)" type="number" min="1" pattern="^[0-9]*[.,]?[0-9]*$" style="max-width: 200px;" maxlength="10"></ion-input>
-        <ion-input label="Cantidad:" [(ngModel)]="producto.cantidad" (ngModelChange)="onChange(producto.cantidad, i)" (ionBlur)="actualizarSubtotal(i)" (ionFocus)="guardarValorAnterior(i)" type="number" min="1" pattern="^[0-9]*[.,]?[0-9]*$" style="max-width: 200px;" maxlength="10"></ion-input>
-        Total Neto: &nbsp;&nbsp; {{ producto.subtotal - producto.ivaTotal  | number: '1.2-2' }} €<br>
-        IVA ({{ producto.iva }}%): &nbsp;&nbsp; {{ producto.ivaTotal | number: '1.2-2' }} €<br>  
-        <br><b style="font-size: 17px;">Subtotal: {{ producto.subtotal | number: '1.2-2' }} €</b>
-      </ion-label>
-      <!-- Campo para cambiar cantidad -->
-      
-      <!-- Botón para eliminar el producto -->
-      <ion-button (click)="eliminarProducto(i)" color="danger">Eliminar</ion-button>
+    <ion-button class="boton-añadir-cliente" expand="block" (click)="abrirBusquedaCliente()">{{ cliente ? 'Cambiar
+      Cliente' : 'Añadir Cliente' }}</ion-button>
+
+
+    <ion-list>
+      <!-- Lista de productos seleccionados para el pedido -->
+      <ion-item *ngFor="let producto of productosSeleccionados; let i = index">
+        <ion-label>
+          <b style="display: inline-block; margin-bottom: 0.5em;">{{ producto.nombre }}</b><br>
+          Descripción: {{ producto.descripcion }}<br>
+          <ion-input label="Precio Neto:" [(ngModel)]="producto.precioNeto"
+            (ngModelChange)="onChange(producto.precioNeto, i)" (ionBlur)="actualizarSubtotal(i)"
+            (ionFocus)="guardarValorAnterior(i)" type="number" min="1" pattern="^[0-9]*[.,]?[0-9]*$"
+            style="max-width: 200px;" maxlength="10"></ion-input>
+          <ion-input label="Cantidad:" [(ngModel)]="producto.cantidad" (ngModelChange)="onChange(producto.cantidad, i)"
+            (ionBlur)="actualizarSubtotal(i)" (ionFocus)="guardarValorAnterior(i)" type="number" min="1"
+            pattern="^[0-9]*[.,]?[0-9]*$" style="max-width: 200px;" maxlength="10"></ion-input>
+          Total Neto: &nbsp;&nbsp; {{ producto.subtotal - producto.ivaTotal | number: '1.2-2' }} €<br>
+          IVA ({{ producto.iva }}%): &nbsp;&nbsp; {{ producto.ivaTotal | number: '1.2-2' }} €<br>
+          <br><b style="font-size: 17px;">Subtotal: {{ producto.subtotal | number: '1.2-2' }} €</b>
+        </ion-label>
+        <!-- Campo para cambiar cantidad -->
+
+        <!-- Botón para eliminar el producto -->
+        <ion-button (click)="eliminarProducto(i)" color="danger">Eliminar</ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-button class="boton-añadir-producto" expand="block" (click)="abrirBusquedaProducto()">Añadir
+      Producto</ion-button>
+
+    <!-- Total del pedido -->
+    <ion-item>
+      <h4 slot="end"><b>Total: {{ calcularTotal() | number: '1.2-2' }} €</b></h4>
     </ion-item>
-  </ion-list>
 
-  <ion-button class="boton-añadir-producto" expand="block" (click)="abrirBusquedaProducto()">Añadir Producto</ion-button>
-
-  <!-- Total del pedido -->
-  <ion-item>
-    <h4 slot="end"><b>Total:  {{ calcularTotal() | number: '1.2-2' }} €</b></h4>
-  </ion-item>
-
-</div>
+  </div>
 </ion-content>
 <ion-footer class="centrar">
-<ion-button class="boton-crear" *ngIf="cliente && productosSeleccionados.length > 0" expand="block" (click)="crearPedido()" color="success">Crear Pedido</ion-button>
+  <ion-button class="boton-crear" *ngIf="cliente && productosSeleccionados.length > 0" expand="block"
+    (click)="crearPedido()" color="success">Crear Pedido</ion-button>
 </ion-footer>

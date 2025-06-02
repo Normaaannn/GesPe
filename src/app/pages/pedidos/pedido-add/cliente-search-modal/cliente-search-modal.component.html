@@ -15,7 +15,7 @@
   <ion-list>
     <ion-item *ngFor="let cliente of clientes" [button]="true" (click)="seleccionarCliente(cliente)">
       <ion-label>
-        <h2>{{ cliente.nombre }}</h2>
+        <h2>{{ cliente.nombre }} {{ cliente.apellidos }}</h2>
         <p>{{ cliente.nif }}</p>
         <p>Correo : {{ cliente.email }}</p>
       </ion-label>
