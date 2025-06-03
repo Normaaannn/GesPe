@@ -1,16 +1,23 @@
 # 🌟 GESPE
 
-**Order Management System built with Ionic Angular**
+**Gestor de Pedidos desarrollado con Ionic Angular**
 
-GesPe (Gestor de Pedidos) is a mobile-friendly order management application developed using [Ionic](https://ionicframework.com/) and [Angular](https://angular.io/).  
-It is designed for businesses or individuals who need to efficiently manage customer orders in a modern and responsive UI.
+Gespe es una aplicación para la gestión de pedidos, diseñada para dispositivos móviles, creada con [Ionic](https://ionicframework.com/) y [Angular](https://angular.io/).  
+Está pensada para negocios o personas que necesiten administrar pedidos de manera eficiente con una interfaz moderna y responsiva.
 
 ---
 
-## 🚀 Features
+## 🚀 Funcionalidades
 
-- 📦 Create, view, and update orders easily  
-- 👤 Manage clients and their data  
-- 📱 Fully responsive interface (mobile-first)  
-- 🛠️ Built with Angular & Ionic for hybrid apps  
-- 🌐 Spanish-language UI
+- 📦 Crear, ver y actualizar pedidos fácilmente  
+- 👤 Gestionar clientes y sus datos  
+- 📱 Interfaz totalmente responsive (mobile-first)  
+- 🛠️ Construido con Angular e Ionic para apps híbridas  
+- 🌐 Interfaz en español
+
+---
+
+## 📸 Capturas de pantalla
+
+![Pantalla principal](screenshots/movil.png)
+![Detalles del pedido](screenshots/movil2.png)
