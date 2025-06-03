@@ -48,8 +48,8 @@ export class PedidosPage implements ViewWillEnter {
   }
 
   ionViewWillEnter() {
-      this.loadPedidos();
-      this.fechaFin = this.getFechaMinMax(false);
+    this.loadPedidos();
+    this.fechaFin = this.getFechaMinMax(false);
   }
 
   loadPedidos() {
@@ -130,6 +130,7 @@ export class PedidosPage implements ViewWillEnter {
       state: {
         pedidoId: pedido.id,  // El id del pedido
         pedidoFecha: pedido.fechaEmision,  // La fecha del pedido
+        pedidoTotal: pedido.total,  // El total del pedido
         cliente: pedido.cliente,  // El objeto completo cliente
         usuarioCreador: pedido.usuarioCreador.username,  // El objeto completo usuarioCreador
       }

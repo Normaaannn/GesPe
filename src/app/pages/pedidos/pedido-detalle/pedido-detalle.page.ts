@@ -21,6 +21,7 @@ export class PedidoDetallePage implements OnInit {
 
   pedidoId: number | undefined;
   pedidoFecha: string | undefined;
+  pedidoTotal: number | undefined;  // Añadido para almacenar el total del pedido
   cliente: any;
   detalles: any;
   usuarioCreador: string | undefined;
@@ -36,6 +37,7 @@ export class PedidoDetallePage implements OnInit {
     if (navigation?.extras.state) {
       this.pedidoId = navigation.extras.state['pedidoId'];
       this.pedidoFecha = navigation.extras.state['pedidoFecha'];
+      this.pedidoTotal = navigation.extras.state['pedidoTotal'];  // Obtiene el total del pedido
       this.cliente = navigation.extras.state['cliente'];
       this.usuarioCreador = navigation.extras.state['usuarioCreador'];
       this.loadDetalles();  // Llama a la función para cargar los detalles del pedido
