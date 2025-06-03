@@ -19,5 +19,8 @@ Está pensada para negocios o personas que necesiten administrar pedidos de mane
 
 ## 📸 Capturas de pantalla
 
-![Pantalla principal](screenshots/movil.png)
-![Detalles del pedido](screenshots/movil2.png)
+![Movil](screenshots/movil.png)
+![Movil](screenshots/movil2.png)
+![Escritorio](screenshots/escritorio.png)
+![Escritorio](screenshots/escritorio2.png)
+![Escritorio](screenshots/escritorio3.png)
