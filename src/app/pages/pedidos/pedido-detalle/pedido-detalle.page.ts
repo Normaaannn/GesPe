@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton,
-   IonButtons, IonBackButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonFooter } from '@ionic/angular/standalone';
+import {
+  IonContent, IonHeader, IonTitle, IonToolbar, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton,
+  IonButtons, IonBackButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonFooter, ToastController, IonAlert
+} from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
 
@@ -12,8 +14,8 @@ import { environment } from 'src/environments/environment.prod';
   styleUrls: ['./pedido-detalle.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,
-     IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton, IonButtons, IonBackButton,
-     IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonFooter]
+    IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton, IonButtons, IonBackButton,
+    IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonFooter, IonAlert]
 })
 export class PedidoDetallePage implements OnInit {
 
@@ -23,7 +25,10 @@ export class PedidoDetallePage implements OnInit {
   detalles: any;
   usuarioCreador: string | undefined;
 
-  constructor(private router : Router) { }
+  public alertButtonsGenerar = this.crearAlertButtons(() => this.generarPDF());
+  public alertButtonsEnviar = this.crearAlertButtons(() => this.enviarPDF());
+
+  constructor(private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
     // Accede al estado de la navegación para obtener el pedidoId y cliente
@@ -34,7 +39,7 @@ export class PedidoDetallePage implements OnInit {
       this.cliente = navigation.extras.state['cliente'];
       this.usuarioCreador = navigation.extras.state['usuarioCreador'];
       this.loadDetalles();  // Llama a la función para cargar los detalles del pedido
-    }    
+    }
   }
 
   loadDetalles() {
@@ -45,7 +50,7 @@ export class PedidoDetallePage implements OnInit {
     }
 
     const url = environment.apiUrl + `/pedidos/${this.pedidoId}/detalles`;  // URL de la API con paginación
-    
+
     fetch(url, {
       method: 'GET',
       headers: {
@@ -61,20 +66,20 @@ export class PedidoDetallePage implements OnInit {
       })
       .then(data => {
         console.log("Respuesta completa:", data);
-    
+
         if (typeof data === "string") {
-            data = JSON.parse(data);  // Si la API devuelve texto, conviértelo a JSON
-            console.log("Convertido a JSON:", data);
+          data = JSON.parse(data);  // Si la API devuelve texto, conviértelo a JSON
+          console.log("Convertido a JSON:", data);
         }
-    
-        if (Array.isArray(data)) {  
-            this.detalles = data;  // Si es un array, úsalo directamente
-        } else if (data && data.content) {  
-            this.detalles = data.content;  // Si tiene `content`, úsalo
+
+        if (Array.isArray(data)) {
+          this.detalles = data;  // Si es un array, úsalo directamente
+        } else if (data && data.content) {
+          this.detalles = data.content;  // Si tiene `content`, úsalo
         } else {
-            console.warn("Formato de datos inesperado:", data);
+          console.warn("Formato de datos inesperado:", data);
         }
-    })
+      })
   }
 
   generarPDF() {
@@ -85,7 +90,7 @@ export class PedidoDetallePage implements OnInit {
     }
 
     const url = environment.apiUrl + `/pedido/factura/${this.pedidoId}/pdf`;  // URL de la API para generar PDF
-    
+
     fetch(url, {
       method: 'GET',
       headers: {
@@ -111,5 +116,60 @@ export class PedidoDetallePage implements OnInit {
       .catch(error => {
         console.error('Error al generar el PDF:', error);
       });
+  }
+
+  enviarPDF() {
+    const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
+    if (!token) {
+      console.log('No se encontró el token de acceso');
+      return;
+    }
+
+    const url = environment.apiUrl + `/pedido/enviarFacturaClienteEmail/${this.pedidoId}`;
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(response => response.text())
+      .then(data => {
+        if (data.trim() === 'Factura enviada correctamente') {
+          this.presentToast('Factura enviada al cliente por email');
+        } else {
+          this.presentToast('Error en el registro: ' + data);
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+        alert('Error en la solicitud');
+      });
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top',
+      cssClass: 'toast',
+    });
+
+    await toast.present();
+  }
+
+  private crearAlertButtons(handler: () => void): any[] {
+    return [
+      {
+        text: 'No',
+        cssClass: 'alert-button-cancel',
+      },
+      {
+        text: 'Si',
+        cssClass: 'alert-button-confirm',
+        handler: handler
+      },
+    ];
   }
 }

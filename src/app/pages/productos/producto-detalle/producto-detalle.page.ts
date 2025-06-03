@@ -25,7 +25,7 @@ export class ProductoDetallePage implements OnInit {
   descripcion = '';
   precioNeto = '';
   iva = '';
-  precioBruto = '';
+  precioBruto = 0;
   activo: boolean | null = null;
   fechaRegistro = null;
   formSubmitted = false;
@@ -36,64 +36,13 @@ export class ProductoDetallePage implements OnInit {
   precioNetoForm = '';
   ivaForm = '';
 
-  public alertButtonsEliminar = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-    },
-    {
-      text: 'Si',
-      cssClass: 'alert-button-confirm',
-      handler: () => {
-        this.eliminarProducto();
-      }
-    },
-  ];
-
-  public alertButtonsHabilitar = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-    },
-    {
-      text: 'Si',
-      cssClass: 'alert-button-confirm',
-      handler: () => {
-        this.habilitarProducto();
-      }
-    },
-  ];
-
-  public alertButtonsGuardar = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-    },
-    {
-      text: 'Si',
-      cssClass: 'alert-button-confirm',
-      handler: () => {
-        this.updateProducto();
-      }
-    },
-  ];
-
-  public alertButtonsCancelar = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-    },
-    {
-      text: 'Si',
-      cssClass: 'alert-button-confirm',
-      handler: () => {
-        this.cancelarEdicion();
-      }
-    },
-  ];
+  public alertButtonsEliminar = this.crearAlertButtons(() => this.eliminarProducto());
+  public alertButtonsHabilitar = this.crearAlertButtons(() => this.habilitarProducto());
+  public alertButtonsGuardar = this.crearAlertButtons(() => this.updateProducto());
+  public alertButtonsCancelar = this.crearAlertButtons(() => this.cancelarEdicion());
 
 
-  constructor(private router : Router, private toastController: ToastController) { }
+  constructor(private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
     // Accede al estado de la navegación para obtener el pedidoId y cliente
@@ -105,16 +54,16 @@ export class ProductoDetallePage implements OnInit {
       this.nombre = this.producto.nombre || '';
       this.descripcion = this.producto.descripcion || '';
       this.precioNeto = this.producto.precioNeto || '';
-      this.iva = this.producto.iva || '';    
+      this.iva = this.producto.iva || '';
       this.activo = this.producto.activo || null;
       this.fechaRegistro = this.producto.fechaRegistro || null;
+      this.actualizarPrecioBruto();
 
-      this.calcularPrecioBruto();
 
       this.nombreForm = this.nombre;
       this.descripcionForm = this.descripcion;
       this.precioNetoForm = this.precioNeto;
-      this.ivaForm = this.iva;      
+      this.ivaForm = this.iva;
     }
   }
 
@@ -124,9 +73,6 @@ export class ProductoDetallePage implements OnInit {
     return !this.nombreForm || !this.descripcionForm || !this.precioNetoForm || !this.ivaForm;
   }
 
-  calcularPrecioBruto() {
-    this.precioBruto = (parseFloat(this.precioNeto) * (1 + parseFloat(this.iva) / 100)).toString();
-  }
 
   updateProducto() {
     this.formSubmitted = true;
@@ -135,20 +81,22 @@ export class ProductoDetallePage implements OnInit {
       return; // No envía si hay campos vacíos
     }
 
-    if(Number(this.precioNeto) < 0 || Number(this.precioNeto) > 9999999999 || Number(this.iva) < 0 || Number(this.iva) > 99) {
+    if (Number(this.precioNetoForm) < 0 || Number(this.precioNetoForm) > 9999999999 || Number(this.ivaForm) < 0 || Number(this.ivaForm) > 99) {
       this.presentToast('Los valores de precio neto o IVA son negativos o muy grandes.');
       return; // No envía si los valores son inválidos
     }
 
-    if(this.tieneDecimales(this.precioNeto, 2)) {
+    if (this.tieneDecimales(this.precioNetoForm, 2)) {
       this.presentToast('El precio neto no puede tener mas de dos decimales.');
       return; // No envía si los valores tienen demasiados decimales
     }
 
-    if(this.tieneDecimales(this.iva, 0)) {
+    if (this.tieneDecimales(this.ivaForm, 0)) {
       this.presentToast('El iva no puede tener decimales.');
       return; // No envía si los valores tienen demasiados decimales
     }
+
+    this.modoEdicion = false;
 
     const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
     if (!token) {
@@ -171,23 +119,23 @@ export class ProductoDetallePage implements OnInit {
         iva: this.ivaForm,
       })
     })
-    .then(response => response.text())
-    .then(data => {
-      if (data.trim() === 'Producto actualizado') {
-        this.presentToast('Producto actualizado');
-        this.nombre = this.nombreForm;
-        this.descripcion = this.descripcionForm;
-        this.precioNeto = this.precioNetoForm;
-        this.iva = this.ivaForm;
-        this.modoEdicion = false;
-      } else {
-        this.presentToast('Error en el registro: ' + data);
-      }
-    })
-    .catch(error => {
-      console.error('Error en la solicitud:', error);
-      alert('Error en la solicitud');
-    });
+      .then(response => response.text())
+      .then(data => {
+        if (data.trim() === 'Producto actualizado') {
+          this.presentToast('Producto actualizado');
+          this.nombre = this.nombreForm;
+          this.descripcion = this.descripcionForm;
+          this.precioNeto = this.precioNetoForm;
+          this.iva = this.ivaForm;
+          this.modoEdicion = false;
+        } else {
+          this.presentToast('Error en el registro: ' + data);
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+        alert('Error en la solicitud');
+      });
   }
 
   activarEdicion() {
@@ -205,6 +153,12 @@ export class ProductoDetallePage implements OnInit {
     this.descripcionForm = this.descripcion;
     this.precioNetoForm = this.precioNeto;
     this.ivaForm = this.iva;
+  }
+
+  actualizarPrecioBruto() {
+    const neto = parseFloat(this.precioNetoForm as any) || 0;
+    const ivaPorcentaje = parseFloat(this.ivaForm as any) || 0;
+    this.precioBruto = parseFloat((neto * (1 + ivaPorcentaje / 100)).toFixed(2));
   }
 
   tieneDecimales(valor: string | number, limite: number): boolean {
@@ -240,19 +194,19 @@ export class ProductoDetallePage implements OnInit {
         'Authorization': `Bearer ${token}`,
       }
     })
-    .then(response => response.text())
-    .then(data => {
-      if (data.trim() === 'Producto desactivado correctamente') {
-        this.presentToast('Producto eliminado');
-        this.router.navigate(['/productos']);
-      } else {
-        this.presentToast('Error en el registro: ' + data);
-      }
-    })
-    .catch(error => {
-      console.error('Error en la solicitud:', error);
-      alert('Error en la solicitud');
-    });
+      .then(response => response.text())
+      .then(data => {
+        if (data.trim() === 'Producto desactivado correctamente') {
+          this.presentToast('Producto eliminado');
+          this.router.navigate(['/productos']);
+        } else {
+          this.presentToast('Error en el registro: ' + data);
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+        alert('Error en la solicitud');
+      });
   }
 
   habilitarProducto() {
@@ -271,19 +225,19 @@ export class ProductoDetallePage implements OnInit {
         'Authorization': `Bearer ${token}`,
       }
     })
-    .then(response => response.text())
-    .then(data => {
-      if (data.trim() === 'Producto activado correctamente') {
-        this.presentToast('Producto habilitado');
-        this.router.navigate(['/productos']);
-      } else {
-        this.presentToast('Error en el registro: ' + data);
-      }
-    })
-    .catch(error => {
-      console.error('Error en la solicitud:', error);
-      alert('Error en la solicitud');
-    });
+      .then(response => response.text())
+      .then(data => {
+        if (data.trim() === 'Producto activado correctamente') {
+          this.presentToast('Producto habilitado');
+          this.router.navigate(['/productos']);
+        } else {
+          this.presentToast('Error en el registro: ' + data);
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+        alert('Error en la solicitud');
+      });
   }
 
   async presentToast(message: string) {
@@ -295,6 +249,20 @@ export class ProductoDetallePage implements OnInit {
     });
 
     await toast.present();
+  }
+
+  private crearAlertButtons(handler: () => void): any[] {
+    return [
+      {
+        text: 'No',
+        cssClass: 'alert-button-cancel',
+      },
+      {
+        text: 'Si',
+        cssClass: 'alert-button-confirm',
+        handler: handler
+      },
+    ];
   }
 
 }

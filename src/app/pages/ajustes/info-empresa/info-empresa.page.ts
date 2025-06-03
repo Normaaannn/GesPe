@@ -46,38 +46,11 @@ export class InfoEmpresaPage implements OnInit {
   codigoPostalForm = '';
   paisForm = '';
 
+  public alertButtonsGuardar = this.crearAlertButtons(() => this.addInfo());
+  public alertButtonsCancelar = this.crearAlertButtons(() => this.cancelarEdicion());
 
 
-  public alertButtonsGuardar = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-    },
-    {
-      text: 'Si',
-      cssClass: 'alert-button-confirm',
-      handler: () => {
-        this.addInfo();
-      }
-    },
-  ];
-
-  public alertButtonsCancelar = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-    },
-    {
-      text: 'Si',
-      cssClass: 'alert-button-confirm',
-      handler: () => {
-        this.cancelarEdicion();
-      }
-    },
-  ];
-
-
-  constructor(private router : Router, private toastController: ToastController) { }
+  constructor(private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
     // Accede al estado de la navegación para obtener el pedidoId y cliente
@@ -98,12 +71,14 @@ export class InfoEmpresaPage implements OnInit {
     return !this.nombreForm || !this.apellidosForm || !this.nifForm || !this.emailForm || !this.emailValid || !this.telefonoForm || !this.direccionForm || !this.ciudadForm || !this.codigoPostalForm || !this.paisForm;
   }
 
- addInfo() {
+  addInfo() {
     this.formSubmitted = true;
 
     if (this.formInvalid) {
       return; // No envía si hay campos vacíos
     }
+
+    this.modoEdicion = false;
 
     const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
     if (!token) {
@@ -131,29 +106,29 @@ export class InfoEmpresaPage implements OnInit {
         pais: this.paisForm
       })
     })
-    .then(response => response.text())
-    .then(data => {
-      if (data.trim() === 'Información actualizada') {
-        this.presentToast('Información actualizada');
+      .then(response => response.text())
+      .then(data => {
+        if (data.trim() === 'Información actualizada') {
+          this.presentToast('Información actualizada');
 
-        this.nombre = this.nombreForm;
-        this.apellidos = this.apellidosForm;
-        this.nif = this.nifForm;
-        this.email = this.emailForm;
-        this.telefono = this.telefonoForm;
-        this.direccion = this.direccionForm;
-        this.ciudad = this.ciudadForm;
-        this.codigoPostal = this.codigoPostalForm;
-        this.pais = this.paisForm;
-        this.modoEdicion = false;
-      } else {
-        alert('Error en el registro: ' + data);
-      }
-    })
-    .catch(error => {
-      console.error('Error en la solicitud:', error);
-      alert('Error en la solicitud');
-    });
+          this.nombre = this.nombreForm;
+          this.apellidos = this.apellidosForm;
+          this.nif = this.nifForm;
+          this.email = this.emailForm;
+          this.telefono = this.telefonoForm;
+          this.direccion = this.direccionForm;
+          this.ciudad = this.ciudadForm;
+          this.codigoPostal = this.codigoPostalForm;
+          this.pais = this.paisForm;
+          this.modoEdicion = false;
+        } else {
+          alert('Error en el registro: ' + data);
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+        alert('Error en la solicitud');
+      });
   }
 
   loadInfo() {
@@ -173,31 +148,31 @@ export class InfoEmpresaPage implements OnInit {
         'Authorization': `Bearer ${token}`,
       },
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Error en la solicitud');
-      }
-      return response.json();  //Convierte la respuesta en formato JSON
-    })
-    .then(data => {
-      console.log("Respuesta completa:", data);
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error en la solicitud');
+        }
+        return response.json();  //Convierte la respuesta en formato JSON
+      })
+      .then(data => {
+        console.log("Respuesta completa:", data);
 
-      if (typeof data === "string") {
-        data = JSON.parse(data);  //Si la API devuelve texto, lo convierte en JSON
-        console.log("Convertido a JSON:", data);
-      }
+        if (typeof data === "string") {
+          data = JSON.parse(data);  //Si la API devuelve texto, lo convierte en JSON
+          console.log("Convertido a JSON:", data);
+        }
 
-      if (data && typeof data === 'object') {
-        console.log("Datos de la API:", data);
-        this.info = data;  //Si es un array, lo usa
-        this.cargarForm();
-      } else {
-        console.warn("Formato de datos inesperado:", data);
-      }
-    })
+        if (data && typeof data === 'object') {
+          console.log("Datos de la API:", data);
+          this.info = data;  //Si es un array, lo usa
+          this.cargarForm();
+        } else {
+          console.warn("Formato de datos inesperado:", data);
+        }
+      })
   }
 
-  cargarForm(){
+  cargarForm() {
     if (this.info.id !== undefined) {
       this.clienteID = this.info.id;
       this.nombre = this.info.nombre || '';
@@ -255,6 +230,20 @@ export class InfoEmpresaPage implements OnInit {
     });
 
     await toast.present();
+  }
+
+  private crearAlertButtons(handler: () => void): any[] {
+    return [
+      {
+        text: 'No',
+        cssClass: 'alert-button-cancel',
+      },
+      {
+        text: 'Si',
+        cssClass: 'alert-button-confirm',
+        handler: handler
+      },
+    ];
   }
 
 }

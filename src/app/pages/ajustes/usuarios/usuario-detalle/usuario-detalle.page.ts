@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment.prod';
   styleUrls: ['./usuario-detalle.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonLabel, IonButton,
-     IonAlert, IonList, IonItem]
+    IonAlert, IonList, IonItem]
 })
 export class UsuarioDetallePage implements OnInit {
 
@@ -21,33 +21,8 @@ export class UsuarioDetallePage implements OnInit {
   rolUsuario: boolean = false;
   baneado: boolean = false;
 
-  public alertButtonsEliminarUsuario = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-    },
-    {
-      text: 'Si',
-      cssClass: 'alert-button-confirm',
-      handler: () => {
-        this.eliminarUsuario();
-      }
-    },
-  ];
-
-  public alertButtonsDarRolUsuario = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-    },
-    {
-      text: 'Si',
-      cssClass: 'alert-button-confirm',
-      handler: () => {
-        this.darRolUsuario();
-      }
-    },
-  ];
+  public alertButtonsEliminarUsuario = this.crearAlertButtons(() => this.eliminarUsuario());
+  public alertButtonsDarRolUsuario = this.crearAlertButtons(() => this.darRolUsuario());
 
   ngOnInit() {
     const navigation = this.router.getCurrentNavigation();
@@ -74,19 +49,19 @@ export class UsuarioDetallePage implements OnInit {
         'Authorization': `Bearer ${token}`,
       }
     })
-    .then(response => response.text())
-    .then(data => {
-      if (data.trim() === 'Usuario activado correctamente') {
-        this.presentToast('Usuario activado');
-        this.router.navigate(['/usuarios']);
-      } else {
-        this.presentToast('Error en el registro: ' + data);
-      }
-    })
-    .catch(error => {
-      console.error('Error en la solicitud:', error);
-      alert('Error en la solicitud');
-    });
+      .then(response => response.text())
+      .then(data => {
+        if (data.trim() === 'Usuario activado correctamente') {
+          this.presentToast('Usuario activado');
+          this.router.navigate(['/usuarios']);
+        } else {
+          this.presentToast('Error en el registro: ' + data);
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+        alert('Error en la solicitud');
+      });
   }
 
   eliminarUsuario() {
@@ -105,19 +80,19 @@ export class UsuarioDetallePage implements OnInit {
         'Authorization': `Bearer ${token}`,
       }
     })
-    .then(response => response.text())
-    .then(data => {
-      if (data.trim() === 'Usuario baneado correctamente') {
-        this.presentToast('Usuario baneado');
-        this.router.navigate(['/usuarios']);
-      } else {
-        this.presentToast('Error: ' + data);
-      }
-    })
-    .catch(error => {
-      console.error('Error en la solicitud:', error);
-      alert('Error en la solicitud');
-    });
+      .then(response => response.text())
+      .then(data => {
+        if (data.trim() === 'Usuario baneado correctamente') {
+          this.presentToast('Usuario baneado');
+          this.router.navigate(['/usuarios']);
+        } else {
+          this.presentToast('Error: ' + data);
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+        alert('Error en la solicitud');
+      });
   }
 
   esUsuario() {
@@ -148,6 +123,20 @@ export class UsuarioDetallePage implements OnInit {
 
   cancelar() {
     this.router.navigate(['/usuarios']);
+  }
+
+  private crearAlertButtons(handler: () => void): any[] {
+    return [
+      {
+        text: 'No',
+        cssClass: 'alert-button-cancel',
+      },
+      {
+        text: 'Si',
+        cssClass: 'alert-button-confirm',
+        handler: handler
+      },
+    ];
   }
 
 }

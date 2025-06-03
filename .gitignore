@@ -74,3 +74,6 @@ Thumbs.db
 
 # Electron
 /GesPe-win32-x64
+
+# Android APK
+/GesPe.apk

@@ -48,7 +48,15 @@
 </ion-content>
 
 <ion-footer class="centrar">
-  <ion-button (click)="generarPDF()" expand="block" color="primary" class="ion-no-margin ion-no-padding">
-    Generar PDF
+  <ion-button id="generar" expand="block" color="primary">
+    Descargar Factura PDF
   </ion-button><br>
+  <ion-alert trigger="generar" type="submit" class="custom-alert" header="Vas a descargar el PDF. ¿Estás seguro?"
+    [buttons]="alertButtonsGenerar"></ion-alert>
+  <ion-button id="enviar" expand="block" color="primary">
+    Enviar Factura PDF al cliente
+  </ion-button><br>
+  <ion-alert trigger="enviar" type="submit" class="custom-alert" header="Vas a enviar el PDF. ¿Estás seguro?"
+    [buttons]="alertButtonsEnviar"></ion-alert>
+
 </ion-footer>

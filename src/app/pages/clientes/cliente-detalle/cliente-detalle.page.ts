@@ -46,64 +46,13 @@ export class ClienteDetallePage implements OnInit {
   codigoPostalForm = '';
   paisForm = '';
 
-  public alertButtonsEliminar = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-    },
-    {
-      text: 'Si',
-      cssClass: 'alert-button-confirm',
-      handler: () => {
-        this.eliminarCliente();
-      }
-    },
-  ];
-
-  public alertButtonsHabilitar = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-    },
-    {
-      text: 'Si',
-      cssClass: 'alert-button-confirm',
-      handler: () => {
-        this.habilitarCliente();
-      }
-    },
-  ];
-
-  public alertButtonsGuardar = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-    },
-    {
-      text: 'Si',
-      cssClass: 'alert-button-confirm',
-      handler: () => {
-        this.updateCliente();
-      }
-    },
-  ];
-
-  public alertButtonsCancelar = [
-    {
-      text: 'No',
-      cssClass: 'alert-button-cancel',
-    },
-    {
-      text: 'Si',
-      cssClass: 'alert-button-confirm',
-      handler: () => {
-        this.cancelarEdicion();
-      }
-    },
-  ];
+  public alertButtonsEliminar = this.crearAlertButtons(() => this.eliminarCliente());
+  public alertButtonsHabilitar = this.crearAlertButtons(() => this.habilitarCliente());
+  public alertButtonsGuardar = this.crearAlertButtons(() => this.updateCliente());
+  public alertButtonsCancelar = this.crearAlertButtons(() => this.cancelarEdicion());
 
 
-  constructor(private router : Router, private toastController: ToastController) { }
+  constructor(private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
     // Accede al estado de la navegación para obtener el pedidoId y cliente
@@ -157,6 +106,8 @@ export class ClienteDetallePage implements OnInit {
       return; // No envía si hay campos vacíos
     }
 
+    this.modoEdicion = false;
+
     const token = localStorage.getItem('accessToken');  // Obtener el token desde el localStorage
     if (!token) {
       console.log('No se encontró el token de acceso');
@@ -183,29 +134,29 @@ export class ClienteDetallePage implements OnInit {
         pais: this.paisForm
       })
     })
-    .then(response => response.text())
-    .then(data => {
-      if (data.trim() === 'Cliente actualizado') {
-        this.presentToast('Cliente actualizado');
+      .then(response => response.text())
+      .then(data => {
+        if (data.trim() === 'Cliente actualizado') {
+          this.presentToast('Cliente actualizado');
 
-        this.nombre = this.nombreForm;
-        this.apellidos = this.apellidosForm;
-        this.nif = this.nifForm;
-        this.email = this.emailForm;
-        this.telefono = this.telefonoForm;
-        this.direccion = this.direccionForm;
-        this.ciudad = this.ciudadForm;
-        this.codigoPostal = this.codigoPostalForm;
-        this.pais = this.paisForm;
-        this.modoEdicion = false;
-      } else {
-        this.presentToast('Error en el registro: ' + data);
-      }
-    })
-    .catch(error => {
-      console.error('Error en la solicitud:', error);
-      alert('Error en la solicitud');
-    });
+          this.nombre = this.nombreForm;
+          this.apellidos = this.apellidosForm;
+          this.nif = this.nifForm;
+          this.email = this.emailForm;
+          this.telefono = this.telefonoForm;
+          this.direccion = this.direccionForm;
+          this.ciudad = this.ciudadForm;
+          this.codigoPostal = this.codigoPostalForm;
+          this.pais = this.paisForm;
+          this.modoEdicion = false;
+        } else {
+          this.presentToast('Error en el registro: ' + data);
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+        alert('Error en la solicitud');
+      });
   }
 
   activarEdicion() {
@@ -246,19 +197,19 @@ export class ClienteDetallePage implements OnInit {
         'Authorization': `Bearer ${token}`,
       }
     })
-    .then(response => response.text())
-    .then(data => {
-      if (data.trim() === 'Cliente desactivado correctamente') {
-        this.presentToast('Cliente eliminado');
-        this.router.navigate(['/clientes']);
-      } else {
-        this.presentToast('Error en el registro: ' + data);
-      }
-    })
-    .catch(error => {
-      console.error('Error en la solicitud:', error);
-      alert('Error en la solicitud');
-    });
+      .then(response => response.text())
+      .then(data => {
+        if (data.trim() === 'Cliente desactivado correctamente') {
+          this.presentToast('Cliente eliminado');
+          this.router.navigate(['/clientes']);
+        } else {
+          this.presentToast('Error en el registro: ' + data);
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+        alert('Error en la solicitud');
+      });
   }
 
   habilitarCliente() {
@@ -277,19 +228,19 @@ export class ClienteDetallePage implements OnInit {
         'Authorization': `Bearer ${token}`,
       }
     })
-    .then(response => response.text())
-    .then(data => {
-      if (data.trim() === 'Cliente activado correctamente') {
-        this.presentToast('Cliente habilitado');
-        this.router.navigate(['/clientes']);
-      } else {
-        this.presentToast('Error en el registro: ' + data);
-      }
-    })
-    .catch(error => {
-      console.error('Error en la solicitud:', error);
-      alert('Error en la solicitud');
-    });
+      .then(response => response.text())
+      .then(data => {
+        if (data.trim() === 'Cliente activado correctamente') {
+          this.presentToast('Cliente habilitado');
+          this.router.navigate(['/clientes']);
+        } else {
+          this.presentToast('Error en el registro: ' + data);
+        }
+      })
+      .catch(error => {
+        console.error('Error en la solicitud:', error);
+        alert('Error en la solicitud');
+      });
   }
 
   async presentToast(message: string) {
@@ -301,6 +252,20 @@ export class ClienteDetallePage implements OnInit {
     });
 
     await toast.present();
+  }
+
+  private crearAlertButtons(handler: () => void): any[] {
+    return [
+      {
+        text: 'No',
+        cssClass: 'alert-button-cancel',
+      },
+      {
+        text: 'Si',
+        cssClass: 'alert-button-confirm',
+        handler: handler
+      },
+    ];
   }
 }
 
